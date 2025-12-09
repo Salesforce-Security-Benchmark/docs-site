@@ -2,7 +2,37 @@
 
 This section defines controls related to OAuth-enabled Connected Apps, third-party integrations, and external access to Salesforce environments. These controls ensure that organizations maintain visibility, governance, and lifecycle management over external systems that authenticate to Salesforce via OAuth, reducing the risk of unauthorized access, data exfiltration, and stale integration pathways.
 
-### SBS-OAUTH-001: Inventory and Criticality Classification of OAuth-Enabled Connected Apps
+### SBS-OAUTH-001: Require Formal Installation and Access Governance for Connected Apps
+
+**Control Statement:** Organizations must formally install all connected apps and must control access to each installed app exclusively through assigned profiles or permission sets.
+
+**Description:**  
+The organization must ensure that any connected app used for OAuth authentication is formally installed in the Salesforce org rather than implicitly created through user-initiated OAuth flows, and that access to each installed connected app is governed solely through profiles or permission sets. Connected apps that appear only as user-authorized OAuth connections without installation expose the org to unmanaged security settings and uncontrolled user access.
+
+**Rationale:**  
+Implicitly created OAuth connections inherit configuration from the external app developer and prevent administrators from enforcing critical security settings such as refresh token policies and session timeout. Formal installation combined with profile- or permission-set–based access control ensures centralized governance, predictable security behavior, and elimination of uncontrolled authorization paths.
+
+**Audit Procedure:**  
+1. Enumerate all user-authorized OAuth connected apps via Setup or the Tooling/Metadata API.  
+2. Identify all connected apps that are not formally installed as managed or unmanaged connected apps.  
+3. For each formally installed connected app, verify that access is granted only through assigned profiles or permission sets.  
+4. Flag any connected app that is (a) used but not formally installed, or (b) installed but lacks access scoping via profiles or permission sets.
+
+**Remediation:**  
+1. Formally install any connected app that appears only as a user-authorized OAuth connection.  
+2. Configure the installed connected app’s policies, including refresh token and session security settings.  
+3. Create or update profiles or permission sets to define which users are authorized to access the connected app.  
+4. Remove any user-authorized OAuth connections that bypass the installed connected app controls.
+
+**Default Value:**  
+When a user first authenticates to a connected app via OAuth, Salesforce automatically creates a user-authorized OAuth entry that is not formally installed and is not governed by profiles or permission sets.
+
+**References:**  
+- Salesforce Connected App Documentation  
+- OAuth 2.0 Security Best Current Practice (IETF)  
+- NIST SP 800-204A: Building Secure Microservices-Based Applications Using OAuth 2.0
+
+### SBS-OAUTH-002: Inventory and Criticality Classification of OAuth-Enabled Connected Apps
 
 **Control Statement:** All OAuth-enabled Connected Apps must be recorded in an authoritative system of record and assigned a documented vendor criticality rating reflecting integration importance and data sensitivity.
 
@@ -32,7 +62,7 @@ Salesforce does not automatically maintain or enforce an external inventory or c
 - NIST SP 800-53: SA-9 External Information System Services  
 - CIS Controls v8: Control 15 – Service Provider Management
 
-### SBS-OAUTH-002: Due Diligence Documentation for High-Risk Connected App Vendors
+### SBS-OAUTH-003: Due Diligence Documentation for High-Risk Connected App Vendors
 
 **Control Statement:** Organizations must review and retain available security documentation for all high-risk Connected App vendors and explicitly record any missing documentation as part of the vendor assessment.
 

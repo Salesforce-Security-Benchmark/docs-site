@@ -2,7 +2,37 @@
 
 This section defines controls related to outbound connectivity from Salesforce to external systems, including Remote Site Settings and Named Credentials. These controls ensure that organizations maintain visibility and governance over approved external endpoints, authentication mechanisms, and data flows initiated by Salesforce, reducing the risk of unauthorized data transmission, dependency on untrusted services, and configuration drift in integration pathways.
 
-### SBS-INT-001: Inventory and Justification of Remote Site Settings
+### SBS-INT-001: Enforce Governance of Browser Extensions Accessing Salesforce
+
+**Control Statement:** Organizations must enforce a centrally managed mechanism that restricts which browser extensions are permitted to access Salesforce, and must not allow the use of unmanaged or uncontrolled extensions.
+
+**Description:**  
+Organizations must deploy a centrally managed governance mechanism—such as Chrome Browser Cloud Management, MDM policies, or configuration profiles—that enforces an allow-list or blocklist for browser extensions accessing Salesforce domains.
+
+**Rationale:**  
+Browser extensions can harvest session tokens, exfiltrate data, and execute unauthorized operations within authenticated Salesforce sessions. Without centralized governance, malicious or cloned extensions—increasingly common with AI-generated code—create an uncontrolled risk surface that Salesforce cannot detect or prevent natively.
+
+**Audit Procedure:**  
+1. Request evidence of a browser-extension governance mechanism applied to user devices (e.g., Chrome Browser Cloud Management, Intune configuration profile, Jamf configuration profile, Active Directory GPO, or equivalent).  
+2. Require a screenshot, exported policy file, or screen capture demonstrating that extension controls are active and enforceable (e.g., an allow-list or blocklist configuration for Chrome extensions).  
+3. Verify that the mechanism explicitly restricts installation or execution of unapproved extensions that can access Salesforce domains.  
+4. Flag the organization as noncompliant if no enforceable governance mechanism exists or if extension governance is based solely on policy, awareness, or voluntary user behavior.
+
+**Remediation:**  
+1. Implement a centrally managed browser or device management solution capable of enforcing extension restrictions (e.g., Chrome Browser Cloud Management, Intune, Jamf, or GPO-based controls).  
+2. Define and apply an allow-list or blocklist policy governing which extensions are permitted to interact with Salesforce.  
+3. Remove or disable any unapproved browser extensions from managed devices.  
+4. Apply enforcement policies to all corporate-managed devices accessing Salesforce.
+
+**Default Value:**  
+Salesforce provides no mechanism to prevent or detect browser extension usage; unmanaged browser extensions are permitted by default, including those capable of accessing Salesforce data and authenticated sessions.
+
+**References:**  
+- Google Chrome Enterprise Policy Documentation  
+- NIST SP 800-53: SI-4 Information System Monitoring  
+- OWASP: Web Application Security Risks Related to Browser Extensions
+
+### SBS-INT-002: Inventory and Justification of Remote Site Settings
 
 **Control Statement:** Organizations must maintain an authoritative inventory of all Remote Site Settings and document a business justification for each endpoint approved for Apex HTTP callouts.
 
@@ -33,7 +63,7 @@ Salesforce does not require or maintain business justification for Remote Site S
 - NIST SP 800-53: AC-4 Information Flow Enforcement  
 - CIS Controls v8: Control 12 – Network Infrastructure Management
 
-### SBS-INT-002: Inventory and Justification of Named Credentials
+### SBS-INT-003: Inventory and Justification of Named Credentials
 
 **Control Statement:** Organizations must maintain an authoritative inventory of all Named Credentials and document a business justification for each external endpoint and authentication configuration approved for use in Salesforce.
 

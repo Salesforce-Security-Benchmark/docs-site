@@ -57,3 +57,33 @@ Salesforce does not provide or enforce static code analysis; organizations must 
 - OWASP ASVS: Section 1.11 Secure Development Practices  
 - NIST SP 800-53: SA-11 Developer Testing and Evaluation  
 - Salesforce Developer Guide: Apex Security Best Practices
+
+### SBS-CODE-003: Implement Persistent Apex Application Logging
+
+**Control Statement:** Organizations must implement an Apex-based logging framework that writes application log events to durable Salesforce storage and must not rely on transient Salesforce debug logs for operational or security investigations.
+
+**Description:**  
+The organization must deploy a dedicated Apex logging framework—custom-built, open source, or vendor-provided—that programmatically captures application-level log events and stores them in durable Salesforce data structures, such as custom objects, to ensure logs persist beyond the limitations of Salesforce debug logs.
+
+**Rationale:**  
+Salesforce debug logs are transient, size-limited, and often truncated, preventing reliable forensic analysis and reducing the ability to investigate security incidents, access patterns, and anomalous behavior.
+
+**Audit Procedure:**  
+1. Review the Salesforce org for the presence of an Apex logging framework implemented as one or more Apex classes dedicated to log generation and persistence.  
+2. Verify that the framework writes logs to durable storage, such as a custom object purpose-built for log retention.  
+3. Confirm that operational and security investigations rely on this persistent logging mechanism rather than Salesforce debug logs.  
+4. Inspect recent log records to ensure the framework is actively capturing runtime events.
+
+**Remediation:**  
+1. Implement or install an Apex logging framework designed for persistent log storage.  
+2. Create or configure a custom object (or equivalent durable storage) to store log records.  
+3. Update Apex code to route log events through the framework.  
+4. Train engineering and security teams to use persistent logs instead of debug logs for investigations.
+
+**Default Value:**  
+Salesforce does not provide persistent application-level logging by default; debug logs are transient, size-limited, and automatically purged.
+
+**References:**  
+- Salesforce Developer Guide: Apex Logging and Debugging  
+- OWASP Application Logging Guidelines  
+- NIST SP 800-92: Guide to Computer Security Log Management
