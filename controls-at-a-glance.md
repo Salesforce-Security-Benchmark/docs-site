@@ -7,6 +7,20 @@ This page provides a quick reference to all SBS control statements. Each control
 **SBS-FDNS-001: Centralized Security System of Record**  
 The organization must maintain a centralized system of record documenting all Salesforce security configurations, exceptions, justifications, and SBS-required inventories.
 
+## Authentication
+
+**SBS-AUTH-001: Enforce Single Sign-On for All Standard Production Users**  
+Salesforce production orgs must enforce Single Sign-On (SSO) for all standard users by enabling the org-level setting that disables Salesforce credential logins and assigning the "Is Single Sign-On Enabled" permission to all non-exempt accounts.
+
+**SBS-AUTH-002: Govern and Document All Users Permitted to Bypass Single Sign-On**  
+All users who do not have the "Is Single Sign-On Enabled" permission must be explicitly authorized, documented in a system of record, and limited to approved administrative or break-glass use cases.
+
+**SBS-AUTH-003: Enforce a Minimum Global Password Policy for Local Authentication**
+Salesforce production orgs that permit any local (non-SSO) authentication must configure the global password policy to meet or exceed the ISSB-defined minimum baseline for password strength, lifetime, reuse prevention, lockout, and reset handling.
+
+**SBS-AUTH-004 — Prohibit Broad or Unrestricted Profile Login IP Ranges**
+Profiles in Salesforce production orgs must not contain login IP ranges that effectively permit access from the full public internet or other overly broad ranges that bypass network-based access controls.
+
 ## Permissions
 
 **SBS-PERM-001: Enforce a Documented Permission Set Model**  
@@ -67,5 +81,5 @@ The organization must maintain an up-to-date inventory of all Long Text Area fie
 
 ---
 
-*Total Controls: 17*
+*Total Controls: 20*
 

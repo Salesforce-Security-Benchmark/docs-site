@@ -39,7 +39,8 @@ export default defineConfig({
           { text: 'OAuth Security', link: '/benchmark/oauth-security' },
           { text: 'Integrations', link: '/benchmark/integrations' },
           { text: 'Code Security', link: '/benchmark/code-security' },
-          { text: 'Data Security', link: '/benchmark/data-security' }
+          { text: 'Data Security', link: '/benchmark/data-security' },
+          { text: 'Authentication', link: '/benchmark/authentication' }
         ]
       },
 
