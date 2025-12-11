@@ -40,7 +40,7 @@ Typos, formatting issues, broken links, and outdated information are always welc
 
 ### Step 1: Fork and Branch
 
-1. Fork the SBS repository
+1. Fork the SBS repository https://github.com/Salesforce-Security-Benchmark/docs-site
 2. Create a new branch: `git checkout -b feature/control-xyz` or `git checkout -b fix/control-abc`
 
 ### Step 2: Make Your Changes
