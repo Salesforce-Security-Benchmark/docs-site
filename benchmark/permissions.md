@@ -7,10 +7,15 @@ This section defines controls related to permission sets, permission set groups,
 **Control Statement:** All permission sets, permission set groups, and profiles must conform to a documented model maintained in a system of record and enforced continuously.
 
 **Description:**  
-The organization must define, document, and enforce a standardized permission set model within its system of record. All profiles, permission sets, and permission set groups must conform to the documented model, and compliance must be evaluated and enforced on a near real-time basis.
+The organization must define, document, and enforce a standardized permission set model within its system of record. A permission set model defines how the organization structures permissions—for example, using permission set groups to represent personas or departments, and permission sets to represent specific actions or capabilities. The specific structure is determined by the organization, but all profiles, permission sets, and permission set groups must conform to the documented model. No permission constructs may exist outside the defined model, and compliance must be evaluated and enforced on a near real-time basis.
+
+**Example models:**
+- Permission set groups represent job roles (Sales Rep, Service Agent), and individual permission sets represent capabilities (View Reports, Edit Accounts)
+- Permission set groups represent departments (Sales, Marketing), and permission sets represent access tiers (Standard, Advanced)
+- Permission sets represent business functions with no grouping hierarchy
 
 **Rationale:**  
-A defined and enforced permission set model provides consistent, least-privilege access governance across the Salesforce environment. Because Salesforce has deprecated profiles as the primary mechanism for authorization management, a unified permission set architecture ensures predictable access assignments, reduces privilege sprawl, and eliminates unmanaged or inconsistent permission constructs. Continuous enforcement protects against unauthorized access resulting from ad hoc or misaligned permission configurations.
+A defined and enforced permission set model provides consistent, least-privilege access governance across the Salesforce environment. Without a documented model, organizations accumulate ad hoc permission constructs created for one-time needs, resulting in privilege sprawl, inconsistent access patterns, and inability to audit who has what access and why. A documented model ensures every permission construct exists for a defined purpose and follows organizational standards. Continuous enforcement prevents drift and ensures that changes to permissions are intentional and aligned with the model.
 
 **Audit Procedure:**  
 1. Obtain the organization's documented permission set model from the designated system of record.  
