@@ -18,8 +18,8 @@ export default defineConfig({
     logo: '/awaf-logo.svg',
     outline: [2, 3], // Show h2 and h3 in the right sidebar
     nav: [
-      { text: 'Home', link: '/' },
-      { text: 'Documentation', link: '/introduction' }
+      { text: 'Home', link: 'https://www.securitybenchmark.org/' },
+      { text: 'Documentation', link: '/' }
     ],
 
     sidebar: [
