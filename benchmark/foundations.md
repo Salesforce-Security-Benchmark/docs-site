@@ -1,3 +1,7 @@
+## Foundations
+
+This section establishes the foundational requirements for SBS compliance. These controls define the organizational capabilities and documentation practices that enable all other controls in the benchmark. Without a centralized system of record, organizations cannot reliably demonstrate compliance, maintain audit trails, or govern exceptions consistently across their Salesforce security posture.
+
 ### SBS-FDNS-001: Centralized Security System of Record
 
 **Control Statement:** The organization must maintain a centralized system of record documenting all Salesforce security configurations, exceptions, justifications, and SBS-required inventories.

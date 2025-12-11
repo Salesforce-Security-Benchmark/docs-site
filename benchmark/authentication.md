@@ -65,45 +65,7 @@ Salesforce allows all users to authenticate with Salesforce credentials unless t
 - Salesforce Metadata API: SingleSignOnSettings  
 - CIS Controls v8: Access Control Mechanisms
 
-### SBS-AUTH-003: Enforce a Minimum Global Password Policy for Local Authentication
-
-**Control Statement:** Salesforce production orgs that permit any local (non-SSO) authentication must configure the global password policy to meet or exceed the ISSB-defined minimum baseline for password strength, lifetime, reuse prevention, lockout, and reset handling.
-
-**Description:**  
-If any user in the production org is allowed to authenticate using Salesforce credentials, the org’s global password policy must be configured to at least the following minimum values:  
-- **User password expiration:** 180 days  
-- **Password history:** 24 passwords remembered  
-- **Minimum password length:** 12 characters  
-- **Password complexity:** Must include alphabetic, numeric, and special characters  
-- **Password question requirement:** Security answer must not contain the password  
-- **Maximum invalid login attempts:** 3  
-- **Lockout effective period:** Forever (indefinite lockout)  
-- **Obscure secret answer for password resets:** Enabled  
-- **Require minimum 1-day password lifetime:** Enabled  
-- **Allow use of setPassword() API for self-resets:** Disabled  
-
-**Rationale:**  
-This control establishes the minimum acceptable password security baseline for any Salesforce environment that relies on password-based authentication.
-
-**Audit Procedure:**  
-1. Navigate to **Setup → Password Policies** or retrieve `PasswordPolicies` using the Metadata API.  
-2. Verify each global password policy setting meets or exceeds the minimum values defined in the Description.  
-3. Enumerate all active users without the “Is Single Sign-On Enabled” permission; if none exist, this control is not applicable.  
-4. Flag noncompliance if any password policy setting falls below the required minimum while local authentication is in use.
-
-**Remediation:**  
-1. Update global password policy settings to meet or exceed the required minimum baseline.  
-2. Validate that all users who authenticate with Salesforce credentials are subject to the updated policy.  
-3. Optionally eliminate local authentication entirely by assigning the “Is Single Sign-On Enabled” permission to all users and enabling org-wide SSO enforcement.
-
-**Default Value:**  
-Salesforce’s default password policy values vary by org and typically do not meet the minimum requirements defined by this control.
-
-**References:**  
-- Salesforce Help: Password Policies  
-- NIST SP 800-63B: Digital Identity Guidelines  
-
-### SBS-AUTH-004 — Prohibit Broad or Unrestricted Profile Login IP Ranges
+### SBS-AUTH-003: Prohibit Broad or Unrestricted Profile Login IP Ranges
 
 **Control Statement:** Profiles in Salesforce production orgs must not contain login IP ranges that effectively permit access from the full public internet or other overly broad ranges that bypass network-based access controls.
 

@@ -51,10 +51,7 @@ Salesforce production orgs must enforce Single Sign-On (SSO) for all standard us
 **SBS-AUTH-002: Govern and Document All Users Permitted to Bypass Single Sign-On**  
 All users who do not have the "Is Single Sign-On Enabled" permission must be explicitly authorized, documented in a system of record, and limited to approved administrative or break-glass use cases.
 
-**SBS-AUTH-003: Enforce a Minimum Global Password Policy for Local Authentication**  
-Salesforce production orgs that permit any local (non-SSO) authentication must configure the global password policy to meet or exceed the ISSB-defined minimum baseline for password strength, lifetime, reuse prevention, lockout, and reset handling.
-
-**SBS-AUTH-004: Prohibit Broad or Unrestricted Profile Login IP Ranges**  
+**SBS-AUTH-003: Prohibit Broad or Unrestricted Profile Login IP Ranges**  
 Profiles in Salesforce production orgs must not contain login IP ranges that effectively permit access from the full public internet or other overly broad ranges that bypass network-based access controls.
 
 ## Code Security
@@ -76,7 +73,26 @@ The organization must implement a mechanism that continuously or periodically an
 **SBS-DATA-002: Maintain an Inventory of Long Text Area Fields Containing Regulated Data**  
 The organization must maintain an up-to-date inventory of all Long Text Area fields that are known or detected to contain regulated or personal data.
 
+## Change Management
+
+**SBS-CHG-001: Require a Designated Deployment Identity for Metadata Changes**  
+Salesforce production orgs must designate a single deployment identity that is exclusively used for all metadata deployments and high-risk configuration changes performed through automated or scripted release processes.
+
+**SBS-CHG-002: Establish and Maintain a List of High-Risk Metadata Types Prohibited from Direct Production Editing**  
+Salesforce production orgs must maintain an explicit list of high-risk metadata types that must never be edited directly in production by human users, defaulting at minimum to the SBS baseline list while allowing organizations to extend or refine it as needed.
+
+**SBS-CHG-003: Monitor and Alert on Unauthorized Modifications to High-Risk Metadata**  
+Salesforce production orgs must implement a monitoring capability that detects and reports any modification to high-risk metadata performed by a user other than the designated deployment identity.
+
+## Security Configuration
+
+**SBS-SECCONF-001: Establish a Salesforce Health Check Baseline**  
+Salesforce production orgs must define and maintain a Salesforce Health Check baseline—including Salesforce's native baseline XML or an equivalent customized baseline—and ensure it reflects the organization's intentional security configuration posture.
+
+**SBS-SECCONF-002: Review and Remediate Salesforce Health Check Deviations**  
+Salesforce production orgs must periodically review Health Check results against the defined baseline and remediate deviations or formally document approved exceptions.
+
 ---
 
-*Total Controls: 20*
+*Total Controls: 24*
 
