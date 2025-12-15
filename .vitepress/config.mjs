@@ -17,6 +17,14 @@ export default defineConfig({
     // https://vitepress.dev/reference/default-theme-config
     logo: '/awaf-logo.svg',
     outline: [2, 3], // Show h2 and h3 in the right sidebar
+    
+    search: {
+      provider: 'local',
+      options: {
+        detailedView: true
+      }
+    },
+    
     nav: [
       { text: 'Home', link: 'https://www.securitybenchmark.org/' },
       { text: 'Documentation', link: '/' }
