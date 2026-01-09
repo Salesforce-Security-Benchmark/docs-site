@@ -123,3 +123,26 @@ Super Admin–equivalent permissions grant unrestricted read and write access ac
 
 **Default Value:**  
 Salesforce does not limit the number of users who may receive **View All Data**, **Modify All Data**, or **Manage Users**, and does not maintain any system of record regarding administrative access.
+
+### SBS-PERM-005: Only Use Custom Profiles for Active Users
+
+**Control Statement:**
+All active users must be assigned custom profiles. The out-of-the-box standard profiles must not be used.
+
+**Description:**  
+Any regular user that can access the org, must use a custom profile. If a user has one of the standard profiles (e.g. "System Administrator", "Standard User", "Salesforce - Minimum Access"), the user is non-compliant. This only affects personal users, not machine users that use the default "API Only" permission sets.
+
+**Rationale:**  
+Standard profiles cannot be managed by Org Admins. They are too permissive (e.g. Standard User grants "View Setup", regular "System Administrator" grants multiple Developer-level permissions). Additionally, Salesforce sometimes enables permissions and object access on these profiles when features are enabled or when new permissions are introduced by platform releases. To remain in control over what a user can access, it is imperative to only use custom profiles.
+
+**Audit Procedure:**  
+1. Enumerate all **human** users that are "Active" (`IsActive = true` on the user flag)
+2. Flag all users noncompliant that use a standard profile (`IsCustom = false` on the profile metadata)
+
+**Remediation:**  
+1. Setup a custom profile for each standard profile that is used
+2. Manage permissions and object access on these profiles to be compliant with the other controls of the SBS
+3. Assign the new custom profiles to your active users, following the principle of "least privilege access"
+
+**Default Value:**  
+Salesforce does not require to create and assign custom profiles.

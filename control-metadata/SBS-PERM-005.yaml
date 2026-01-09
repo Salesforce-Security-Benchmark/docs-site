@@ -1,0 +1,8 @@
+control_id: SBS-PERM-005
+
+remediation:
+  scope: entity
+  entity_type: User
+
+task:
+  title_template: "Assign a custom profile to: {{entity.name}}"
