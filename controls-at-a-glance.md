@@ -43,6 +43,9 @@ The "Approve Uninstalled Connected Apps" permission must only be assigned to hig
 **SBS-PERM-004: Documented Justification for All Super Admin–Equivalent Users**  
 All users with simultaneous View All Data, Modify All Data, and Manage Users permissions must be documented in a system of record with clear business or technical justification.
 
+**SBS-PERM-005: Restrict Broad Privileges for Non-Human Identities**  
+Non-human identities (integration users, automation users, bot users, and API-only accounts) must not be assigned permissions that bypass sharing rules or grant administrative capabilities without documented business justification and implemented compensating controls.
+
 ## Authentication
 
 **SBS-AUTH-001: Enforce Single Sign-On for All Standard Production Users**  

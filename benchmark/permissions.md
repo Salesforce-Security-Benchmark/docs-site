@@ -123,3 +123,42 @@ Super Admin–equivalent permissions grant unrestricted read and write access ac
 
 **Default Value:**  
 Salesforce does not limit the number of users who may receive **View All Data**, **Modify All Data**, or **Manage Users**, and does not maintain any system of record regarding administrative access.
+
+### SBS-PERM-005: Restrict Broad Privileges for Non-Human Identities
+
+**Control Statement:** Non-human identities (integration users, automation users, bot users, and API-only accounts) must not be assigned permissions that bypass sharing rules or grant administrative capabilities without documented business justification and implemented compensating controls.
+
+**Description:**  
+Non-human identities, including integration users, automation users, Einstein Bot users, and API-only accounts, must follow the principle of least privilege. These identities must not be granted broad privileges such as View All Data, Modify All Data, View All Users, Modify All Users, Manage Users, Author Apex, or other permissions that bypass object-level or record-level security unless explicitly required and documented. All non-human identities with broad privileges must be recorded in a system of record with business justification, owner identification, and documented compensating controls. Both justification and compensating controls are required for compliance.
+
+**Rationale:**  
+Non-human identities operate without human oversight and typically use persistent credentials (stored passwords, OAuth tokens, or certificates) that remain valid across sessions. Granting broad privileges to these identities creates significant security risk: compromised credentials provide attackers with extensive access to data and configuration, automated processes can cause widespread damage if misconfigured or exploited, and the lack of interactive human review means malicious activity may persist undetected. Unlike human users who may temporarily require elevated access for specific tasks, non-human identities with broad privileges represent a persistent attack surface. Restricting broad privileges to only necessary cases and requiring compensating controls reduces the blast radius of credential compromise and limits the potential for automated abuse.
+
+**Audit Procedure:**  
+1. Identify all non-human identities in the org by querying users where UserType indicates integration, automation, or bot usage, or where the user is designated as an API-only or service account.  
+2. For each non-human identity, enumerate all assigned permissions via profiles, permission sets, and permission set groups.  
+3. Flag any non-human identity with broad privileges including but not limited to: View All Data, Modify All Data, View All Users, Modify All Users, Manage Users, Author Apex, Customize Application, Modify Metadata, or any permission that bypasses sharing rules or grants administrative capabilities.  
+4. For each flagged identity, verify that the organization's system of record contains:  
+   - Documented business justification explaining why broad privileges are required,  
+   - Identification of the system owner or responsible party, and  
+   - Documented compensating controls (e.g., IP restrictions, OAuth scope limitations, monitoring/alerting, credential rotation policy, dedicated integration user per system).  
+5. Verify that documented compensating controls are actually implemented and active.  
+6. Flag as noncompliant any non-human identity with broad privileges that lacks documented justification, lacks documented compensating controls, or has compensating controls that are not implemented.
+
+**Remediation:**  
+1. Remove broad privileges from non-human identities that lack documented justification or do not require data bypass or administrative capabilities.  
+2. Replace broad privileges with object-specific permissions, custom permissions, and sharing rules that grant only the minimum access necessary for the identity's function.  
+3. For non-human identities that legitimately require broad privileges, document in the system of record:  
+   - Clear business justification (e.g., "ETL process requires read access to all Account and Contact records"),  
+   - System owner and responsible party,  
+   - Implemented compensating controls.  
+4. Implement compensating controls for all non-human identities with broad privileges, such as:  
+   - IP address restrictions limiting access to known integration endpoints,  
+   - OAuth scope limitations (if using OAuth),  
+   - Monitoring and alerting for authentication and data access activity,  
+   - Credential rotation policy with defined intervals,  
+   - Dedicated identity per integration (avoid shared service accounts).  
+5. Establish a periodic (e.g., quarterly) review process for all non-human identities with broad privileges to ensure justifications remain valid and compensating controls remain effective.
+
+**Default Value:**  
+Salesforce does not restrict the assignment of broad privileges to non-human identities. Administrators can assign any permission to any user type unless explicitly prevented by license limitations. No system of record or compensating control requirements exist by default.
