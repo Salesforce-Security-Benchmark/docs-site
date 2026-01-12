@@ -113,33 +113,3 @@ API Total Usage logs provide visibility into REST, SOAP, and Bulk API activity a
 
 **Default Value**:
 Enterprise, Unlimited, and Performance Edition organizations have free access to the ApiTotalUsage event type with 1-day data retention, while organizations with Shield/Event Monitoring add-on retain Event Log Files for 30 days by default (and may be eligible to extend retention).
-
-### SBS-INT-005: Provide UI-Based Monitoring and Anomaly Detection for API Total Usage Logs
-
-**Control Statement:**
-The organization must ingest API Total Usage (EventLogFile EventType=ApiTotalUsage) logs into a UI that enables anomaly detection through visualization and alerting over at least the preceding 30 days.
-
-**Description**:
-The organization must transform ApiTotalUsage event log files from their default CSV form into a queryable monitoring UI (Salesforce-native or SIEM) that refreshes at least daily and supports anomaly alerting.
-
-**Rationale**:
-ApiTotalUsage logs contain per-request details (for example, user, connected app, client IP, API family/resource, and status code) that are necessary to detect suspicious integrations, compromised credentials, abusive clients, and unexpected API surges.
-
-**Audit Procedure**:
-1. Identify the system used to monitor ApiTotalUsage logs (Salesforce-native analytics/dashboard or a corporate SIEM).
-2. Verify the monitoring system ingests ApiTotalUsage data and presents it in a UI (not raw CSV files) with interactive filtering and drill-down.
-3. Verify the UI provides, at minimum, the following views covering at least the preceding 30 days:
-- Time-series visualization of total API request volume
-- Breakdown/top-N views by CONNECTED_APP_ID or CONNECTED_APP_NAME, USER_ID or USER_NAME, CLIENT_IP, API_FAMILY, and STATUS_CODE
-5. Verify the monitoring system is refreshed at least daily (for example, evidence of scheduled ingestion job runs and the latest ingested data timestamp).
-6. Verify at least one enabled alerting mechanism exists for anomalous API usage (for example, threshold-based alerts for spikes in volume, increases in failed status codes, or new/rare calling clients), and review evidence that alerts would be delivered to an operational channel (email, ticketing, chat, or SIEM alert queue).
-7. If the org has only 24-hour visibility in Salesforce for the daily API Total Usage event log files, verify the UI is backed by an external store/ingestion process rather than relying on in-org browsing/downloading alone.
-
-**Remediation**:
-1. Implement ingestion of ApiTotalUsage EventLogFile data into a monitoring platform (external SIEM or Salesforce-native) and parse the CSV fields into structured records.
-2. Create dashboards/views that visualize API usage trends and allow drill-down by connected app, user, client IP, API family, and status code.
-3. Configure and enable alerting rules to detect anomalous API usage patterns and route alerts to an operational response workflow.
-4. Ensure the monitoring UI is refreshed at least daily and covers at least 30 days of searchable history.
-
-**Default Value**:
-By default, API Total Usage data is delivered as downloadable event log files (CSV), and all orgs can view only the daily API Total Usage event log files for the previous 24 hours without Event Monitoring, which is insufficient for sustained daily monitoring without an external monitoring/analytics layer.
