@@ -38,12 +38,16 @@ Production orgs must maintain an authoritative inventory of all accounts permitt
 **Rationale:**  
 Users who bypass SSO pose elevated authentication risk; maintaining formal governance ensures that such accounts exist only for necessary operational continuity and do not create unmanaged access paths.
 
-**Audit Procedure:**  
-1. Enumerate all users who do **not** have the “Is Single Sign-On Enabled” permission.  
-2. Verify each identified user appears in the approved system-of-record inventory with a business justification and owner.  
-3. Confirm each exception is authorized for administrative or break-glass purposes only.  
-4. Validate that these accounts follow strong local authentication controls (e.g., strong password policies, MFA if applicable).  
+**Audit Procedure:**
+1. Enumerate all users who do **not** have the "Is Single Sign-On Enabled" permission.
+2. Verify each identified user appears in the approved system-of-record inventory with a business justification and owner.
+3. Confirm each exception is authorized for administrative or break-glass purposes only.
+4. Validate that these accounts follow strong local authentication controls (e.g., strong password policies, MFA if applicable).
 5. Flag any user without documented approval.
+6. Download API Total Usage logs (EventLogFile - ApiTotalUsage, available in free tier of Event Monitoring) to monitor SSO bypass account activity:
+   - Filter API activity by users identified as SSO bypass accounts.
+   - Review frequency and timing of API calls to verify usage aligns with documented break-glass purposes.
+   - Flag any SSO bypass accounts with regular or unexpected API activity for review against documented justifications.
 
 **Remediation:**  
 1. Create or update a formal inventory documenting all SSO-bypass users and their business justification.  
@@ -64,16 +68,21 @@ Any profile-level login IP range must reflect explicitly authorized organization
 **Rationale:**  
 Overly broad login IP ranges allow users to authenticate from anywhere, bypassing expected network security controls, and creating a high-risk exposure path for credential compromise or unauthorized access.
 
-**Audit Procedure:**  
-1. Retrieve all profile login IP ranges via **Setup → Profiles → Login IP Ranges** or by querying the Profile metadata (`loginIpRanges` field) using the Metadata API.  
-2. For each profile, enumerate all configured login IP ranges.  
-3. Identify any ranges that:  
-   - Cover the entire IPv4 space, or  
-   - Represent effectively unrestricted access (e.g., `0.0.0.0–255.255.255.255`, `1.1.1.1–255.255.255.255`, or similar patterns).  
-4. Confirm that all IP ranges align with organizational security policy and defined network boundaries.  
+**Audit Procedure:**
+1. Retrieve all profile login IP ranges via **Setup → Profiles → Login IP Ranges** or by querying the Profile metadata (`loginIpRanges` field) using the Metadata API.
+2. For each profile, enumerate all configured login IP ranges.
+3. Identify any ranges that:
+   - Cover the entire IPv4 space, or
+   - Represent effectively unrestricted access (e.g., `0.0.0.0–255.255.255.255`, `1.1.1.1–255.255.255.255`, or similar patterns).
+4. Confirm that all IP ranges align with organizational security policy and defined network boundaries.
 5. Flag any profile with an impermissible or overly broad range.
+6. Download API Total Usage logs (EventLogFile - ApiTotalUsage, available in free tier of Event Monitoring) to validate IP restrictions are effective:
+   - Extract unique `CLIENT_IP` values from recent API activity.
+   - Compare against documented approved organizational network ranges.
+   - Identify any new or unexpected IP addresses making API calls.
+   - Cross-reference unusual IPs with profile assignments to identify potential policy gaps.
 
-**Remediation:**  
+**Remediation:**
 1. Remove any profile login IP ranges that effectively grant unrestricted global access.  
 2. Replace them with IP ranges that correspond to approved corporate networks, office locations, VPN ingress points, or other authorized infrastructure.  
 3. Validate that updated network restrictions do not block legitimate access paths and that users can authenticate through sanctioned networks.  

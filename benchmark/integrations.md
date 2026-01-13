@@ -12,11 +12,15 @@ Organizations must deploy a centrally managed governance mechanism—such as Chr
 **Rationale:**  
 Browser extensions can harvest session tokens, exfiltrate data, and execute unauthorized operations within authenticated Salesforce sessions. Without centralized governance, malicious or cloned extensions—increasingly common with AI-generated code—create an uncontrolled risk surface that Salesforce cannot detect or prevent natively.
 
-**Audit Procedure:**  
-1. Request evidence of a browser-extension governance mechanism applied to user devices (e.g., Chrome Browser Cloud Management, Intune configuration profile, Jamf configuration profile, Active Directory GPO, or equivalent).  
-2. Require a screenshot, exported policy file, or screen capture demonstrating that extension controls are active and enforceable (e.g., an allow-list or blocklist configuration for Chrome extensions).  
-3. Verify that the mechanism explicitly restricts installation or execution of unapproved extensions that can access Salesforce domains.  
+**Audit Procedure:**
+1. Request evidence of a browser-extension governance mechanism applied to user devices (e.g., Chrome Browser Cloud Management, Intune configuration profile, Jamf configuration profile, Active Directory GPO, or equivalent).
+2. Require a screenshot, exported policy file, or screen capture demonstrating that extension controls are active and enforceable (e.g., an allow-list or blocklist configuration for Chrome extensions).
+3. Verify that the mechanism explicitly restricts installation or execution of unapproved extensions that can access Salesforce domains.
 4. Flag the organization as noncompliant if no enforceable governance mechanism exists or if extension governance is based solely on policy, awareness, or voluntary user behavior.
+5. Download API Total Usage logs (EventLogFile - ApiTotalUsage, available in free tier of Event Monitoring) and analyze for indicators of unauthorized browser extension activity:
+   - Review `USER_AGENT` field for patterns indicating browser extensions (e.g., extension identifiers, non-standard user agents).
+   - Identify API call patterns characteristic of auto-refresh extensions (e.g., Inspector Reloader) such as regular-interval repeated requests.
+   - Flag any anomalous patterns for investigation against approved extension inventory.
 
 **Remediation:**  
 1. Implement a centrally managed browser or device management solution capable of enforcing extension restrictions (e.g., Chrome Browser Cloud Management, Intune, Jamf, or GPO-based controls).  
@@ -81,3 +85,31 @@ Named Credentials control authenticated outbound communication from Salesforce t
 
 **Default Value:**  
 Salesforce does not maintain or enforce an external inventory or business justification for Named Credentials.
+
+### SBS-INT-004: Retain API Total Usage Event Logs for 30 Days
+
+**Control Statement:**
+The organization must retain API Total Usage event log data (EventLogFile EventType=ApiTotalUsage) for at least the immediately preceding 30 days using Salesforce-native retention or automated external export and storage.
+
+**Description**:
+If the organization’s Salesforce does not provide at least 30 days of ApiTotalUsage EventLogFile availability in Salesforce, the organization must automatically export newly available ApiTotalUsage event log files at least once every 24 hours to an external log store that retains a minimum of 30 days of data.
+
+**Rationale**:
+API Total Usage logs provide visibility into REST, SOAP, and Bulk API activity and key attributes (for example, user, connected app, client IP, resource, and status code), which supports incident detection, investigation, and integration governance.
+
+**Audit Procedure**:
+1. Determine whether the organization relies on Salesforce-native retention (Event Monitoring/Shield/Event Monitoring add-on) or an external log store as the system of record for ApiTotalUsage EventLogFile data.
+2. If the organization relies on Salesforce-native retention, verify that EventLogFile data is retained for at least 30 days (for example, confirm the org is entitled to and configured for Event Log File retention that is at least 30 days and can retrieve ApiTotalUsage EventLogFile data within the preceding 30-day window).
+3. If the organization relies on an external log store (including all orgs with only 1-day ApiTotalUsage availability in Salesforce):
+- Verify an automated process exists that retrieves EventLogFile entries where EventType='ApiTotalUsage' and downloads the associated log files at least once every 24 hours.
+- Inspect job schedules/run history and confirm successful executions covering at least the last 30 days (no missed days).
+- From the external log store, retrieve ApiTotalUsage logs for (a) the oldest day in the preceding 30-day window and (b) the most recent day, and confirm both are accessible and attributable to the organization.
+- Verify access to the external log store is restricted to authorized roles and service identities responsible for monitoring and investigations.
+
+**Remediation**:
+1. If the organization has only 1-day ApiTotalUsage EventLogFile availability in Salesforce, implement an automated daily export that downloads newly available ApiTotalUsage log files and stores them externally for at least 30 days.
+2. If the organization uses Salesforce-native retention, ensure the configured retention period for Event Log Files is not less than 30 days.
+3. Restrict access to the retained logs (Salesforce-native or external) to authorized personnel and designated service identities.
+
+**Default Value**:
+Enterprise, Unlimited, and Performance Edition organizations have free access to the ApiTotalUsage event type with 1-day data retention, while organizations with Shield/Event Monitoring add-on retain Event Log Files for 30 days by default (and may be eligible to extend retention).
