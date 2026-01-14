@@ -87,3 +87,26 @@ Monitoring for unauthorized direct-in-production changes preserves deployment pr
 **Default Value:**  
 Salesforce does not provide built-in monitoring or alerting for unauthorized direct-in-production metadata changes; organizations must implement their own processes.
 
+### SBS-CHG-004: Establish Source-Driven Development Process
+
+**Control Statement:** Meaningful changes must be deployed with a source-driven, automated deployment process.
+
+**Description:**  
+Organizations must track all meaningful changes to metadata in a centralized version control system. The process to deploy those changes must include appropriate validation and testing, and must be automated in a fashion that it is repeatable and deterministic. This control makes no assumptions on the complexity of the org and the need for modularization and general scalability of the deployment process. To be compliant, it is sufficient to keep track of changes in version control and deploy deterministically.
+
+**Rationale:**  
+Without adequate version control and automation, it is almost impossible to recover in case of failure. It is one root cause for "configuration drift" (the situation, where sandboxes deviate from production orgs). Version control and automated delivery are fundamental to identify **who** made changes in case of problems.
+
+**Audit Procedure:**  
+1. Follow the procedure described in SBS-CHG-001 to enforce a designated deployment identity.
+2. Investigate all processes that propagated changes from development environments to production. 
+3. Flag all processes that did not use a centralized version control.
+
+**Remediation:**  
+1. Set up a version control system such as `git`.
+2. Ensure that the version control is centralized and accessible by all developers.
+3. Evaluate if a progressive transistion is necessary (gradually migrate metadata to source-driven process).
+4. Introduce appropriate measures that from now on, all changes are tracked in source.
+
+**Default Value:**  
+Salesforce allows changes of most metadata types on production by default.
