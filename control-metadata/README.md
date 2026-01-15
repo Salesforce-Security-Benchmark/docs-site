@@ -14,8 +14,8 @@ remediation:
   entity_type: <required only if scope = entity>
 
 dependencies:
-  - <dependency1>
-  - <dependency2>
+  - "<dependency1>"
+  - "<dependency2>"
 
 task:
   title_template: "<human-readable task title>"
