@@ -1,4 +1,5 @@
 {
+  "name": "salesforce-security-benchmark",
   "scripts": {
     "dev": "vitepress dev",
     "build": "vitepress build",
