@@ -98,6 +98,15 @@ Salesforce production orgs must define and maintain a Salesforce Health Check ba
 **SBS-SECCONF-002: Review and Remediate Salesforce Health Check Deviations**  
 Salesforce production orgs must periodically review Health Check results against the defined baseline and remediate deviations or formally document approved exceptions.
 
+## Governance
+
+**SBS-GOV-001: Enforce Periodic Access Review and Recertification**
+All user access, permission sets, permission set groups, and role assignments must be formally reviewed and recertified at least annually by designated business stakeholders, with documented approval and remediation of unauthorized or excessive access.
+
+**SBS-GOV-002: Enforce Documented Change Management Governance for Access and Authorization**
+All changes to user access, permission sets, permission set groups, profiles, roles, and authorization-related configuration must follow a documented change management process that includes approval, implementation tracking, and audit logging.
+
+
 ---
 
 *Total Controls: 26*

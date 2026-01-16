@@ -1,0 +1,8 @@
+control_id: SBS-GOV-001
+
+remediation:
+  scope: inventory
+
+task:
+  title_template: "Enforce Periodic Access Review and Recertification"
+
