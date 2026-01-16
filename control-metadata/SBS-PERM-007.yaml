@@ -1,0 +1,9 @@
+# control-metadata/SBS-PERM-007.yaml
+control_id: SBS-PERM-007
+
+remediation:
+  scope: entity
+  entity_type: User
+
+task:
+  title_template: "Implement compensating controls for privileged non-human identity: {{entity.name}}"

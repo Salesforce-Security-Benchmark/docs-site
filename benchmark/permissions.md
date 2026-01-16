@@ -124,41 +124,105 @@ Super Admin–equivalent permissions grant unrestricted read and write access ac
 **Default Value:**  
 Salesforce does not limit the number of users who may receive **View All Data**, **Modify All Data**, or **Manage Users**, and does not maintain any system of record regarding administrative access.
 
-### SBS-PERM-005: Restrict Broad Privileges for Non-Human Identities
+### SBS-PERM-005: Maintain Inventory of Non-Human Identities
 
-**Control Statement:** Non-human identities (integration users, automation users, bot users, and API-only accounts) must not be assigned permissions that bypass sharing rules or grant administrative capabilities without documented business justification and implemented compensating controls.
+**Control Statement:** Organizations must maintain an authoritative inventory of all non-human identities, including integration users, automation users, bot users, and API-only accounts.
 
 **Description:**  
-Non-human identities, including integration users, automation users, Einstein Bot users, and API-only accounts, must follow the principle of least privilege. These identities must not be granted broad privileges such as View All Data, Modify All Data, View All Users, Modify All Users, Manage Users, Author Apex, or other permissions that bypass object-level or record-level security unless explicitly required and documented. All non-human identities with broad privileges must be recorded in a system of record with business justification, owner identification, and documented compensating controls. Both justification and compensating controls are required for compliance.
+Non-human identities operate without direct human oversight and often possess persistent credentials with elevated access. Organizations must maintain a complete and current inventory of all such identities to enable effective governance, access reviews, and incident response. The inventory must include identity type, purpose, owner, creation date, and last activity date.
 
 **Rationale:**  
-Non-human identities operate without human oversight and typically use persistent credentials (stored passwords, OAuth tokens, or certificates) that remain valid across sessions. Granting broad privileges to these identities creates significant security risk: compromised credentials provide attackers with extensive access to data and configuration, automated processes can cause widespread damage if misconfigured or exploited, and the lack of interactive human review means malicious activity may persist undetected. Unlike human users who may temporarily require elevated access for specific tasks, non-human identities with broad privileges represent a persistent attack surface. Restricting broad privileges to only necessary cases and requiring compensating controls reduces the blast radius of credential compromise and limits the potential for automated abuse.
+Without a comprehensive inventory, organizations cannot effectively govern non-human identity access, identify unused or orphaned accounts, or respond to security incidents involving automated access. Non-human identities are frequently created for integrations or automation projects and then forgotten, creating persistent security risks. An authoritative inventory is the foundation for all other non-human identity governance controls.
 
 **Audit Procedure:**  
-1. Identify all non-human identities in the org by querying users where UserType indicates integration, automation, or bot usage, or where the user is designated as an API-only or service account.  
-2. For each non-human identity, enumerate all assigned permissions via profiles, permission sets, and permission set groups.  
-3. Flag any non-human identity with broad privileges including but not limited to: View All Data, Modify All Data, View All Users, Modify All Users, Manage Users, Author Apex, Customize Application, Modify Metadata, or any permission that bypasses sharing rules or grants administrative capabilities.  
-4. For each flagged identity, verify that the organization's system of record contains:  
-   - Documented business justification explaining why broad privileges are required,  
-   - Identification of the system owner or responsible party, and  
-   - Documented compensating controls (e.g., IP restrictions, OAuth scope limitations, monitoring/alerting, credential rotation policy, dedicated integration user per system).  
-5. Verify that documented compensating controls are actually implemented and active.  
-6. Flag as noncompliant any non-human identity with broad privileges that lacks documented justification, lacks documented compensating controls, or has compensating controls that are not implemented.
+1. Request the organization's inventory of non-human identities
+2. Query Salesforce for all users where `IsActive = true` and any of the following conditions apply:
+   - Username contains "integration", "api", "bot", "automation", or "service"
+   - Profile name contains "Integration", "API", or similar indicators
+   - User has "API Only User" permission enabled
+   - User is associated with Einstein Bot or Flow automation
+3. Compare the inventory to the query results to identify discrepancies
+4. Verify the inventory includes: identity name, type, purpose, business owner, creation date, and last login date
+5. Confirm the inventory is reviewed and updated at least quarterly
 
 **Remediation:**  
-1. Remove broad privileges from non-human identities that lack documented justification or do not require data bypass or administrative capabilities.  
-2. Replace broad privileges with object-specific permissions, custom permissions, and sharing rules that grant only the minimum access necessary for the identity's function.  
-3. For non-human identities that legitimately require broad privileges, document in the system of record:  
-   - Clear business justification (e.g., "ETL process requires read access to all Account and Contact records"),  
-   - System owner and responsible party,  
-   - Implemented compensating controls.  
-4. Implement compensating controls for all non-human identities with broad privileges, such as:  
-   - IP address restrictions limiting access to known integration endpoints,  
-   - OAuth scope limitations (if using OAuth),  
-   - Monitoring and alerting for authentication and data access activity,  
-   - Credential rotation policy with defined intervals,  
-   - Dedicated identity per integration (avoid shared service accounts).  
-5. Establish a periodic (e.g., quarterly) review process for all non-human identities with broad privileges to ensure justifications remain valid and compensating controls remain effective.
+1. Query Salesforce to identify all potential non-human identities using the criteria in the audit procedure
+2. For each identified identity, document: name, type (integration/bot/API), purpose, business owner, creation date
+3. Establish a process to update the inventory when non-human identities are created, modified, or deactivated
+4. Implement quarterly reviews of the inventory to identify and deactivate unused accounts
+5. Store the inventory in an authoritative system of record accessible to security and compliance teams
 
 **Default Value:**  
-Salesforce does not restrict the assignment of broad privileges to non-human identities. Administrators can assign any permission to any user type unless explicitly prevented by license limitations. No system of record or compensating control requirements exist by default.
+Salesforce does not provide a built-in inventory or classification system for non-human identities. Organizations must create and maintain this inventory manually or through third-party tools.
+
+### SBS-PERM-006: Restrict Broad Privileges for Non-Human Identities
+
+**Control Statement:** Non-human identities must not be granted elevated permissions through assignment of permissions that bypass sharing rules or grant administrative capabilities unless documented business justification exists.
+
+**Description:**  
+Non-human identities should follow the principle of least privilege and be granted only the minimum permissions necessary to perform their intended function. Permissions that bypass object-level or record-level security (such as View All Data, Modify All Data) or grant administrative capabilities (such as Manage Users, Modify Metadata) create significant security risk when assigned to automated accounts. Organizations must document a specific business justification for any non-human identity that requires such permissions.
+
+**Rationale:**  
+Non-human identities operate without human judgment or oversight, making over-privileged automation a high-impact security risk. Compromised credentials for a non-human identity with broad privileges can result in unauthorized data access, data exfiltration, or system-wide configuration changes. Many non-human identities are granted excessive permissions during initial setup and never reviewed, creating persistent security exposure. Requiring documented justification ensures that broad privileges are granted only when genuinely necessary and subject to approval.
+
+**Audit Procedure:**  
+1. Using the non-human identity inventory from SBS-PERM-005, identify all non-human identities
+2. For each non-human identity, query assigned permissions through profiles, permission sets, and permission set groups
+3. Flag any non-human identity with one or more of the following permissions:
+   - View All Data
+   - Modify All Data
+   - View All Users
+   - Modify All Users
+   - Manage Users
+   - Author Apex
+   - Customize Application
+   - Modify Metadata
+   - Any permission that bypasses sharing rules or grants administrative access
+4. For each flagged identity, verify that documented business justification exists explaining why the permission is required
+5. Confirm the justification was approved by appropriate stakeholders (security, compliance, or management)
+
+**Remediation:**  
+1. For each non-human identity with broad privileges, evaluate whether the permission is genuinely required for the identity's function
+2. Remove broad privileges that are not necessary; replace with more granular permissions where possible
+3. For non-human identities that legitimately require broad privileges, document:
+   - Specific business function requiring the permission
+   - Why more granular permissions cannot satisfy the requirement
+   - Business owner and technical owner
+   - Approval from security or compliance team
+4. Implement a formal approval process for granting broad privileges to non-human identities
+5. Establish periodic review (at least annually) of all non-human identities with broad privileges
+
+**Default Value:**  
+Salesforce does not restrict the assignment of broad privileges to non-human identities. Administrators can grant any permission to any user type without requiring justification or approval.
+
+### SBS-PERM-007: Implement Compensating Controls for Privileged Non-Human Identities
+
+**Control Statement:** Non-human identities with elevated permissions that bypass sharing rules or grant administrative capabilities must have compensating controls implemented to mitigate risk.
+
+**Description:**  
+When non-human identities require broad privileges for legitimate business purposes, organizations must implement defense-in-depth protections to reduce the risk of credential compromise or misuse. Compensating controls include IP address restrictions, OAuth scope limitations, activity monitoring and alerting, credential rotation policies, and dedicated identities per integration. Multiple compensating controls should be implemented based on the sensitivity of accessible data and the scope of granted permissions.
+
+**Rationale:**  
+Non-human identities with broad privileges represent high-value targets for attackers. Unlike human users, these identities typically use persistent credentials (API keys, OAuth tokens, certificates) that do not expire and are not protected by multi-factor authentication. Compensating controls create additional barriers to unauthorized access and enable detection of suspicious activity. Without these protections, a single compromised credential can result in complete data breach or system compromise.
+
+**Audit Procedure:**  
+1. Using the results from SBS-PERM-006, identify all non-human identities with broad privileges that have documented business justification
+2. For each privileged non-human identity, verify that at least two of the following compensating controls are implemented:
+   - **IP Address Restrictions:** Profile or permission set restricts login to specific IP ranges
+   - **OAuth Scope Limitations:** Connected app uses minimal OAuth scopes; refresh tokens have expiration
+   - **Activity Monitoring:** Automated monitoring alerts on unusual activity (off-hours access, high volume, geographic anomalies)
+   - **Credential Rotation:** Credentials are rotated at least every 90 days
+   - **Dedicated Identity:** Separate identity per integration (not shared across multiple systems)
+3. Verify that monitoring alerts are actively reviewed and responded to
+4. Confirm that compensating controls are documented in the justification for the privileged access
+
+**Remediation:**  
+1. For each privileged non-human identity, implement IP address restrictions in the assigned profile or permission set to limit access to known integration sources
+2. For OAuth-based integrations, configure connected apps with minimal required scopes and enable refresh token expiration
+3. Implement automated monitoring for privileged non-human identity activity using Event Monitoring, or third-party SSPM tools
+4. Establish credential rotation policies requiring API keys, passwords, and certificates to be rotated at least every 90 days
+5. Ensure each integration uses a dedicated non-human identity rather than sharing credentials across multiple systems
+6. Document all implemented compensating controls in the access justification
+
+**Default Value:**  
+Salesforce does not require or enforce compensating controls for privileged non-human identities. IP restrictions, OAuth scopes, monitoring, and credential rotation must be configured manually by administrators.

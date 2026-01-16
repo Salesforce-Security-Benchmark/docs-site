@@ -1,10 +1,8 @@
+# control-metadata/SBS-PERM-005.yaml
 control_id: SBS-PERM-005
 
 remediation:
-  scope: entity
-  entity_type: User
+  scope: inventory
 
 task:
-  title_template: "Remove broad privileges from non-human identity: {{entity.name}}"
-  
-  
+  title_template: "Establish and maintain inventory of non-human identities"

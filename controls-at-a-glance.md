@@ -43,8 +43,14 @@ The "Approve Uninstalled Connected Apps" permission must only be assigned to hig
 **SBS-PERM-004: Documented Justification for All Super Admin–Equivalent Users**  
 All users with simultaneous View All Data, Modify All Data, and Manage Users permissions must be documented in a system of record with clear business or technical justification.
 
-**SBS-PERM-005: Restrict Broad Privileges for Non-Human Identities**  
-Non-human identities (integration users, automation users, bot users, and API-only accounts) must not be assigned permissions that bypass sharing rules or grant administrative capabilities without documented business justification and implemented compensating controls.
+**SBS-PERM-005: Maintain Inventory of Non-Human Identities**
+Organizations must maintain an authoritative inventory of all non-human identities, including integration users, automation users, bot users, and API-only accounts.
+
+**SBS-PERM-006: Restrict Broad Privileges for Non-Human Identities**
+Non-human identities must not be assigned permissions that bypass sharing rules or grant administrative capabilities unless documented business justification exists.
+
+**SBS-PERM-007: Implement Compensating Controls for Privileged Non-Human Identities**
+Non-human identities with permissions that bypass sharing rules or grant administrative capabilities must have compensating controls implemented to mitigate risk.
 
 ## Authentication
 
@@ -97,5 +103,5 @@ Salesforce production orgs must periodically review Health Check results against
 
 ---
 
-*Total Controls: 24*
+*Total Controls: 27*
 

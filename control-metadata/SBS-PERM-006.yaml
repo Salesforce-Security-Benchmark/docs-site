@@ -1,0 +1,9 @@
+# control-metadata/SBS-PERM-006.yaml
+control_id: SBS-PERM-006
+
+remediation:
+  scope: entity
+  entity_type: User
+
+task:
+  title_template: "Remove broad privileges from non-human identity: {{entity.name}}"
