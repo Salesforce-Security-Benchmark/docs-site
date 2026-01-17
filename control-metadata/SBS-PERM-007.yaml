@@ -1,0 +1,8 @@
+control_id: SBS-PERM-007
+
+remediation:
+  scope: entity
+  entity_type: User
+
+task:
+  title_template: "Remove broad privileges from non-human identity: {{entity.name}}"
