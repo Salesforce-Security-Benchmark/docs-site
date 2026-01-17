@@ -145,4 +145,35 @@ Standard profiles cannot be managed by Org Admins. They are too permissive (e.g.
 3. Assign the new custom profiles to your active users, following the principle of "least privilege access"
 
 **Default Value:**  
-Salesforce does not require to create and assign custom profiles.
+Salesforce does not require creating and assigning custom profiles.
+
+### SBS-PERM-006: Documented Justification for Use Any API Client Permission
+
+**Control Statement:** The "Use Any API Client" permission, which bypasses default behavior in orgs with "API Access Control" enabled, must only be assigned to highly trusted users with documented justification and must not be granted to end-users.
+
+**Description:**  
+All profiles, permission sets, and permission set groups that grant the "Use Any API Client" permission must be recorded in a designated system of record with a documented business or technical justification. This permission should only be assigned to highly trusted users, such as administrators and developers involved in managing or testing connected app integrations. Any authorization lacking documented rationale is noncompliant.
+
+**Rationale:**  
+The "Use Any API Client" permission allows users to authorize connected apps via OAuth that have not yet been pre-vetted and added to an org-wide allowlist. While this capability is sometimes necessary for administrators and developers, it creates a significant security risk if granted to end-users or unauthorized personnel. Using it too liberally defeats the purpose of leveraging the "API Access Control" feature of Salesforce entirely. Unjustified assignment of this permission increases the risk of unauthorized third-party app access, data exfiltration, and privilege escalation. Maintaining a complete system-of-record inventory with documented rationale ensures that this high-privilege permission is restricted to legitimate use cases and prevents privilege sprawl.
+
+**Audit Procedure:**  
+1. Enumerate all profiles, permission sets, and permission set groups that include the "Use Any API Client" permission using Salesforce Setup, Metadata API, Tooling API, or an automated scanner.  
+2. Compare the enumerated list against the organization's designated system of record for this permission.  
+3. Verify that every profile, permission set, and permission set group granting "Use Any API Client" has a corresponding entry in the system of record.  
+4. Confirm that each entry includes:  
+   - A clear business or technical justification for requiring this permission,  
+   - Identification of the user role or persona (e.g., administrator, developer, integration manager),  
+   - Any applicable exception or approval documentation, and  
+   - Confirmation that the use case is limited to testing or managing connected app integrations.  
+5. Verify that the permission is not assigned to end-user profiles or permission sets intended for general business users.  
+6. Flag as noncompliant any authorizations lacking documentation, justification, or assigned to unauthorized user populations.
+
+**Remediation:**  
+1. Remove the "Use Any API Client" permission from any profile, permission set, or permission set group that lacks a documented justification or is assigned to end-users.  
+2. For any authorization that legitimately requires this permission (e.g., administrators or developers testing connected apps), add or update the rationale in the system of record to clearly justify the need and identify the specific role or use case.  
+3. Ensure that connected apps required for business operations are properly vetted and allowlisted rather than relying on this permission for end-user access.  
+4. Reconcile and update the system of record to ensure complete and accurate inventory of all assignments of this permission.
+
+**Default Value:**  
+The "Use Any API Client" permission is not granted by default in Salesforce. Organizations must explicitly assign this permission to users who require it for legitimate testing or integration management purposes.

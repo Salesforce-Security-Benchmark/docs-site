@@ -1,0 +1,10 @@
+control_id: SBS-PERM-006
+
+remediation:
+  scope: inventory
+
+dependencies:
+  - "API Access Control"
+
+task:
+  title_template: "Establish and maintain an inventory of 'Use Any API Client' permission assignments with documented justification"
