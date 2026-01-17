@@ -145,7 +145,7 @@ Standard profiles cannot be managed by Org Admins. They are too permissive (e.g.
 3. Assign the new custom profiles to your active users, following the principle of "least privilege access"
 
 **Default Value:**  
-Salesforce does not require to create and assign custom profiles.
+Salesforce does not require creating and assigning custom profiles.
 
 ### SBS-PERM-006: Documented Justification for Use Any API Client Permission
 
