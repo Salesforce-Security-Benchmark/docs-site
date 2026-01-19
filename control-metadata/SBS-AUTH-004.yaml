@@ -1,0 +1,10 @@
+control_id: SBS-AUTH-004
+
+remediation:
+  scope: org
+
+dependencies:
+  - "Active use of one or more External User License types (Customer Community; Customer Community Plus; Partner Community; External Apps; External Identity)"
+
+task:
+  title_template: "Disable or restrict weak authentication paths for external users with substantial access to sensitive data"

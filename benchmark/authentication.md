@@ -91,3 +91,50 @@ Overly broad login IP ranges allow users to authenticate from anywhere, bypassin
 **Default Value:**  
 Salesforce profiles do not include login IP ranges by default; they must be explicitly configured.
 
+### SBS-AUTH-004: Enforce Strong Multi-Factor Authentication for External Users with Substantial Access to Sensitive Data 
+
+**Control Statement:** 
+All Salesforce interactive authentication flows for external human users with substantial access to sensitive data must enforce multi-factor authentication that includes at least one strong authentication factor.
+
+**Description:**  
+Salesforce must be configured so that every interactive login method available to external human users with substantial access to sensitive data enforces multi-factor authentication using either a strong second factor in addition to a password, or a passwordless flow requiring two or more factors with at least one strong factor, regardless of whether authentication is performed directly by Salesforce or via a single sign-on identity provider.
+
+For the purposes of this control, a strong authentication factor is defined as an authentication factor that is resistant to phishing, replay, and credential stuffing attacks. Acceptable strong authentication factors include:
+ - Push-notification based authenticator app such as Salesforce Authenticator or Okta Verify
+ - RFC 6238 compliant Time-based One-Time Password Algorithm (TOTP) authenticator app
+ - FIDO2 hardware key compliant with either WebAuthn or U2F standard
+ - Biometric authentication such as Touch ID or Windows Hello
+ - Certificate-based authentication (CBA)
+
+The following factors must not be used to satisfy the multi-factor authentication requirement unless combined with at least one strong authentication factor:
+ - Password authentication
+ - Identity verification by SMS (text)
+ - Identity verification by email
+ - Identity based on the IP address or geolocation of the authenticating device
+
+**Rationale:**  
+External users with elevated access present a heightened risk of credential compromise due to weaker identity proofing, and strong multi-factor authentication significantly reduces the likelihood of unauthorized access resulting from phishing, credential reuse, or account takeover attacks.
+
+Implementation of this control ensures that external users with elevated access are protected by phishing-resistant authentication mechanisms comparable to those applied to high-risk internal users.
+
+**Audit Procedure:**  
+1. Enumerate all active external human users with substantial access to sensitive data.
+2. Validate that in-scope users have the “Multi-Factor Authentication for User Interface Logins” permission through profiles or permission sets.
+3. Flag any in-scope users who lack the “Multi-Factor Authentication for User Interface Logins” permission.
+4. If passwordless authentication methods are available to in-scope users, confirm these do not permit fallback to single-factor authentication and require two or more factors with at least one strong factor.
+5. Flag any contexts in which passwordless authentication is possible without verification of a strong second factor.
+6. Verify that no login flow permits authentication for in-scope users without enforcement of a strong authentication factor.
+
+**Remediation:**  
+1. Disable or restrict weak authentication paths
+2. Apply the “Multi-Factor Authentication for User Interface Logins” permission through profiles or permission sets for all active external users with substantial access to sensitive data.
+3. Configure strong second-factor options in Setup -> Identity -> Identity Verification (e.g., authenticator app, FIDO2 security key, certificate-based authentication).
+4. Review and update passwordless login configuration (typically implementation of a LoginDiscoveryHandler class) to meet conditions of this control.
+
+**Default Value:**  
+By default, Salesforce does not enforce strong multi-factor authentication for all external user login flows, and external users may authenticate using single-factor or weak-factor methods unless explicitly restricted by configuration.
+
+**References:**  
+- Salesforce Documentation: Multi-Factor Authentication  
+- NIST SP 800-63B Authentication and Lifecycle Management  
+- NIST SP 800-53 IA-2

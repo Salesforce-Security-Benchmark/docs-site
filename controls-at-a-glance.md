@@ -60,6 +60,9 @@ All users who do not have the "Is Single Sign-On Enabled" permission must be exp
 **SBS-AUTH-003: Prohibit Broad or Unrestricted Profile Login IP Ranges**  
 Profiles in Salesforce production orgs must not contain login IP ranges that effectively permit access from the full public internet or other overly broad ranges that bypass network-based access controls.
 
+**SBS-AUTH-004: Enforce Strong Multi-Factor Authentication for External Users with Substantial Access to Sensitive Data**
+All Salesforce interactive authentication flows for external human users with substantial access to sensitive data must enforce multi-factor authentication that includes at least one strong authentication factor.
+
 ## Code Security
 
 **SBS-CODE-001: Mandatory Peer Review for Salesforce Code Changes**  
