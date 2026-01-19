@@ -9,8 +9,8 @@ This section defines controls related to secure development practices for Salesf
 **Description:**  
 Organizations must configure their source control system to require at least one peer reviewer to approve all changes to Apex, Lightning Web Components, and other programmatic assets before those changes are merged into branches used for production deployments.
 
-**Risk:** <Badge type="warning" text="High" />  
-Without mandatory peer review, a single developer—whether compromised, malicious, or simply mistaken—can introduce insecure or flawed code directly into the deployment pipeline. This eliminates shared oversight of changes to sensitive business logic and creates a governance gap where vulnerabilities, backdoors, or destructive changes can reach production without independent verification. The absence of review compounds other control failures by removing the last human checkpoint before code is deployed.
+**Risk:** <Badge type="tip" text="Moderate" />  
+Without mandatory peer review, a single developer—whether compromised, malicious, or simply mistaken—can introduce insecure or flawed code directly into the deployment pipeline. However, this control provides assurance and defense-in-depth rather than establishing a security boundary: static code analysis (SBS-CODE-002) and other automated controls can also catch vulnerabilities. The absence of review increases the likelihood of flawed code reaching production but requires other controls to also fail for exploitation to occur.
 
 **Audit Procedure:**  
 1. Inspect source control settings to confirm merge rules require peer review on production-bound branches.  
@@ -32,8 +32,8 @@ Salesforce does not enforce code review requirements; these controls depend on t
 **Description:**  
 Organizations must implement static application security testing (SAST) in their CI/CD pipeline and configure it to run prior to merge, enforcing security rulesets that detect vulnerabilities specific to Apex and LWC.
 
-**Risk:** <Badge type="warning" text="High" />  
-Without enforced static code analysis, known vulnerability patterns in Apex and LWC—such as SOQL injection, insecure data exposure, and improper access control—can enter production undetected. This creates a significant exposure gap where exploitable flaws persist in deployed code, increasing the likelihood of data breaches or unauthorized access. The absence of automated security scanning compounds peer review limitations, as reviewers may not catch subtle security defects that tooling would reliably identify.
+**Risk:** <Badge type="tip" text="Moderate" />  
+Without enforced static code analysis, known vulnerability patterns in Apex and LWC—such as SOQL injection, insecure data exposure, and improper access control—may enter production undetected by automated tooling. However, this control provides defense-in-depth alongside peer review (SBS-CODE-001): both controls aim to catch the same issues, and neither is the sole line of defense. The absence of automated scanning increases the likelihood of vulnerabilities reaching production but requires peer review to also miss the issue for exploitation to occur.
 
 **Audit Procedure:**  
 1. Inspect CI/CD pipeline configuration to confirm a static code analysis step runs before merges.  

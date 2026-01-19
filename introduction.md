@@ -37,12 +37,13 @@ SBS doesn't require perfection. It requires knowing where you stand, documenting
 
 Each SBS control is written in a **prescriptive, binary format** designed to determine compliance. Controls include the following components:
 
-- **Control ID** — A unique identifier for reference (e.g., SBS-AG-003).  
-- **Description** — A clear requirement that must be met for compliance.  
-- **Rationale** — The security justification for the control.  
+- **Control ID** — A unique identifier for reference (e.g., SBS-AUTH-001).  
+- **Control Statement** — A clear requirement that must be met for compliance.  
+- **Description** — Additional context on what the control requires.  
+- **Risk** — The risk level and explanation of what goes wrong if the control is not implemented.  
 - **Audit Procedure** — Steps to evaluate whether the requirement is met.  
 - **Remediation** — Actions needed to bring the environment into compliance.  
-- **Default Value** — Salesforce’s default behavior relevant to this control.  
+- **Default Value** — Salesforce's default behavior relevant to this control.  
 
 **Interpretation:**  
 - If a control’s requirement is not satisfied, the environment is **noncompliant** with SBS.  
@@ -53,19 +54,53 @@ This format ensures that SBS remains consistent, measurable, and suitable for au
 
 ## 1.4 Risk Modeling
 
-SBS classifies controls based on **risk**, reflecting the degree to which failure to implement a control weakens an organization's ability to safely operate Salesforce as a controlled system. Risk levels in SBS are not intended to describe traditional "hacking" scenarios or attacker sophistication. Instead, they model **loss of control, exposure amplification, and governance failure** within a SaaS platform where security outcomes are primarily driven by access, configuration, integration, and operational discipline. Risk levels are designed to help CISOs, security leaders, and auditors prioritize remediation efforts, assess residual risk, and make intentional, defensible decisions about risk acceptance.
+SBS classifies controls based on **risk**, reflecting the security impact when a control is not implemented. Risk levels help CISOs, security leaders, and auditors prioritize remediation efforts, assess residual risk, and make intentional, defensible decisions about risk acceptance.
 
-### Critical Risk
+### Classification Framework
 
-A Critical Risk control addresses conditions where failure to implement the control results in a **loss of effective organizational control over Salesforce**, including access, data, or change activity. In these scenarios, unauthorized actions, data exposure, or material misconfiguration can occur without reliable prevention, detection, or accountability, and remediation after the fact may be incomplete or infeasible. Critical Risk controls define the minimum conditions required for Salesforce to function as a trusted system of record and must be implemented or explicitly accepted by appropriate risk authority.
+To determine a control's risk level, apply these questions in order:
 
-### High Risk
+1. **Does this control establish a security boundary?** If the control fails, can unauthorized users gain access, or can authorized users take actions beyond their intended scope—without requiring other controls to also fail? → **Critical**
 
-A High Risk control addresses conditions that introduce **significant exposure or governance gaps** that materially increase the likelihood, scope, or persistence of misuse, over-privileged access, unintended data exposure, or unauthorized change. These weaknesses often do not cause incidents on their own, but they **compound other failures**, expand blast radius, or impair the organization's ability to detect, investigate, or respond effectively. High Risk controls require mitigation, documented compensating controls, or formal risk acceptance.
+2. **Does this control provide visibility?** If the control fails, is the organization's ability to detect security events, investigate incidents, or respond to breaches materially degraded? → **High**
 
-### Moderate Risk
+3. **Does this control add assurance?** If the control fails, do other controls still provide coverage, with this control primarily improving confidence, consistency, or audit readiness? → **Moderate**
 
-A Moderate Risk control addresses **defense-in-depth, assurance, or operational maturity gaps** that do not directly enable misuse or exposure, but reduce confidence, consistency, or resilience of the Salesforce security program. These controls primarily affect governance quality, auditability, and long-term sustainability rather than immediate risk. Moderate Risk controls should be evaluated and addressed based on organizational context, scale, and risk tolerance.
+### Critical
+
+A Critical control establishes a **security boundary** that, if absent, allows unauthorized access or actions without requiring other controls to fail. These are foundational controls—the organization cannot operate Salesforce as a trusted system without them.
+
+**Indicators:**
+- Unauthorized users can authenticate or access data
+- Authorized users can exceed their intended permissions
+- Changes can occur without any accountability mechanism
+- The failure enables direct exploitation, not just increased likelihood
+
+**Examples:** SSO enforcement (prevents credential-based attacks), core permission boundaries (prevents unauthorized data access), audit trail integrity (prevents unaccountable changes).
+
+### High
+
+A High control provides **visibility or response capability** that, if absent, prevents the organization from detecting, investigating, or responding to security events. The control doesn't prevent incidents directly, but its absence means incidents go unnoticed, unscoped, or unremediated.
+
+**Indicators:**
+- Security events cannot be detected or alerted on
+- Incidents cannot be investigated or attributed
+- Breach scope cannot be determined
+- Compliance obligations requiring visibility cannot be met
+
+**Examples:** Persistent application logging (enables investigation), regulated data discovery (enables breach scoping), security monitoring and alerting (enables detection).
+
+### Moderate
+
+A Moderate control provides **assurance or defense-in-depth** that reduces the likelihood of issues but where other controls still provide coverage if this control fails. These controls improve confidence, consistency, and operational maturity rather than serving as primary defenses.
+
+**Indicators:**
+- Other controls catch the same issues (defense-in-depth)
+- The control improves quality but isn't the last line of defense
+- Failure increases risk but requires additional failures to cause harm
+- The control primarily supports governance, training, or process consistency
+
+**Examples:** Peer code review (SAST and testing also catch issues), documentation requirements (support auditability but don't prevent incidents), security training (reduces likelihood but other controls enforce boundaries).
 
 ## 1.5 Versioning
 

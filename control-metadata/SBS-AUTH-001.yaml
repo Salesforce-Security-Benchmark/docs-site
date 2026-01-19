@@ -1,5 +1,5 @@
 control_id: SBS-AUTH-001
-risk_level: High
+risk_level: Critical
 
 remediation:
   scope: org

@@ -8,6 +8,7 @@ Each metadata file must be named exactly as the control ID (e.g., `SBS-OAUTH-002
 
 ```yaml
 control_id: <SBS-ID>
+risk_level: <Critical | High | Moderate>
 
 remediation:
   scope: entity  # Choose one: org, entity, mechanism, inventory
@@ -24,6 +25,15 @@ task:
 3. **entity_type forbidden for other scopes** - Only `entity` scope may include `entity_type`
 4. **Optional metadata** - Controls without metadata files default to `scope = org` with no task title
 5. **Atomic Control Rule** - If a control implies multiple obligations, it must be split into multiple controls
+6. **risk_level must match control document** - The `risk_level` must align with the Risk classification in the benchmark markdown
+
+## Risk Levels
+
+Risk levels are assigned based on the classification framework in the Introduction:
+
+- **Critical** - Establishes a security boundary that, if absent, allows unauthorized access without requiring other controls to fail
+- **High** - Provides visibility or response capability that, if absent, prevents detection, investigation, or response to security events
+- **Moderate** - Provides assurance or defense-in-depth where other controls still provide coverage if this control fails
 
 ## Remediation Scopes
 

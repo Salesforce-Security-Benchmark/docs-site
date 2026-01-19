@@ -9,8 +9,8 @@ This section defines controls related to the protection, classification, and man
 **Description:**  
 Salesforce organizations must employ a technical or procedural mechanism to inspect the stored values of all Long Text Area (LTA) fields for regulated data, including PII, PHI, or GDPR-governed attributes. For example, a sales representative may enter customer phone numbers, email addresses, or even payment card details into an Opportunity "Follow-Up Notes" field, creating unstructured storage of regulated data that is difficult to detect without systematic scanning.
 
-**Rationale:**  
-LTA fields often contain unstructured, user-entered information that may include sensitive personal data. Failure to detect regulated data in these fields prevents the organization from identifying where such data resides, which in turn obstructs compliance with obligations such as GDPR Right to Erasure and inhibits breach impact assessments. If an incident occurs and the organization cannot determine which LTA fields contain personal information, it becomes impossible to accurately assess exposure or determine the scope of compromised records.
+**Risk:** <Badge type="warning" text="High" />  
+Long Text Area fields often contain unstructured, user-entered information that may include sensitive personal data. Without a detection mechanism, regulated data accumulates in unknown locations—obstructing compliance with GDPR Right to Erasure, CCPA deletion requests, and similar privacy obligations. During a security incident, the inability to identify which fields contain personal information makes it impossible to accurately assess exposure, determine the scope of compromised records, or fulfill breach notification requirements. This governance gap significantly impairs incident response and creates ongoing regulatory liability.
 
 **Audit Procedure:**  
 1. Identify all Long Text Area fields using Salesforce metadata.  
@@ -36,8 +36,8 @@ Salesforce does not natively scan the contents of Long Text Area fields for regu
 **Description:**  
 Organizations must maintain a documented inventory listing each Long Text Area field that contains or is reasonably expected to contain regulated data, based on scanning outputs or operational use. For example, if a Case "Internal Comments" field routinely includes client account numbers or health-related information entered by support agents, that field must appear in the inventory and be tracked accordingly.
 
-**Rationale:**  
-Without a current inventory of fields containing regulated data, an organization cannot apply appropriate protection, retention, or access controls. This gap prevents compliance with privacy obligations such as GDPR's Right to Erasure, where organizations must know all locations in which personal data is stored. During a security incident, the absence of such an inventory makes it impossible to determine which data fields were exposed, significantly impairing breach analysis, notification decisions, and containment.
+**Risk:** <Badge type="tip" text="Moderate" />  
+Without a current inventory of fields containing regulated data, organizations face governance gaps in applying appropriate protection, retention, or access controls—and may struggle to fulfill privacy obligations such as GDPR's Right to Erasure. However, this control provides assurance and documentation rather than establishing detection capability: the regulated data detection mechanism (SBS-DATA-001) can be re-run during an incident to scope exposure. The inventory supports governance, audit readiness, and operational efficiency, but other controls still provide coverage for incident response if this documentation is incomplete.
 
 **Audit Procedure:**  
 1. Obtain the organization's documented inventory of Long Text Area fields containing regulated data.  

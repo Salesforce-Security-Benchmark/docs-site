@@ -69,10 +69,11 @@ code, pre, .vp-code-group code {
   --vp-c-default-3: var(--vp-c-gray-3);
   --vp-c-default-soft: var(--vp-c-gray-soft);
 
-  --vp-c-tip-1: var(--vp-c-brand-1);
-  --vp-c-tip-2: var(--vp-c-brand-2);
-  --vp-c-tip-3: var(--vp-c-brand-3);
-  --vp-c-tip-soft: var(--vp-c-brand-soft);
+  /* Tip/Moderate uses green for clear distinction from danger/critical (red) */
+  --vp-c-tip-1: #10b981;
+  --vp-c-tip-2: #059669;
+  --vp-c-tip-3: #047857;
+  --vp-c-tip-soft: rgba(16, 185, 129, 0.14);
 
   --vp-c-warning-1: var(--vp-c-yellow-1);
   --vp-c-warning-2: var(--vp-c-yellow-2);

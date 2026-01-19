@@ -1,4 +1,5 @@
 control_id: SBS-DATA-001
+risk_level: High
 
 remediation:
   scope: mechanism

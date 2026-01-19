@@ -88,11 +88,13 @@ Salesforce's out-of-the-box behavior related to this control.
 
 **Risk levels and Badge types:**
 
-| Risk Level | Badge Type | When to Use |
-|------------|------------|-------------|
-| Critical | `<Badge type="danger" text="Critical" />` | Loss of effective organizational control over Salesforce. Unauthorized actions, data exposure, or material misconfiguration can occur without reliable prevention, detection, or accountability. |
-| High | `<Badge type="warning" text="High" />` | Significant exposure or governance gaps that compound other failures, expand blast radius, or impair detection and response. |
-| Moderate | `<Badge type="tip" text="Moderate" />` | Defense-in-depth, assurance, or operational maturity gaps that affect governance quality and long-term sustainability rather than immediate risk. |
+| Risk Level | Badge Type |
+|------------|------------|
+| Critical | `<Badge type="danger" text="Critical" />` |
+| High | `<Badge type="warning" text="High" />` |
+| Moderate | `<Badge type="tip" text="Moderate" />` |
+
+**Important:** Before assigning a risk level, read the **Risk Modeling** section in `introduction.md`. It defines a decision framework with specific questions to determine whether a control is Critical, High, or Moderate. Apply those questions in order to classify your control correctly.
 
 The Badge component is built into VitePress and renders as a colored pill. The risk level explanation should describe *what goes wrong* and *why that's dangerous*.
 
@@ -115,10 +117,9 @@ task:
 
 **Risk level (required):**
 
-The `risk_level` field must match the Badge in the markdown file. Valid values are:
-- `Critical` — Use for controls where failure results in loss of effective organizational control
-- `High` — Use for controls that introduce significant exposure or governance gaps
-- `Moderate` — Use for controls affecting defense-in-depth or operational maturity
+The `risk_level` field must match the Badge in the markdown file. Valid values are `Critical`, `High`, or `Moderate`.
+
+**Use the decision framework in `introduction.md` (Section 1.4 Risk Modeling) to determine the correct risk level.** The framework provides specific questions to apply in order—do not assign risk levels based on intuition.
 
 The risk level in YAML is the source of truth for machine-readable output (XML). The Badge in markdown is for visual display only.
 

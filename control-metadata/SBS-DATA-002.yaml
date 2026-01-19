@@ -1,4 +1,5 @@
 control_id: SBS-DATA-002
+risk_level: Moderate
 
 remediation:
   scope: inventory

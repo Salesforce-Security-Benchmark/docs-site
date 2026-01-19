@@ -9,8 +9,8 @@ This section defines controls related to user authentication in Salesforce produ
 **Description:**  
 Production orgs must require SSO authentication for all non-exempt human users by enabling the “Disable login with Salesforce credentials” setting and ensuring those users are assigned the “Is Single Sign-On Enabled” permission via profile or permission set.
 
-**Risk:** <Badge type="warning" text="High" />  
-Without enforced SSO, users can authenticate directly to Salesforce using local credentials—creating a parallel authentication path outside centralized identity management. This expands the attack surface by enabling password-based attacks (credential stuffing, phishing, brute force) against Salesforce directly, bypassing organizational identity controls, MFA policies, and session management enforced at the IdP layer.
+**Risk:** <Badge type="danger" text="Critical" />  
+Without enforced SSO, users can authenticate directly to Salesforce using local credentials—creating a parallel authentication path outside centralized identity management. This establishes an uncontrolled security boundary: password-based attacks (credential stuffing, phishing, brute force) can target Salesforce directly, enabling unauthorized access without requiring any other control to fail. Attackers bypass organizational identity controls, MFA policies, and session management enforced at the IdP layer.
 
 **Audit Procedure:**  
 1. Retrieve SingleSignOnSettings via Metadata API or UI and verify that `isLoginWithSalesforceCredentialsDisabled` is set to `true`.  
@@ -35,8 +35,8 @@ By default, Salesforce does not enable “Disable login with Salesforce credenti
 **Description:**  
 Production orgs must maintain an authoritative inventory of all accounts permitted to authenticate with Salesforce credentials by identifying users without the “Is Single Sign-On Enabled” permission and documenting their justification, role, and approval.
 
-**Risk:** <Badge type="warning" text="High" />  
-Users permitted to bypass SSO represent unmanaged authentication paths outside centralized identity governance. Without formal documentation and approval, these accounts can proliferate unnoticed—creating elevated credential compromise risk, reducing visibility into access patterns, and undermining the security guarantees provided by SSO enforcement. Ungoverned bypass accounts are a common vector for persistent unauthorized access.
+**Risk:** <Badge type="tip" text="Moderate" />  
+Users permitted to bypass SSO represent exceptions to centralized identity governance. Without formal documentation and approval, these accounts can proliferate unnoticed—reducing visibility into access patterns and undermining audit readiness. However, this control provides assurance and governance rather than establishing a security boundary; the primary protection is SSO enforcement (SBS-AUTH-001). Undocumented exceptions increase risk but require credential compromise for exploitation.
 
 **Audit Procedure:**
 1. Enumerate all users who do **not** have the "Is Single Sign-On Enabled" permission.
@@ -65,8 +65,8 @@ Salesforce allows all users to authenticate with Salesforce credentials unless t
 **Description:**  
 Any profile-level login IP range must reflect explicitly authorized organizational network boundaries. Profiles must not include universally permissive ranges—such as `0.0.0.0–255.255.255.255` or other combinations that allow access from all or nearly all IP addresses—as these configurations disable intended Salesforce network restrictions and undermine authentication controls.
 
-**Risk:** <Badge type="warning" text="High" />  
-Overly broad login IP ranges effectively disable network-based access controls, allowing authentication from any location on the internet. This eliminates the network boundary as a defensive layer—compromised credentials can be exploited from anywhere, making unauthorized access significantly easier to execute and harder to detect. Attackers no longer need network proximity or VPN access to leverage stolen credentials.
+**Risk:** <Badge type="tip" text="Moderate" />  
+Overly broad login IP ranges effectively disable network-based access controls, allowing authentication from any location on the internet. However, exploitation requires credentials to be compromised first—this control provides defense-in-depth rather than establishing a primary security boundary. When authentication controls (SBS-AUTH-001) are enforced, IP restrictions serve as an additional layer that limits the blast radius of credential compromise.
 
 **Audit Procedure:**
 1. Retrieve all profile login IP ranges via **Setup → Profiles → Login IP Ranges** or by querying the Profile metadata (`loginIpRanges` field) using the Metadata API.
