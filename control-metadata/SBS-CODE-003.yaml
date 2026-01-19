@@ -1,0 +1,9 @@
+control_id: SBS-CODE-003
+risk_level: High
+
+remediation:
+  scope: mechanism
+
+task:
+  title_template: "Implement persistent Apex application logging framework"
+

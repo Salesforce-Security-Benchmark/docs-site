@@ -1,0 +1,9 @@
+control_id: SBS-CODE-001
+risk_level: High
+
+remediation:
+  scope: mechanism
+
+task:
+  title_template: "Implement mandatory peer review for Salesforce code changes"
+

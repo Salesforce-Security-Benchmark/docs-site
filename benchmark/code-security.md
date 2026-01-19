@@ -9,8 +9,8 @@ This section defines controls related to secure development practices for Salesf
 **Description:**  
 Organizations must configure their source control system to require at least one peer reviewer to approve all changes to Apex, Lightning Web Components, and other programmatic assets before those changes are merged into branches used for production deployments.
 
-**Rationale:**  
-Mandatory peer review prevents insecure or flawed code from entering the deployment pipeline and ensures shared oversight of changes to sensitive business logic.
+**Risk:** <Badge type="warning" text="High" />  
+Without mandatory peer review, a single developer—whether compromised, malicious, or simply mistaken—can introduce insecure or flawed code directly into the deployment pipeline. This eliminates shared oversight of changes to sensitive business logic and creates a governance gap where vulnerabilities, backdoors, or destructive changes can reach production without independent verification. The absence of review compounds other control failures by removing the last human checkpoint before code is deployed.
 
 **Audit Procedure:**  
 1. Inspect source control settings to confirm merge rules require peer review on production-bound branches.  
@@ -32,8 +32,8 @@ Salesforce does not enforce code review requirements; these controls depend on t
 **Description:**  
 Organizations must implement static application security testing (SAST) in their CI/CD pipeline and configure it to run prior to merge, enforcing security rulesets that detect vulnerabilities specific to Apex and LWC.
 
-**Rationale:**  
-Requiring static analysis before merge ensures that security issues are identified early and prevents vulnerable code from entering the release pipeline.
+**Risk:** <Badge type="warning" text="High" />  
+Without enforced static code analysis, known vulnerability patterns in Apex and LWC—such as SOQL injection, insecure data exposure, and improper access control—can enter production undetected. This creates a significant exposure gap where exploitable flaws persist in deployed code, increasing the likelihood of data breaches or unauthorized access. The absence of automated security scanning compounds peer review limitations, as reviewers may not catch subtle security defects that tooling would reliably identify.
 
 **Audit Procedure:**  
 1. Inspect CI/CD pipeline configuration to confirm a static code analysis step runs before merges.  
@@ -56,8 +56,8 @@ Salesforce does not provide or enforce static code analysis; organizations must 
 **Description:**  
 The organization must deploy a dedicated Apex logging framework—custom-built, open source, or vendor-provided—that programmatically captures application-level log events and stores them in durable Salesforce data structures, such as custom objects, to ensure logs persist beyond the limitations of Salesforce debug logs.
 
-**Rationale:**  
-Salesforce debug logs are transient, size-limited, and often truncated, preventing reliable forensic analysis and reducing the ability to investigate security incidents, access patterns, and anomalous behavior.
+**Risk:** <Badge type="warning" text="High" />  
+Salesforce debug logs are transient, size-limited, and automatically purged—making them unsuitable for forensic analysis or security investigations. Without persistent application logging, organizations cannot reliably reconstruct access patterns, detect anomalous behavior, or investigate security incidents after the fact. This impairs the ability to identify compromise, attribute malicious activity, or understand the scope of a breach—significantly extending attacker dwell time and reducing accountability for actions taken within the system.
 
 **Audit Procedure:**  
 1. Review the Salesforce org for the presence of an Apex logging framework implemented as one or more Apex classes dedicated to log generation and persistence.  
