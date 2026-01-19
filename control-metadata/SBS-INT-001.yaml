@@ -1,0 +1,9 @@
+control_id: SBS-INT-001
+risk_level: Moderate
+
+remediation:
+  scope: mechanism
+
+task:
+  title_template: "Implement centralized browser extension governance"
+

@@ -1,4 +1,5 @@
 control_id: SBS-OAUTH-004
+risk_level: Moderate
 
 remediation:
   scope: entity

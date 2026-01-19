@@ -1,8 +1,8 @@
-## Permissions
+## Access Controls
 
 This section defines controls related to permission sets, permission set groups, profiles, and access governance within Salesforce environments. These controls ensure that organizations maintain a structured, documented, and enforced approach to authorization management, reducing privilege sprawl and unauthorized access risks.
 
-### SBS-PERM-001: Enforce a Documented Permission Set Model
+### SBS-ACS-001: Enforce a Documented Permission Set Model
 
 **Control Statement:** All permission sets, permission set groups, and profiles must conform to a documented model maintained in a system of record and enforced continuously.
 
@@ -14,8 +14,8 @@ The organization must define, document, and enforce a standardized permission se
 - Permission set groups represent departments (Sales, Marketing), and permission sets represent access tiers (Standard, Advanced)
 - Permission sets represent business functions with no grouping hierarchy
 
-**Rationale:**  
-A defined and enforced permission set model provides consistent, least-privilege access governance across the Salesforce environment. Without a documented model, organizations accumulate ad hoc permission constructs created for one-time needs, resulting in privilege sprawl, inconsistent access patterns, and inability to audit who has what access and why. A documented model ensures every permission construct exists for a defined purpose and follows organizational standards. Continuous enforcement prevents drift and ensures that changes to permissions are intentional and aligned with the model.
+**Risk:** <Badge type="warning" text="High" />  
+Without a documented and enforced permission set model, organizations lose visibility into their authorization structure—accumulating ad hoc permission constructs created for one-time needs that are never reviewed or removed. This results in privilege sprawl, inconsistent access patterns, and inability to audit who has what access and why. Security teams cannot assess authorization posture, detect drift, or investigate access-related incidents when no authoritative model exists to compare against. The lack of continuous enforcement means unauthorized or excessive permissions can persist indefinitely without detection.
 
 **Audit Procedure:**  
 1. Obtain the organization's documented permission set model from the designated system of record.  
@@ -36,15 +36,15 @@ A defined and enforced permission set model provides consistent, least-privilege
 **Default Value:**  
 Salesforce does not enforce any specific permission set model. Profiles, permission sets, and permission set groups can be created without structure or alignment unless governed by the organization.
 
-### SBS-PERM-002: Documented Justification for All `API-Enabled` Authorizations
+### SBS-ACS-002: Documented Justification for All `API-Enabled` Authorizations
 
 **Control Statement:** Every authorization granting the `API Enabled` permission must have documented business or technical justification recorded in a system of record.
 
 **Description:**  
 All profiles, permission sets, and permission set groups that grant the `API Enabled` permission must be recorded in a designated system of record with a documented business or technical justification for requiring API access. Any authorization lacking documented rationale is noncompliant.
 
-**Rationale:**  
-The “API Enabled” permission allows users to authenticate to and interact with Salesforce via APIs, which enables large-scale data extraction, modification, or destructive operations. Unauthorized or unjustified API-enabled access increases the risk of data exfiltration, privilege misuse, and compromise. Maintaining a complete system-of-record inventory with documented rationale ensures visibility, enforces least privilege, and prevents accumulation of unnecessary API-capable access paths.
+**Risk:** <Badge type="warning" text="High" />  
+Without documented justification for API-enabled authorizations, organizations lose visibility into which users and systems can programmatically access Salesforce data at scale. The `API Enabled` permission enables large-scale data extraction, bulk modification, and automated operations—capabilities that create significant exposure when granted without oversight. Undocumented API access paths accumulate over time, preventing security teams from assessing data exfiltration risk, investigating suspicious API activity, or enforcing least privilege across automated access patterns.
 
 **Audit Procedure:**  
 1. Enumerate all profiles, permission sets, and permission set groups that include the `API Enabled` permission using Salesforce Setup, Metadata API, Tooling API, or an automated scanner.  
@@ -63,15 +63,15 @@ The “API Enabled” permission allows users to authenticate to and interact wi
 **Default Value:**  
 Salesforce does not require or maintain a system of record for API-enabled authorizations. The `API Enabled` permission is disabled by default for standard profiles but may be granted by administrators.
 
-### SBS-PERM-003: Documented Justification for `Approve Uninstalled Connected Apps` Permission
+### SBS-ACS-003: Documented Justification for `Approve Uninstalled Connected Apps` Permission
 
 **Control Statement:** The `Approve Uninstalled Connected Apps` permission must only be assigned to highly trusted users with documented justification and must not be granted to end-users.
 
 **Description:**  
 All profiles, permission sets, and permission set groups that grant the `Approve Uninstalled Connected Apps` permission must be recorded in a designated system of record with a documented business or technical justification. This permission should only be assigned to highly trusted users, such as administrators and developers involved in managing or testing connected app integrations. Any authorization lacking documented rationale is noncompliant.
 
-**Rationale:**  
-The `Approve Uninstalled Connected Apps` permission allows users to self-authorize uninstalled connected apps via OAuth, bypassing Connected App usage restrictions. This capability is necessary for administrators and developers who must test apps before installation, but it creates a significant security risk if granted to end-users or unauthorized personnel. Unjustified assignment of this permission increases the risk of unauthorized third-party app access, data exfiltration, and privilege escalation. Maintaining a complete system-of-record inventory with documented rationale ensures that this high-privilege permission is restricted to legitimate use cases and prevents privilege sprawl.
+**Risk:** <Badge type="danger" text="Critical" />  
+The `Approve Uninstalled Connected Apps` permission allows users to bypass Connected App usage restrictions and self-authorize any OAuth application without administrator approval. This establishes an uncontrolled security boundary: users with this permission can grant external applications access to Salesforce data without oversight, enabling data exfiltration, unauthorized integrations, and potential account compromise. Unlike other permissions that require additional failures to exploit, this permission directly enables unauthorized third-party access the moment it is misassigned—making it a primary security boundary that must be tightly controlled.
 
 **Audit Procedure:**  
 1. Enumerate all profiles, permission sets, and permission set groups that include the `Approve Uninstalled Connected Apps` permission using Salesforce Setup, Metadata API, Tooling API, or an automated scanner.  
@@ -94,15 +94,15 @@ The `Approve Uninstalled Connected Apps` permission allows users to self-authori
 **Default Value:**  
 The `Approve Uninstalled Connected Apps` permission is not granted by default in Salesforce. This permission was introduced in September 2025 as part of Connected App Usage Restrictions changes. Organizations must explicitly assign this permission to users who require it for legitimate testing or integration management purposes.
 
-### SBS-PERM-004: Documented Justification for All Super Admin–Equivalent Users
+### SBS-ACS-004: Documented Justification for All Super Admin–Equivalent Users
 
 **Control Statement:** All users with simultaneous `View All Data`, `Modify All Data`, and `Manage Users` permissions must be documented in a system of record with clear business or technical justification.
 
 **Description:**  
 All users who hold *simultaneous* authorization for `View All Data`, `Modify All Data`, and `Manage Users`—collectively constituting Super Admin–level access—must be identified and documented in the system of record with a clear business or technical justification. Any user with this combination of permissions who lacks documented rationale is noncompliant.
 
-**Rationale:**  
-Super Admin–equivalent permissions grant unrestricted read and write access across the Salesforce environment and allow the management of user accounts. This level of privilege enables extensive data extraction, broad configuration changes, and actions that can significantly alter or compromise the security posture of the organization. Untracked or unjustified Super Admin access increases the risk of data leakage, administrative sprawl, privilege escalation, and malicious or accidental system-wide impact. Documenting and justifying all Super Admin–equivalent users ensures strict adherence to least privilege and maintains governance over the most sensitive access levels.
+**Risk:** <Badge type="warning" text="High" />  
+Without documented justification for Super Admin–equivalent users, organizations lose visibility into who possesses unrestricted access to the entire Salesforce environment. These users can read and modify all data, manage user accounts, and alter the security posture of the org without oversight. Undocumented Super Admin access prevents security teams from assessing breach impact, investigating administrative actions, or maintaining accountability for the most sensitive operations. The inability to identify and justify these users also prevents effective access reviews and creates persistent exposure from forgotten or orphaned administrative accounts.
 
 **Audit Procedure:**  
 1. Enumerate all users who simultaneously possess the following permissions through any profile, permission set, or permission set group:  
@@ -124,7 +124,7 @@ Super Admin–equivalent permissions grant unrestricted read and write access ac
 **Default Value:**  
 Salesforce does not limit the number of users who may receive these permissions, and does not maintain any system of record regarding administrative access.
 
-### SBS-PERM-005: Only Use Custom Profiles for Active Users
+### SBS-ACS-005: Only Use Custom Profiles for Active Users
 
 **Control Statement:**
 All active users must be assigned custom profiles. The out-of-the-box standard profiles must not be used.
@@ -132,8 +132,8 @@ All active users must be assigned custom profiles. The out-of-the-box standard p
 **Description:**  
 Any regular user that can access the org, must use a custom profile. If a user has one of the standard profiles (e.g. "System Administrator", "Standard User", "Salesforce - Minimum Access"), the user is non-compliant. This only affects personal users, not machine users that use the default "API Only" permission sets.
 
-**Rationale:**  
-Standard profiles cannot be managed by Org Admins. They are too permissive (e.g. Standard User grants "View Setup", regular "System Administrator" grants multiple Developer-level permissions). Additionally, Salesforce sometimes enables permissions and object access on these profiles when features are enabled or when new permissions are introduced by platform releases. To remain in control over what a user can access, it is imperative to only use custom profiles.
+**Risk:** <Badge type="warning" text="High" />  
+Standard profiles are managed by Salesforce, not the organization—meaning Salesforce can enable permissions and object access on these profiles when features are released or platform updates occur without administrator approval. This creates an uncontrolled change vector: users assigned to standard profiles may gain new capabilities unexpectedly, bypassing the organization's authorization governance. Standard profiles are also overly permissive by default (e.g., "Standard User" grants "View Setup," "System Administrator" grants developer-level permissions), making it impossible to enforce least privilege. Without custom profiles, organizations cannot investigate authorization changes or maintain accountability for who approved which permissions.
 
 **Audit Procedure:**  
 1. Enumerate all **human** users that are "Active" (`IsActive = true` on the user flag)
@@ -147,15 +147,15 @@ Standard profiles cannot be managed by Org Admins. They are too permissive (e.g.
 **Default Value:**  
 Salesforce does not require to create and assign custom profiles.
 
-### SBS-PERM-006: Documented Justification for `Use Any API Client` Permission
+### SBS-ACS-006: Documented Justification for `Use Any API Client` Permission
 
 **Control Statement:** The `Use Any API Client` permission, which bypasses default behavior in orgs with "API Access Control" enabled, must only be assigned to highly trusted users with documented justification and must not be granted to end-users.
 
 **Description:**  
 All profiles, permission sets, and permission set groups that grant the `Use Any API Client` permission must be recorded in a designated system of record with a documented business or technical justification. This permission should only be assigned to highly trusted users, such as administrators and developers involved in managing or testing connected app integrations. Any authorization lacking documented rationale is noncompliant.
 
-**Rationale:**  
-The `Use Any API Client` permission allows users to authorize connected apps via OAuth that have not yet been pre-vetted and added to an org-wide allowlist. While this capability is sometimes necessary for administrators and developers, it creates a significant security risk if granted to end-users or unauthorized personnel. Using it too liberally defeats the purpose of leveraging the "API Access Control" feature of Salesforce entirely. Unjustified assignment of this permission increases the risk of unauthorized third-party app access, data exfiltration, and privilege escalation. Maintaining a complete system-of-record inventory with documented rationale ensures that this high-privilege permission is restricted to legitimate use cases and prevents privilege sprawl.
+**Risk:** <Badge type="danger" text="Critical" />  
+The `Use Any API Client` permission allows users to bypass API Access Control entirely, authorizing any OAuth-connected application without requiring it to be pre-vetted or allowlisted. This establishes an uncontrolled security boundary: users with this permission can grant data access to arbitrary external applications, enabling data exfiltration, unauthorized integrations, and potential account compromise without administrator oversight. Granting this permission to unauthorized personnel completely defeats the purpose of API Access Control, creating a direct path to unauthorized third-party access that requires no other control to fail.
 
 **Audit Procedure:**  
 1. Enumerate all profiles, permission sets, and permission set groups that include the `Use Any API Client` permission using Salesforce Setup, Metadata API, Tooling API, or an automated scanner.  
@@ -179,15 +179,15 @@ The `Use Any API Client` permission allows users to authorize connected apps via
 The `Use Any API Client` permission is not granted by default in Salesforce. Organizations must explicitly assign this permission to users who require it for legitimate testing or integration management purposes.
 
 
-### SBS-PERM-007: Maintain Inventory of Non-Human Identities
+### SBS-ACS-007: Maintain Inventory of Non-Human Identities
 
 **Control Statement:** Organizations must maintain an authoritative inventory of all non-human identities, including integration users, automation users, bot users, and API-only accounts.
 
 **Description:**  
 Non-human identities operate without direct human oversight and often possess persistent credentials with elevated access. Organizations must maintain a complete and current inventory of all such identities to enable effective governance, access reviews, and incident response. The inventory must include identity type, purpose, owner, creation date, and last activity date.
 
-**Rationale:**  
-Without a comprehensive inventory, organizations cannot effectively govern non-human identity access, identify unused or orphaned accounts, or respond to security incidents involving automated access. Non-human identities are frequently created for integrations or automation projects and then forgotten, creating persistent security risks. An authoritative inventory is the foundation for all other non-human identity governance controls.
+**Risk:** <Badge type="warning" text="High" />  
+Without a comprehensive inventory of non-human identities, organizations cannot detect, investigate, or respond to security incidents involving automated access. Non-human identities are frequently created for integrations or automation projects and then forgotten—accumulating as orphaned accounts with persistent credentials and elevated access. Security teams cannot assess which automated systems access Salesforce data, identify compromised integration credentials, or scope the impact of a vendor breach. This loss of visibility prevents effective governance of automated access and creates persistent security exposure from untracked machine accounts.
 
 **Audit Procedure:**  
 1. Request the organization's inventory of non-human identities
@@ -210,18 +210,18 @@ Without a comprehensive inventory, organizations cannot effectively govern non-h
 **Default Value:**  
 Salesforce does not provide a built-in inventory or classification system for non-human identities. Organizations must create and maintain this inventory manually or through third-party tools.
 
-### SBS-PERM-008: Restrict Broad Privileges for Non-Human Identities
+### SBS-ACS-008: Restrict Broad Privileges for Non-Human Identities
 
 **Control Statement:** Non-human identities must not be assigned permissions that bypass sharing rules or grant administrative capabilities unless documented business justification exists.
 
 **Description:**  
 Non-human identities should follow the principle of least privilege and be granted only the minimum permissions necessary to perform their intended function. Permissions that bypass object-level or record-level security (such as View All Data, Modify All Data) or grant administrative capabilities (such as Manage Users, Modify Metadata) create significant security risk when assigned to automated accounts. Organizations must document a specific business justification for any non-human identity that requires such permissions.
 
-**Rationale:**  
-Non-human identities operate without human judgment or oversight, making over-privileged automation a high-impact security risk. Compromised credentials for a non-human identity with broad privileges can result in unauthorized data access, data exfiltration, or system-wide configuration changes. Many non-human identities are granted excessive permissions during initial setup and never reviewed, creating persistent security exposure. Requiring documented justification ensures that broad privileges are granted only when genuinely necessary and subject to approval.
+**Risk:** <Badge type="warning" text="High" />  
+Without documented justification for broad non-human identity privileges, organizations lose visibility into which automated systems can bypass sharing rules or perform administrative operations. Non-human identities operate without human judgment, making over-privileged automation a high-impact target—compromised credentials can result in complete data extraction, system-wide configuration changes, or persistent backdoor access. Many non-human identities are granted excessive permissions during initial setup and never reviewed, creating long-lived security exposure that security teams cannot detect, investigate, or remediate without knowing which identities have which privileges and why.
 
 **Audit Procedure:**  
-1. Using the non-human identity inventory from SBS-PERM-006, identify all non-human identities
+1. Using the non-human identity inventory from SBS-ACS-006, identify all non-human identities
 2. For each non-human identity, query assigned permissions through profiles, permission sets, and permission set groups
 3. Flag any non-human identity with one or more of the following permissions:
    - View All Data
@@ -247,18 +247,18 @@ Non-human identities operate without human judgment or oversight, making over-pr
 **Default Value:**  
 Salesforce does not restrict the assignment of broad privileges to non-human identities. Administrators can grant any permission to any user type without requiring justification or approval.
 
-### SBS-PERM-009: Implement Compensating Controls for Privileged Non-Human Identities
+### SBS-ACS-009: Implement Compensating Controls for Privileged Non-Human Identities
 
 **Control Statement:** Non-human identities with permissions that bypass sharing rules or grant administrative capabilities must have compensating controls implemented to mitigate risk.
 
 **Description:**  
 When non-human identities require broad privileges for legitimate business purposes, organizations must implement defense-in-depth protections to reduce the risk of credential compromise or misuse. Compensating controls include IP address restrictions, OAuth scope limitations, activity monitoring and alerting, credential rotation policies, and dedicated identities per integration. Multiple compensating controls should be implemented based on the sensitivity of accessible data and the scope of granted permissions.
 
-**Rationale:**  
-Non-human identities with broad privileges represent high-value targets for attackers. Unlike human users, these identities typically use persistent credentials (API keys, OAuth tokens, certificates) that do not expire and are not protected by multi-factor authentication. Compensating controls create additional barriers to unauthorized access and enable detection of suspicious activity. Without these protections, a single compromised credential can result in complete data breach or system compromise.
+**Risk:** <Badge type="tip" text="Moderate" />  
+Without compensating controls, privileged non-human identities rely solely on credential secrecy for protection—a single point of failure. Unlike human users, these identities typically use persistent credentials (API keys, OAuth tokens, certificates) that do not expire and are not protected by multi-factor authentication. Compensating controls provide defense-in-depth: IP restrictions limit where credentials can be used, monitoring enables detection of compromise, and credential rotation limits the window of exposure. However, other controls (SBS-ACS-008) still govern whether broad privileges are granted; compensating controls reduce blast radius rather than establishing the primary security boundary.
 
 **Audit Procedure:**  
-1. Using the results from SBS-PERM-007, identify all non-human identities with broad privileges that have documented business justification
+1. Using the results from SBS-ACS-007, identify all non-human identities with broad privileges that have documented business justification
 2. For each privileged non-human identity, verify that at least two of the following compensating controls are implemented:
    - **IP Address Restrictions:** Profile or permission set restricts login to specific IP ranges
    - **OAuth Scope Limitations:** Connected app uses minimal OAuth scopes; refresh tokens have expiration

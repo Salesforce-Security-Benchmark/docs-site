@@ -9,8 +9,8 @@ This section defines controls related to metadata deployment practices, configur
 **Description:**  
 A dedicated deployment identity (integration user) must be created and used as the sole account for CI/CD, metadata deployments, and automated release tooling. No human user—regardless of administrative privilege—may deploy metadata or execute automated deployment operations using their personal account.
 
-**Rationale:**  
-A designated deployment identity establishes provenance, prevents impersonation, eliminates ambiguity in production-change attribution, and enables detection of unauthorized manual edits to high-risk metadata.
+**Risk:** <Badge type="warning" text="High" />  
+Without a designated deployment identity, organizations cannot reliably attribute production changes—any administrator can deploy metadata, making it impossible to distinguish authorized CI/CD deployments from unauthorized manual changes. This loss of provenance prevents security teams from detecting unauthorized modifications, investigating configuration drift, or determining whether a change was part of an approved release. Attackers or malicious insiders can make direct production changes that blend into legitimate administrative activity, and incident responders cannot reconstruct the timeline of configuration changes during a breach investigation.
 
 **Audit Procedure:**  
 1. Identify the user account designated as the deployment identity.  
@@ -34,8 +34,8 @@ Salesforce does not create or enforce a dedicated deployment identity by default
 **Description:**  
 Organizations must adopt the SBS baseline list of prohibited direct-in-production changes—which includes Apex Classes, Apex Triggers, LWCs, Aura Components, Profiles, Permission Set definitions, Remote Site Settings, Named Credentials, and core authentication or session security settings—and maintain this list as an internal policy. Organizations may extend this list or define exceptions, but the minimum baseline must be included and documented.
 
-**Rationale:**  
-High-risk metadata types directly impact application integrity, authentication, authorization, outbound connectivity, and secure configuration. Restricting these changes to the deployment identity ensures reliable provenance and prevents unintended or unauthorized drift in production.
+**Risk:** <Badge type="warning" text="High" />  
+Without an explicit list of high-risk metadata types, organizations cannot define or enforce deployment governance boundaries—leaving critical configuration categories (Apex code, authentication settings, outbound connectivity, permissions) open to uncontrolled direct production editing. Security teams cannot distinguish between metadata that requires strict deployment controls and metadata that can be safely edited manually, resulting in inconsistent governance and gaps in change attribution. The absence of a defined list also prevents effective monitoring (SBS-DEP-003), as there is no baseline to compare against when detecting unauthorized changes.
 
 **Audit Procedure:**  
 1. Obtain the organization's documented list of high-risk metadata types prohibited from direct production editing.  
@@ -60,8 +60,8 @@ Salesforce does not provide native restrictions or guidance preventing direct pr
 **Description:**  
 Organizations must maintain a monitoring process—manual or automated—that reviews administrative and metadata changes and identifies when high-risk metadata (as defined in SBS-DEP-002 or extended by the organization) is modified by a human user instead of the designated deployment identity. The monitoring method may use Salesforce APIs, audit logs, export files, CLI tooling, vendor tools, or any combination, provided it reliably detects unauthorized changes within the organization’s defined review interval.
 
-**Rationale:**  
-Monitoring for unauthorized direct-in-production changes preserves deployment provenance, reduces configuration drift, and ensures timely identification of high-risk modifications that bypass established deployment governance.
+**Risk:** <Badge type="warning" text="High" />  
+Without monitoring for unauthorized metadata changes, organizations cannot detect when high-risk configuration is modified outside the approved deployment process—allowing malicious changes, accidental drift, or insider threats to persist undetected. Security teams lose the ability to identify unauthorized modifications to authentication settings, permission structures, Apex code, or outbound connectivity until a breach or incident reveals the gap. This impairs detection, investigation, and response capabilities for configuration-related security events, extending attacker dwell time and preventing timely remediation of unauthorized changes.
 
 **Audit Procedure:**  
 1. Interview system owners to identify the monitoring method(s) used for detecting changes to high-risk metadata.  
@@ -95,8 +95,8 @@ Meaningful Salesforce metadata changes must be deployed through a source-driven,
 **Description:**  
 Organizations must track all meaningful metadata changes in a centralized version control system and deploy them using an automated, repeatable, and deterministic process; manual changes in production are permitted only for metadata types that Salesforce does not expose for programmatic deployment.
 
-**Rationale:**  
-A source-driven deployment process is a foundational security control because it creates a verifiable audit trail of configuration changes, enforces accountability for who made changes and when, enables reliable restoration during incidents or outages, and reduces the risk of unauthorized, accidental, or untraceable modifications to security-sensitive settings.
+**Risk:** <Badge type="warning" text="High" />  
+Without a source-driven deployment process, organizations lose the verifiable audit trail that connects production configuration to approved changes—making it impossible to determine what changed, when, by whom, and whether it was authorized. Security teams cannot investigate configuration-related incidents, restore known-good state during outages, or attribute changes during forensic analysis. Manual production changes bypass code review, testing, and approval workflows, enabling unauthorized, accidental, or malicious modifications to security-sensitive settings without accountability or detection.
 
 **Audit Procedure:**  
 1. Identify the organization’s standard deployment process and designated deployment identity as defined in SBS-CHG-001.  

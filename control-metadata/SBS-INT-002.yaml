@@ -1,0 +1,9 @@
+control_id: SBS-INT-002
+risk_level: Moderate
+
+remediation:
+  scope: inventory
+
+task:
+  title_template: "Establish and maintain Remote Site Settings inventory"
+

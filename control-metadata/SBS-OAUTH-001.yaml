@@ -1,4 +1,5 @@
 control_id: SBS-OAUTH-001
+risk_level: Critical
 
 remediation:
   scope: entity

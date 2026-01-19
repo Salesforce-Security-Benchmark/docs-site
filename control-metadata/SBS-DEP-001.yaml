@@ -1,0 +1,9 @@
+control_id: SBS-DEP-001
+risk_level: High
+
+remediation:
+  scope: org
+
+task:
+  title_template: "Designate and configure a single deployment identity for all metadata deployments"
+

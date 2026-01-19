@@ -1,0 +1,9 @@
+control_id: SBS-DEP-002
+risk_level: High
+
+remediation:
+  scope: inventory
+
+task:
+  title_template: "Establish and maintain list of high-risk metadata types prohibited from direct production editing"
+

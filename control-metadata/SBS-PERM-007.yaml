@@ -1,7 +1,0 @@
-control_id: SBS-PERM-007
-
-remediation:
-  scope: inventory
-
-task:
-  title_template: "Establish and maintain inventory of non-human identities"

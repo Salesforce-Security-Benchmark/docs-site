@@ -1,0 +1,10 @@
+control_id: SBS-ACS-004
+risk_level: High
+
+remediation:
+  scope: entity
+  entity_type: User
+
+task:
+  title_template: "Document justification for Super Admin-equivalent user: {{entity.name}}"
+

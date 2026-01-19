@@ -1,0 +1,9 @@
+control_id: SBS-SECCONF-002
+risk_level: High
+
+remediation:
+  scope: mechanism
+
+task:
+  title_template: "Establish periodic Health Check review process with deviation remediation or exception tracking"
+

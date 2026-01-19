@@ -1,0 +1,9 @@
+control_id: SBS-ACS-009
+risk_level: Moderate
+
+remediation:
+  scope: entity
+  entity_type: User
+
+task:
+  title_template: "Implement compensating controls for privileged non-human identity: {{entity.name}}"

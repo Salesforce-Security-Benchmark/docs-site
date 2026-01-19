@@ -9,8 +9,8 @@ This section defines controls related to Salesforce platform security settings a
 **Description:**  
 Organizations must create, upload, and maintain a Salesforce Health Check baseline template in XML format. The baseline must reflect the organization's required security configuration for key platform settings across authentication, session management, content security, and other Health Check parameters. Organizations may use Salesforce's default baseline, an SBS-recommended baseline, or a custom internal baseline, but the baseline must be explicitly defined, documented, and uploaded into Salesforce Health Check.
 
-**Rationale:**  
-A defined Health Check baseline establishes a clear, intentional configuration posture and provides a reference point for evaluating deviations that may introduce security risk.
+**Risk:** <Badge type="warning" text="High" />  
+Without a defined Health Check baseline, organizations have no authoritative reference for what their security configuration should be—making it impossible to detect drift, evaluate deviations, or determine whether current settings reflect intentional decisions or accumulated neglect. Security teams cannot assess configuration-related risk, investigate whether settings were deliberately changed, or demonstrate compliance with security requirements. The absence of a baseline also prevents effective use of Health Check deviation monitoring (SBS-SECCONF-002), as there is no standard to measure against.
 
 **Audit Procedure:**  
 1. Navigate to **Setup → Health Check** and confirm that a baseline template is uploaded and active.  
@@ -34,8 +34,8 @@ Salesforce provides a default baseline but does not require organizations to rev
 **Description:**  
 Organizations must maintain a repeatable process for reviewing deviations identified in Salesforce Health Check. The process may be manual or automated, and may use Salesforce's native UI, exported Health Check data, API-driven reports, or third-party tooling. The organization must remediate deviations that represent unapproved risk or document and track exceptions when deviations are intentional or operationally necessary.
 
-**Rationale:**  
-Regular review and remediation of Health Check deviations ensures the organization maintains a secure configuration posture and promptly addresses emerging risks or drift from the baseline.
+**Risk:** <Badge type="warning" text="High" />  
+Without periodic review and remediation of Health Check deviations, configuration drift accumulates undetected—weakening security posture over time as settings diverge from the intended baseline. Security teams cannot identify when critical platform settings (authentication, session management, content security) have been changed or misconfigured, preventing timely response to emerging vulnerabilities. Unaddressed deviations may persist indefinitely, creating exploitable gaps that remain invisible until a breach or audit reveals the exposure.
 
 **Audit Procedure:**  
 1. Interview system owners to identify the established Health Check review process and review interval (e.g., monthly, quarterly).  

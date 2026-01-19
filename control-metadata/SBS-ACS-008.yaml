@@ -1,0 +1,9 @@
+control_id: SBS-ACS-008
+risk_level: High
+
+remediation:
+  scope: entity
+  entity_type: User
+
+task:
+  title_template: "Document justification for broad privileges on non-human identity: {{entity.name}}"

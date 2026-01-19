@@ -1,0 +1,9 @@
+control_id: SBS-ACS-002
+risk_level: High
+
+remediation:
+  scope: inventory
+
+task:
+  title_template: "Establish and maintain inventory of API-enabled authorizations with documented justification"
+

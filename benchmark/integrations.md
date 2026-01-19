@@ -9,8 +9,8 @@ This section defines controls related to outbound connectivity from Salesforce t
 **Description:**  
 Organizations must deploy a centrally managed governance mechanism—such as Chrome Browser Cloud Management, MDM policies, or configuration profiles—that enforces an allow-list or blocklist for browser extensions accessing Salesforce domains.
 
-**Rationale:**  
-Browser extensions can harvest session tokens, exfiltrate data, and execute unauthorized operations within authenticated Salesforce sessions. Without centralized governance, malicious or cloned extensions—increasingly common with AI-generated code—create an uncontrolled risk surface that Salesforce cannot detect or prevent natively.
+**Risk:** <Badge type="tip" text="Moderate" />  
+Without centralized governance over browser extensions, malicious or cloned extensions—increasingly common with AI-generated code—can harvest session tokens, exfiltrate data, and execute unauthorized operations within authenticated Salesforce sessions. However, this control provides governance and defense-in-depth rather than establishing a Salesforce-native security boundary: exploitation requires a malicious extension to be installed and an authenticated session to exist. Other controls (SSO, session management) still provide protection, and this governance mechanism operates outside Salesforce via MDM or browser management.
 
 **Audit Procedure:**
 1. Request evidence of a browser-extension governance mechanism applied to user devices (e.g., Chrome Browser Cloud Management, Intune configuration profile, Jamf configuration profile, Active Directory GPO, or equivalent).
@@ -38,8 +38,8 @@ Salesforce provides no mechanism to prevent or detect browser extension usage; u
 **Description:**  
 All Remote Site Settings configured in Salesforce must be recorded in the organization’s system of record along with a clear business justification demonstrating why the endpoint is required and trusted for use in Apex HTTP callouts.
 
-**Rationale:**  
-Remote Site Settings authorize outbound communication from Salesforce to external endpoints; without documented justification, unvetted or insecure endpoints may expose the organization to data leakage, dependency risks, or communication with untrusted services.
+**Risk:** <Badge type="tip" text="Moderate" />  
+Without a documented inventory and justification for Remote Site Settings, unvetted or insecure endpoints may be authorized for Apex HTTP callouts—exposing the organization to data leakage, dependency risks, or communication with untrusted services. However, this control provides governance documentation rather than detection or prevention capability: it supports audit readiness and informed decision-making, but other controls are required to detect or prevent actual data exfiltration through approved endpoints.
 
 **Audit Procedure:**  
 1. Enumerate all Remote Site Settings via Salesforce Setup or the Metadata API.  
@@ -64,8 +64,8 @@ Salesforce does not require or maintain business justification for Remote Site S
 **Description:**  
 All Named Credentials defined in Salesforce—regardless of authentication type or use case—must be recorded in the organization’s system of record, including the endpoint URL, authentication model, and a clear business justification demonstrating why the connection is required and trusted for Apex callouts, External Services, or external data access.
 
-**Rationale:**  
-Named Credentials control authenticated outbound communication from Salesforce to external systems; undocumented or unjustified configurations may expose the organization to data leakage, unauthorized integrations, or reliance on insecure or untrusted endpoints.
+**Risk:** <Badge type="tip" text="Moderate" />  
+Without a documented inventory and justification for Named Credentials, undocumented or unjustified configurations may expose the organization to data leakage, unauthorized integrations, or reliance on insecure or untrusted endpoints. However, this control provides governance documentation rather than detection or prevention capability: it supports audit readiness and informed decision-making about authenticated external connections, but other controls are required to detect or prevent actual misuse of approved credentials.
 
 **Audit Procedure:**  
 1. Enumerate all Named Credentials using Salesforce Setup, Metadata API, Tooling API, or Connect REST API.  
@@ -94,8 +94,8 @@ The organization must retain API Total Usage event log data (EventLogFile EventT
 **Description**:
 If the organization’s Salesforce does not provide at least 30 days of ApiTotalUsage EventLogFile availability in Salesforce, the organization must automatically export newly available ApiTotalUsage event log files at least once every 24 hours to an external log store that retains a minimum of 30 days of data.
 
-**Rationale**:
-API Total Usage logs provide visibility into REST, SOAP, and Bulk API activity and key attributes (for example, user, connected app, client IP, resource, and status code), which supports incident detection, investigation, and integration governance.
+**Risk:** <Badge type="warning" text="High" />  
+Without retained API Total Usage logs, organizations lose visibility into REST, SOAP, and Bulk API activity—including user identity, connected app, client IP, resource accessed, and status codes. This materially degrades the ability to detect anomalous API behavior, investigate security incidents, attribute unauthorized access, and determine the scope of potential breaches. The absence of this visibility creates a significant gap in incident detection and response capabilities.
 
 **Audit Procedure**:
 1. Determine whether the organization relies on Salesforce-native retention (Event Monitoring/Shield/Event Monitoring add-on) or an external log store as the system of record for ApiTotalUsage EventLogFile data.

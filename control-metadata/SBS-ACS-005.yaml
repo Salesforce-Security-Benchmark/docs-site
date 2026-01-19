@@ -1,4 +1,5 @@
-control_id: SBS-PERM-005
+control_id: SBS-ACS-005
+risk_level: High
 
 remediation:
   scope: entity

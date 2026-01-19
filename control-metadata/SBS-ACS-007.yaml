@@ -1,0 +1,8 @@
+control_id: SBS-ACS-007
+risk_level: High
+
+remediation:
+  scope: inventory
+
+task:
+  title_template: "Establish and maintain inventory of non-human identities"

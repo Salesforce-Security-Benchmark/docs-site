@@ -1,4 +1,5 @@
 control_id: SBS-OAUTH-003
+risk_level: High
 
 remediation:
   scope: inventory

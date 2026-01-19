@@ -1,0 +1,9 @@
+control_id: SBS-DEP-004
+risk_level: High
+
+remediation:
+  scope: mechanism
+
+task:
+  title_template: "Establish source-driven deployment process with version control and automated deployments"
+

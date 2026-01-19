@@ -1,0 +1,9 @@
+control_id: SBS-INT-004
+risk_level: High
+
+remediation:
+  scope: mechanism
+
+task:
+  title_template: "Implement 30-day API Total Usage log retention"
+

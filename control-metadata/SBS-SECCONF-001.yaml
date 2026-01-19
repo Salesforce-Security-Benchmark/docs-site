@@ -1,0 +1,9 @@
+control_id: SBS-SECCONF-001
+risk_level: High
+
+remediation:
+  scope: org
+
+task:
+  title_template: "Define and upload a Salesforce Health Check baseline"
+

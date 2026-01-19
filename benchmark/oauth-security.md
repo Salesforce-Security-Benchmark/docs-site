@@ -9,8 +9,8 @@ This section defines controls related to OAuth-enabled Connected Apps, third-par
 **Description:**  
 The organization must ensure that any connected app used for OAuth authentication is formally installed in the Salesforce org as a managed or unmanaged connected app rather than implicitly created through user-initiated OAuth flows. Connected apps that appear only as user-authorized OAuth connections without formal installation expose the org to unmanaged security settings and prevent centralized governance.
 
-**Rationale:**  
-Implicitly created OAuth connections inherit configuration from the external app developer and prevent administrators from enforcing critical security settings such as refresh token policies, session timeout, and IP restrictions. Formal installation enables centralized security policy enforcement and visibility into OAuth-enabled integrations.
+**Risk:** <Badge type="danger" text="Critical" />  
+Without formal installation, Connected Apps operate outside organizational control—inheriting security configuration from the external app developer rather than the Salesforce administrator. This establishes an unmanaged security boundary: refresh token lifetimes, session policies, and IP restrictions cannot be enforced, allowing tokens to persist indefinitely and enabling unauthorized access from any location. Attackers who compromise a user-authorized OAuth token gain persistent access that administrators cannot revoke or constrain through standard Connected App policies.
 
 **Audit Procedure:**  
 1. Enumerate all user-authorized OAuth connected apps via Setup or the Tooling/Metadata API.  
@@ -32,8 +32,8 @@ When a user first authenticates to a connected app via OAuth, Salesforce automat
 **Description:**  
 All formally installed connected apps must govern user access through explicit profile or permission set assignments. No connected app may rely on unrestricted or unmanaged access models.
 
-**Rationale:**  
-Profile- and permission-set–based access control ensures that only authorized users can authenticate to connected apps, enforces the principle of least privilege, and provides auditable visibility into who has access to external integrations.
+**Risk:** <Badge type="danger" text="Critical" />  
+Without explicit profile or permission set access control, Connected Apps may allow any user in the org to authenticate—bypassing the principle of least privilege and creating an uncontrolled access boundary. This enables unauthorized users to establish OAuth sessions with external systems, potentially exfiltrating data or performing actions beyond their intended scope. The lack of access scoping also eliminates audit visibility into who is authorized to use each integration, preventing detection of unauthorized access patterns.
 
 **Audit Procedure:**  
 1. Enumerate all formally installed connected apps via Setup or the Metadata API.  
@@ -55,8 +55,8 @@ Salesforce does not require profile or permission set access control for connect
 **Description:**  
 Organizations must maintain a complete, authoritative inventory of all OAuth-enabled Connected Apps and assign each an explicit vendor criticality rating based on operational importance and the sensitivity of accessible Salesforce data.
 
-**Rationale:**  
-Without a complete inventory and criticality classification, organizations cannot adequately assess the risk posed by third-party integrations, prioritize security controls, or meet governance requirements for external system connectivity.
+**Risk:** <Badge type="warning" text="High" />  
+Without a complete inventory and criticality classification, organizations lose visibility into their third-party integration landscape—preventing effective risk assessment, prioritization of security controls, and governance of external system connectivity. Security teams cannot identify which integrations access sensitive data, scope the impact of a vendor compromise, or respond effectively to incidents involving Connected Apps. This impairs detection, investigation, and response capabilities for integration-related security events.
 
 **Audit Procedure:**  
 1. Retrieve a list of all Connected Apps with active OAuth configurations from Salesforce Setup.  
@@ -80,8 +80,8 @@ Salesforce does not automatically maintain or enforce an external inventory or c
 **Description:**  
 For each Connected App vendor classified as high-risk, the organization must collect, review, and store relevant security documentation—including terms of use, privacy policy, trust center or security overview, and any published information security guidelines—and must explicitly document when a required artifact does not exist.
 
-**Rationale:**  
-High-risk vendors introduce elevated exposure to sensitive data and business processes, and maintaining documented due diligence ensures that risks are understood, assessed, and traceable within the vendor management process.
+**Risk:** <Badge type="tip" text="Moderate" />  
+Without documented due diligence for high-risk vendors, organizations may onboard integrations without understanding the vendor's security posture, data handling practices, or contractual obligations. This increases the likelihood of undiscovered risks but does not directly enable unauthorized access—other controls (SBS-OAUTH-001, SBS-OAUTH-002) still govern the technical security boundary. Missing documentation primarily impacts audit readiness, risk assessment accuracy, and the organization's ability to make informed decisions about vendor relationships.
 
 **Audit Procedure:**  
 1. Retrieve the list of Connected App vendors classified as high-risk from the organization’s system of record.  

@@ -1,0 +1,9 @@
+control_id: SBS-ACS-001
+risk_level: High
+
+remediation:
+  scope: mechanism
+
+task:
+  title_template: "Define, document, and enforce a standardized permission set model"
+
