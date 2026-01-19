@@ -4,30 +4,34 @@ This section defines the purpose, scope, definitions, and control structure for 
 
 ## 1.1 Purpose
 
-SBS provides a **consistent and measurable compliance standard** for Salesforce security posture. The benchmark exists to:
+Salesforce provides industry-leading security capabilities, certifications, and compliance frameworks built into the platform. The Security Benchmark for Salesforce (SBS) is a **practitioner-developed standard** that helps organizations fully leverage these capabilities by defining baseline security requirements for operating Salesforce environments at enterprise scale.
 
-- Establish mandatory security requirements that organizations must meet to be considered compliant  
-- Enable organizations to definitively answer: **"Is my Salesforce org secure?"**  
-- Provide auditors and consultants a formal benchmark for structured compliance evaluations  
-- Establish a foundation for security tools to measure, scan, and report compliance automatically  
+SBS establishes a **common reference** for evaluating security posture in a consistent, auditable, and repeatable manner. It is intended for use by:
 
-**Important:** SBS is not a Salesforce product, is not endorsed by Salesforce, Inc., and does not represent an official Salesforce standard. It is created and maintained independently by practitioners.
+- Security teams assessing configuration, governance, and operational practices  
+- Auditors and consultants conducting structured compliance evaluations  
+- System integrators implementing secure Salesforce environments  
+- Security tooling designed to measure and report on compliance  
 
-## 1.2 Value of Compliance
+SBS is complementary to established frameworks such as NIST and ISO. While those frameworks define program-level security principles, SBS translates them into **Salesforce-specific requirements**—concrete, auditable expectations for Salesforce environments.
 
-SBS compliance requires a combination of automated scanning, organizational practices, and documentation requirements. It is not satisfied through automated tools alone, but through establishing governance processes, maintaining system-of-record inventories, and implementing continuous monitoring.
+**Important:** SBS is not a certification program and does not replace regulatory or compliance obligations. It is an independent initiative, not a Salesforce product, and is not endorsed or supported by Salesforce, Inc.
 
-**The core value:** When a security breach affects your Salesforce environment, SBS compliance means you know exactly where to look. Every control is mapped, documented, and traceable—enabling rapid assessment of what was compromised, what was protected, and where gaps exist.
+## 1.2 Motivation
 
-This foundation delivers:
+Most Salesforce environments evolve organically—permissions accumulate, integrations multiply, and configurations drift. Over time, it becomes difficult to answer basic security questions: *Who has access to what? Why? Is this configuration still appropriate?*
 
-- **Complete visibility** — Know who has access to what, why they have it, and how it's governed across permissions, integrations, and third-party connections.
+SBS provides a structured way to answer these questions. By adopting the benchmark, organizations gain:
 
-- **Effective incident response** — Quickly determine which controls were at risk, what protections limited damage, and where to focus remediation efforts.
+- **Clarity** — A defined standard to measure against, rather than subjective assessments or tribal knowledge about what "secure" means for your org.
 
-- **Governance and accountability** — Maintain auditable trails for justifications, exceptions, and security decisions that support compliance and regulatory requirements.
+- **Confidence** — The ability to demonstrate to leadership, auditors, and regulators that your Salesforce environment meets a recognized security baseline.
 
-- **Baseline for risk management** — Measure security posture over time, detect configuration drift, and maintain assurance that critical controls remain enforced.
+- **Control** — Visibility into permissions, integrations, and configurations—with documented justifications for why things are the way they are.
+
+- **Continuity** — A repeatable process for evaluating security posture over time, detecting drift, and onboarding new team members with clear expectations.
+
+SBS doesn't require perfection. It requires knowing where you stand, documenting your decisions, and maintaining accountability for your security posture.
 
 ## 1.3 Control Format and Interpretation
 
@@ -47,7 +51,23 @@ Each SBS control is written in a **prescriptive, binary format** designed to det
 
 This format ensures that SBS remains consistent, measurable, and suitable for auditing, consulting, and automated scanning tools.
 
-## 1.4 Versioning
+## 1.4 Risk Modeling
+
+SBS classifies controls based on **risk**, reflecting the degree to which failure to implement a control weakens an organization's ability to safely operate Salesforce as a controlled system. Risk levels in SBS are not intended to describe traditional "hacking" scenarios or attacker sophistication. Instead, they model **loss of control, exposure amplification, and governance failure** within a SaaS platform where security outcomes are primarily driven by access, configuration, integration, and operational discipline. Risk levels are designed to help CISOs, security leaders, and auditors prioritize remediation efforts, assess residual risk, and make intentional, defensible decisions about risk acceptance.
+
+### Critical Risk
+
+A Critical Risk control addresses conditions where failure to implement the control results in a **loss of effective organizational control over Salesforce**, including access, data, or change activity. In these scenarios, unauthorized actions, data exposure, or material misconfiguration can occur without reliable prevention, detection, or accountability, and remediation after the fact may be incomplete or infeasible. Critical Risk controls define the minimum conditions required for Salesforce to function as a trusted system of record and must be implemented or explicitly accepted by appropriate risk authority.
+
+### High Risk
+
+A High Risk control addresses conditions that introduce **significant exposure or governance gaps** that materially increase the likelihood, scope, or persistence of misuse, over-privileged access, unintended data exposure, or unauthorized change. These weaknesses often do not cause incidents on their own, but they **compound other failures**, expand blast radius, or impair the organization's ability to detect, investigate, or respond effectively. High Risk controls require mitigation, documented compensating controls, or formal risk acceptance.
+
+### Moderate Risk
+
+A Moderate Risk control addresses **defense-in-depth, assurance, or operational maturity gaps** that do not directly enable misuse or exposure, but reduce confidence, consistency, or resilience of the Salesforce security program. These controls primarily affect governance quality, auditability, and long-term sustainability rather than immediate risk. Moderate Risk controls should be evaluated and addressed based on organizational context, scale, and risk tolerance.
+
+## 1.5 Versioning
 
 SBS uses a three-part version number: **MAJOR.MINOR.REVISION**
 

@@ -44,10 +44,17 @@ def parse_control_from_lines(lines, start_idx):
             current_field = 'description'
             current_content = [line.replace('**Description:**', '').strip()]
             
+        elif line.startswith('**Risk:**'):
+            if current_field and current_content:
+                control[current_field] = '\n'.join(current_content).strip()
+            current_field = 'risk'
+            current_content = [line.replace('**Risk:**', '').strip()]
+            
+        # Legacy support for Rationale (treat as risk)
         elif line.startswith('**Rationale:**'):
             if current_field and current_content:
                 control[current_field] = '\n'.join(current_content).strip()
-            current_field = 'rationale'
+            current_field = 'risk'
             current_content = [line.replace('**Rationale:**', '').strip()]
             
         elif line.startswith('**Audit Procedure:**'):
@@ -134,6 +141,15 @@ def validate_metadata(control_id, metadata):
     if not metadata:
         return
     
+    # Validate risk_level
+    if 'risk_level' in metadata:
+        valid_risk_levels = ['Critical', 'High', 'Moderate']
+        if metadata['risk_level'] not in valid_risk_levels:
+            raise ValueError(
+                f"Invalid risk_level '{metadata['risk_level']}' for control {control_id}. "
+                f"Must be one of: {', '.join(valid_risk_levels)}"
+            )
+    
     # Validate remediation scope
     if 'remediation' in metadata:
         remediation = metadata['remediation']
@@ -169,6 +185,16 @@ def validate_metadata(control_id, metadata):
             raise ValueError(
                 f"Control {control_id} has task metadata but missing or empty 'title_template'"
             )
+
+def strip_badge_markup(text):
+    """Remove VitePress Badge components from text."""
+    if not text:
+        return text
+    # Remove <Badge type="..." text="..." /> patterns
+    cleaned = re.sub(r'<Badge[^>]*/?>', '', text)
+    # Clean up any extra whitespace left behind
+    cleaned = re.sub(r'\s+', ' ', cleaned).strip()
+    return cleaned
 
 def create_xml_element(parent, tag, text=None, attributes=None):
     """Helper to create XML elements with proper formatting."""
@@ -214,7 +240,11 @@ def generate_xml(controls, version="1.0.0", metadata_dir=None):
             create_xml_element(control_elem, 'title', control.get('title', ''))
             create_xml_element(control_elem, 'statement', control.get('statement', ''))
             create_xml_element(control_elem, 'description', control.get('description', ''))
-            create_xml_element(control_elem, 'rationale', control.get('rationale', ''))
+            
+            # Handle risk field - strip Badge markup from content
+            risk_content = strip_badge_markup(control.get('risk', ''))
+            create_xml_element(control_elem, 'risk', risk_content)
+            
             create_xml_element(control_elem, 'audit_procedure', control.get('audit_procedure', ''))
             create_xml_element(control_elem, 'remediation', control.get('remediation', ''))
             
@@ -225,6 +255,10 @@ def generate_xml(controls, version="1.0.0", metadata_dir=None):
                 
                 if control_metadata:
                     validate_metadata(control_id, control_metadata)
+                    
+                    # Add risk_level from metadata
+                    if 'risk_level' in control_metadata:
+                        create_xml_element(control_elem, 'risk_level', control_metadata['risk_level'])
                     
                     # Add remediation_scope block
                     if 'remediation' in control_metadata:

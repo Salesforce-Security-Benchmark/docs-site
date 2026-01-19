@@ -1,4 +1,5 @@
 control_id: SBS-AUTH-002
+risk_level: High
 
 remediation:
   scope: inventory
