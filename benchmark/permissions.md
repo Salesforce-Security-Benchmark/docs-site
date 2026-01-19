@@ -36,18 +36,18 @@ A defined and enforced permission set model provides consistent, least-privilege
 **Default Value:**  
 Salesforce does not enforce any specific permission set model. Profiles, permission sets, and permission set groups can be created without structure or alignment unless governed by the organization.
 
-### SBS-PERM-002: Documented Justification for All API-Enabled Authorizations
+### SBS-PERM-002: Documented Justification for All `API-Enabled` Authorizations
 
-**Control Statement:** Every authorization granting the "API Enabled" permission must have documented business or technical justification recorded in a system of record.
+**Control Statement:** Every authorization granting the `API Enabled` permission must have documented business or technical justification recorded in a system of record.
 
 **Description:**  
-All profiles, permission sets, and permission set groups that grant the “API Enabled” permission must be recorded in a designated system of record with a documented business or technical justification for requiring API access. Any authorization lacking documented rationale is noncompliant.
+All profiles, permission sets, and permission set groups that grant the `API Enabled` permission must be recorded in a designated system of record with a documented business or technical justification for requiring API access. Any authorization lacking documented rationale is noncompliant.
 
 **Rationale:**  
 The “API Enabled” permission allows users to authenticate to and interact with Salesforce via APIs, which enables large-scale data extraction, modification, or destructive operations. Unauthorized or unjustified API-enabled access increases the risk of data exfiltration, privilege misuse, and compromise. Maintaining a complete system-of-record inventory with documented rationale ensures visibility, enforces least privilege, and prevents accumulation of unnecessary API-capable access paths.
 
 **Audit Procedure:**  
-1. Enumerate all profiles, permission sets, and permission set groups that include the “API Enabled” permission using Salesforce Setup, Metadata API, Tooling API, or an automated scanner.  
+1. Enumerate all profiles, permission sets, and permission set groups that include the `API Enabled` permission using Salesforce Setup, Metadata API, Tooling API, or an automated scanner.  
 2. Compare the enumerated list against the organization’s designated system of record for API-enabled authorizations.  
 3. Verify that every profile, permission set, and permission set group granting “API Enabled” has a corresponding entry in the system of record.  
 4. Confirm that each entry includes:  
@@ -56,25 +56,25 @@ The “API Enabled” permission allows users to authenticate to and interact wi
 5. Flag as noncompliant any authorizations lacking documentation or justification.
 
 **Remediation:**  
-1. Remove the “API Enabled” permission from any profile, permission set, or permission set group that lacks a documented justification and is not required for business operations.  
+1. Remove the `API Enabled` permission from any profile, permission set, or permission set group that lacks a documented justification and is not required for business operations.  
 2. For any authorization that legitimately requires API access, add or update the rationale in the system of record to clearly justify the need.  
 3. Reconcile and update the system of record to ensure complete and accurate inventory of all API-enabled authorizations.
 
 **Default Value:**  
-Salesforce does not require or maintain a system of record for API-enabled authorizations. The “API Enabled” permission is disabled by default for standard profiles but may be granted by administrators.
+Salesforce does not require or maintain a system of record for API-enabled authorizations. The `API Enabled` permission is disabled by default for standard profiles but may be granted by administrators.
 
-### SBS-PERM-003: Documented Justification for Approve Uninstalled Connected Apps Permission
+### SBS-PERM-003: Documented Justification for `Approve Uninstalled Connected Apps` Permission
 
-**Control Statement:** The "Approve Uninstalled Connected Apps" permission must only be assigned to highly trusted users with documented justification and must not be granted to end-users.
+**Control Statement:** The `Approve Uninstalled Connected Apps` permission must only be assigned to highly trusted users with documented justification and must not be granted to end-users.
 
 **Description:**  
-All profiles, permission sets, and permission set groups that grant the "Approve Uninstalled Connected Apps" permission must be recorded in a designated system of record with a documented business or technical justification. This permission should only be assigned to highly trusted users, such as administrators and developers involved in managing or testing connected app integrations. Any authorization lacking documented rationale is noncompliant.
+All profiles, permission sets, and permission set groups that grant the `Approve Uninstalled Connected Apps` permission must be recorded in a designated system of record with a documented business or technical justification. This permission should only be assigned to highly trusted users, such as administrators and developers involved in managing or testing connected app integrations. Any authorization lacking documented rationale is noncompliant.
 
 **Rationale:**  
-The "Approve Uninstalled Connected Apps" permission allows users to self-authorize uninstalled connected apps via OAuth, bypassing Connected App usage restrictions. This capability is necessary for administrators and developers who must test apps before installation, but it creates a significant security risk if granted to end-users or unauthorized personnel. Unjustified assignment of this permission increases the risk of unauthorized third-party app access, data exfiltration, and privilege escalation. Maintaining a complete system-of-record inventory with documented rationale ensures that this high-privilege permission is restricted to legitimate use cases and prevents privilege sprawl.
+The `Approve Uninstalled Connected Apps` permission allows users to self-authorize uninstalled connected apps via OAuth, bypassing Connected App usage restrictions. This capability is necessary for administrators and developers who must test apps before installation, but it creates a significant security risk if granted to end-users or unauthorized personnel. Unjustified assignment of this permission increases the risk of unauthorized third-party app access, data exfiltration, and privilege escalation. Maintaining a complete system-of-record inventory with documented rationale ensures that this high-privilege permission is restricted to legitimate use cases and prevents privilege sprawl.
 
 **Audit Procedure:**  
-1. Enumerate all profiles, permission sets, and permission set groups that include the "Approve Uninstalled Connected Apps" permission using Salesforce Setup, Metadata API, Tooling API, or an automated scanner.  
+1. Enumerate all profiles, permission sets, and permission set groups that include the `Approve Uninstalled Connected Apps` permission using Salesforce Setup, Metadata API, Tooling API, or an automated scanner.  
 2. Compare the enumerated list against the organization's designated system of record for this permission.  
 3. Verify that every profile, permission set, and permission set group granting "Approve Uninstalled Connected Apps" has a corresponding entry in the system of record.  
 4. Confirm that each entry includes:  
@@ -86,29 +86,29 @@ The "Approve Uninstalled Connected Apps" permission allows users to self-authori
 6. Flag as noncompliant any authorizations lacking documentation, justification, or assigned to unauthorized user populations.
 
 **Remediation:**  
-1. Remove the "Approve Uninstalled Connected Apps" permission from any profile, permission set, or permission set group that lacks a documented justification or is assigned to end-users.  
+1. Remove the `Approve Uninstalled Connected Apps` permission from any profile, permission set, or permission set group that lacks a documented justification or is assigned to end-users.  
 2. For any authorization that legitimately requires this permission (e.g., administrators or developers testing connected apps), add or update the rationale in the system of record to clearly justify the need and identify the specific role or use case.  
 3. Ensure that connected apps required for business operations are properly installed and allowlisted rather than relying on this permission for end-user access.  
 4. Reconcile and update the system of record to ensure complete and accurate inventory of all assignments of this permission.
 
 **Default Value:**  
-The "Approve Uninstalled Connected Apps" permission is not granted by default in Salesforce. This permission was introduced in September 2025 as part of Connected App Usage Restrictions changes. Organizations must explicitly assign this permission to users who require it for legitimate testing or integration management purposes.
+The `Approve Uninstalled Connected Apps` permission is not granted by default in Salesforce. This permission was introduced in September 2025 as part of Connected App Usage Restrictions changes. Organizations must explicitly assign this permission to users who require it for legitimate testing or integration management purposes.
 
 ### SBS-PERM-004: Documented Justification for All Super Admin–Equivalent Users
 
-**Control Statement:** All users with simultaneous View All Data, Modify All Data, and Manage Users permissions must be documented in a system of record with clear business or technical justification.
+**Control Statement:** All users with simultaneous `View All Data`, `Modify All Data`, and `Manage Users` permissions must be documented in a system of record with clear business or technical justification.
 
 **Description:**  
-All users who hold *simultaneous* authorization for **View All Data**, **Modify All Data**, and **Manage Users**—collectively constituting Super Admin–level access—must be identified and documented in the system of record with a clear business or technical justification. Any user with this combination of permissions who lacks documented rationale is noncompliant.
+All users who hold *simultaneous* authorization for `View All Data`, `Modify All Data`, and `Manage Users`—collectively constituting Super Admin–level access—must be identified and documented in the system of record with a clear business or technical justification. Any user with this combination of permissions who lacks documented rationale is noncompliant.
 
 **Rationale:**  
 Super Admin–equivalent permissions grant unrestricted read and write access across the Salesforce environment and allow the management of user accounts. This level of privilege enables extensive data extraction, broad configuration changes, and actions that can significantly alter or compromise the security posture of the organization. Untracked or unjustified Super Admin access increases the risk of data leakage, administrative sprawl, privilege escalation, and malicious or accidental system-wide impact. Documenting and justifying all Super Admin–equivalent users ensures strict adherence to least privilege and maintains governance over the most sensitive access levels.
 
 **Audit Procedure:**  
 1. Enumerate all users who simultaneously possess the following permissions through any profile, permission set, or permission set group:  
-   - **View All Data**  
-   - **Modify All Data**  
-   - **Manage Users**  
+   - `View All Data`
+   - `Modify All Data`  
+   - `Manage Users`
 2. Compile a list of all users meeting the criteria for Super Admin–equivalent access.  
 3. Compare the list against the organization’s system of record.  
 4. Verify that each Super Admin–equivalent user has corresponding documentation that includes:  
@@ -122,7 +122,7 @@ Super Admin–equivalent permissions grant unrestricted read and write access ac
 3. Reassess user access to ensure alignment with least privilege, reducing broad permissions where narrower privileges are sufficient.
 
 **Default Value:**  
-Salesforce does not limit the number of users who may receive **View All Data**, **Modify All Data**, or **Manage Users**, and does not maintain any system of record regarding administrative access.
+Salesforce does not limit the number of users who may receive these permissions, and does not maintain any system of record regarding administrative access.
 
 ### SBS-PERM-005: Only Use Custom Profiles for Active Users
 
@@ -226,12 +226,9 @@ Non-human identities operate without human judgment or oversight, making over-pr
 3. Flag any non-human identity with one or more of the following permissions:
    - View All Data
    - Modify All Data
-   - View All Users
-   - Modify All Users
    - Manage Users
    - Author Apex
    - Customize Application
-   - Modify Metadata
    - Any permission that bypasses sharing rules or grants administrative access
 4. For each flagged identity, verify that documented business justification exists explaining why the permission is required
 5. Confirm the justification was approved by appropriate stakeholders (security, compliance, or management)
