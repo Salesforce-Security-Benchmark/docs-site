@@ -1,6 +1,15 @@
 {
+  "name": "sbs",
+  "version": "1.0.0",
+  "description": "Security Benchmark for Salesforce",
+  "author": "Salesforce",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Salesforce-Security-Benchmark/sbs.git"
+  },
   "scripts": {
-    "dev": "vitepress dev",
+    "start": "vitepress dev",
     "build": "vitepress build",
     "preview": "vitepress preview",
     "generate-xml": "python3 scripts/generate_xml.py",

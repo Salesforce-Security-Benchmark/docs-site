@@ -37,10 +37,10 @@ The organization must retain API Total Usage event log data (EventLogFile EventT
 **SBS-PERM-001: Enforce a Documented Permission Set Model**  
 All permission sets, permission set groups, and profiles must conform to a documented model maintained in a system of record and enforced continuously.
 
-**SBS-PERM-002: Documented Justification for All API-Enabled Authorizations**  
+**SBS-PERM-002: Documented Justification for All `API-Enabled` Authorizations**  
 Every authorization granting the "API Enabled" permission must have documented business or technical justification recorded in a system of record.
 
-**SBS-PERM-003: Documented Justification for Approve Uninstalled Connected Apps Permission**  
+**SBS-PERM-003: Documented Justification for `Approve Uninstalled Connected Apps` Permission**  
 The "Approve Uninstalled Connected Apps" permission must only be assigned to highly trusted users with documented justification and must not be granted to end-users.
 
 **SBS-PERM-004: Documented Justification for All Super Admin–Equivalent Users**  
@@ -57,6 +57,8 @@ Non-human identities must not be assigned permissions that bypass sharing rules 
 
 **SBS-PERM-008: Implement Compensating Controls for Privileged Non-Human Identities**
 Non-human identities with permissions that bypass sharing rules or grant administrative capabilities must have compensating controls implemented to mitigate risk.
+**SBS-PERM-006: Documented Justification for `Use Any API Client` Permission**  
+The "Use Any API Client" permission must only be assigned to highly trusted users with documented justification and must not be granted to end-users.
 
 ## Authentication
 
@@ -88,16 +90,19 @@ The organization must implement a mechanism that continuously or periodically an
 **SBS-DATA-002: Maintain an Inventory of Long Text Area Fields Containing Regulated Data**  
 The organization must maintain an up-to-date inventory of all Long Text Area fields that are known or detected to contain regulated or personal data.
 
-## Change Management
+## Deployments
 
-**SBS-CHG-001: Require a Designated Deployment Identity for Metadata Changes**  
+**SBS-DEP-001: Require a Designated Deployment Identity for Metadata Changes**  
 Salesforce production orgs must designate a single deployment identity that is exclusively used for all metadata deployments and high-risk configuration changes performed through automated or scripted release processes.
 
-**SBS-CHG-002: Establish and Maintain a List of High-Risk Metadata Types Prohibited from Direct Production Editing**  
+**SBS-DEP-002: Establish and Maintain a List of High-Risk Metadata Types Prohibited from Direct Production Editing**  
 Salesforce production orgs must maintain an explicit list of high-risk metadata types that must never be edited directly in production by human users, defaulting at minimum to the SBS baseline list while allowing organizations to extend or refine it as needed.
 
-**SBS-CHG-003: Monitor and Alert on Unauthorized Modifications to High-Risk Metadata**  
+**SBS-DEP-003: Monitor and Alert on Unauthorized Modifications to High-Risk Metadata**  
 Salesforce production orgs must implement a monitoring capability that detects and reports any modification to high-risk metadata performed by a user other than the designated deployment identity.
+
+**SBS-DEP-004: Establish Source-Driven Development Process**  
+Meaningful Salesforce metadata changes must be deployed through a source-driven, automated, and deterministic deployment process, except where the platform does not provide programmatic deployment support.
 
 ## Security Configuration
 

@@ -5,3 +5,8 @@ remediation:
 
 task:
   title_template: "Establish and maintain inventory of non-human identities"
+dependencies:
+  - "API Access Control"
+
+task:
+  title_template: "Establish and maintain an inventory of 'Use Any API Client' permission assignments with documented justification"

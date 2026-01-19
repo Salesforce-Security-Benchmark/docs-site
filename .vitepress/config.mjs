@@ -51,7 +51,7 @@ export default defineConfig({
           { text: 'Authentication', link: '/benchmark/authentication' },
           { text: 'Code Security', link: '/benchmark/code-security' },
           { text: 'Data Security', link: '/benchmark/data-security' },
-          { text: 'Change Management', link: '/benchmark/change-management' },
+          { text: 'Deployments', link: '/benchmark/deployments' },
           { text: 'Security Configuration', link: '/benchmark/security-configuration' },
         ]
       },
