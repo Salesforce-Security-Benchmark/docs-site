@@ -49,7 +49,7 @@ All users with simultaneous View All Data, Modify All Data, and Manage Users per
 **SBS-PERM-005: Only Use Custom Profiles for Active Users**  
 All active users must be assigned custom profiles. The out-of-the-box standard profiles must not be used.
 
-**SBS-PERM-006: Documented Justification for Use Any API Client Permission**  
+**SBS-PERM-006: Documented Justification for `Use Any API Client` Permission**  
 The "Use Any API Client" permission must only be assigned to highly trusted users with documented justification and must not be granted to end-users.
 
 ## Authentication
