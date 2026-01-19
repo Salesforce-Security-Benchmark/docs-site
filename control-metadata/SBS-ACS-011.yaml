@@ -1,0 +1,8 @@
+control_id: SBS-ACS-011
+risk_level: Moderate
+
+remediation:
+  scope: inventory
+
+task:
+  title_template: "Enforce Documented Control Governance for Access and Authorization"

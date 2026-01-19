@@ -280,3 +280,107 @@ Without compensating controls, privileged non-human identities rely solely on cr
 Salesforce does not require or enforce compensating controls for privileged non-human identities. IP restrictions, OAuth scopes, monitoring, and credential rotation must be configured manually by administrators.
 Salesforce does not require creating and assigning custom profiles.
 
+### SBS-ACS-011: Enforce Documented Controls for Access and Authorization Modifications
+
+**Control Statement:** All changes to user access and authorization-related configuration must follow a documented change management process that includes approval, implementation tracking, and audit logging.
+
+**Description:** The organization must implement a documented change management governance process that covers all changes to authorization and access control mechanisms in Salesforce. This includes:
+* Creation, modification, or deletion of users
+* Assignment or removal of profiles, permission sets, or permission set groups
+* Modification of permission set or profile permissions (add/remove/modify)
+* Changes to role hierarchies
+* Changes to permission set groups
+* Modification of structure or membership of public groups, queues, or sales territories
+* Custom permission creation or modification
+* Sharing rule or restriction rule changes that affect access
+
+The change management process must define:
+* Request and approval workflow (who requests, who approves, approval criteria)
+* Change categorization (standard, expedited, emergency) with defined SLAs
+* Implementation procedure and tracking
+* Rollback or reversal procedures
+* Documentation and audit trail requirements
+* Emergency procedures with compensating controls if expedited approval is permitted
+
+The process must ensure that all changes are intentional, approved before implementation, traceable to a business justification, and auditable. Changes must not circumvent the documented permission set model (SBS-ACS-001) or access review process (SBS-ACS-010).
+
+**Example implementations:**
+* Centralized access request system (ServiceNow, Okta, or similar) where users request access changes through a portal; requests route to manager for approval and then System Administrator for implementation; all changes logged with timestamps, approver, and justification
+* Decentralized process where permission set owners manage their own permission sets with approval required from a centralized access governance team before deployment; changes tracked in version control with pull request reviews
+* Emergency change procedure for urgent access needs with restricted approvers and mandatory review within 5 business days; expedited changes tracked separately with enhanced logging and earlier review cycle
+* Automated provisioning driven by source-of-truth systems (HR system, Azure AD) with manual exception handling; provisioning rules documented as policy and exception requests follow formal change process
+
+**Risk:** <Badge type="warning" text="Moderate" />  Access control governance ensures that all access modifications are intentional, authorized, and traceable. Without formal controls, access changes may be made ad hoc without approval, lack business justification, and create blind spots in audit trails. Formal governance prevents unauthorized access escalation, ensures changes align with organizational policy and the documented permission model, and provides evidence of controls during compliance audits. Approval workflows distribute decision-making appropriately (managers validate job necessity; security validates policy compliance). Audit trails enable detection of unauthorized changes and support forensic investigation if access is misused. Emergency procedures ensure that urgent access needs can be met while still maintaining accountability and subsequent review.
+
+**Audit Procedure:**
+1. Understand the organization's documented control procedures for access and authorization modifications, including:
+   * Request workflow and approval authority
+   * Change categorization and response expectations
+   * Implementation procedures
+   * Rollback or remediation procedures
+   * Documentation requirements
+   * Expedited procedures (if permitted) and compensating controls
+2. Assess whether these control procedures are communicated and enforced through a defined system or process (such as an access request system, ticketing system, workflow, or equivalent mechanism).
+3. Evaluate changes made to user access, permission sets, profiles, roles, or permission configuration during a representative sample period. Select a timeframe and sample size appropriate to the organization's change volume and control maturity.
+4. Examine a representative sample of changes to assess consistency of control execution:
+   * An associated request or approval record exists
+   * The request includes documented business justification or change rationale
+   * Appropriate approval is documented from relevant stakeholders (manager, business owner, security, or other defined authorities)
+   * Implementation is documented with timestamp and implementer identity
+   * The implemented change aligns with the approved request
+   * Change is recorded in available audit or change history mechanisms
+5. For any identified changes without documented approval:
+   * Evaluate whether the change was authorized but not formally recorded
+   * Assess whether an exception or expedited process was appropriately followed
+   * Determine the authorization status of the change
+6. Evaluate whether the control procedures align with and enforce the organization's documented access model and governance framework. Identify any changes that deviated from documented standards and assess whether deviations were authorized exceptions.
+7. If expedited or emergency procedures exist, examine samples to assess:
+   * Whether usage is appropriately limited to genuine business needs
+   * Whether approval authority is clearly defined
+   * Whether expedited changes are flagged for later review and reconciliation
+   * Whether compensating controls are documented and operational
+
+   **Remediation:**
+1. If no change management process exists, develop and document policy covering change request, approval, implementation, and audit requirements.
+2. Select or implement a system of record to track access change requests and approvals (can be as simple as a controlled shared spreadsheet with approval workflows, or as sophisticated as integrated provisioning and access governance platform).
+3. Define change categorization with clear criteria:
+   * Standard changes: routine access requests following documented procedures (5–10 business day SLA typical)
+   * Expedited changes: justified urgent requests with restricted approval (24–48 hour SLA; not routine)
+   * Emergency changes: genuine emergencies with designated emergency approver and mandatory review within 5 business days (use sparingly)
+4. Require all requests to include:
+   * Requestor name and role
+   * User(s) affected
+   * Specific access change requested
+   * Business justification
+   * Manager or business owner approval
+   * Approval date and approver identity
+5. Establish implementation procedures that:
+   * Require approval before implementation
+   * Document who implemented and when
+   * Verify changes deployed match approved request
+   * Create auditable record in Salesforce
+6. Implement rollback procedures for changes that must be reversed (incorrect access granted, user left organization, etc.).
+7. Integrate change process with the access review cycle (SBS-GOV-001) to catch unauthorized changes during periodic review.
+8. Periodically audit change logs to identify:
+   * Changes lacking documented approval
+   * Patterns of bypassed approval
+   * Excessive use of emergency procedures
+   * Changes violating the documented permission model
+
+**Default Value:** Salesforce does not enforce change management governance for access modifications. System Administrators can directly modify user access, permission sets, profiles, or roles without approval workflow, request documentation, or business justification. Changes are recorded in Setup Audit Trail (if enabled), but no approval or governance policy is enforced. Many organizations create custom solutions (Apex workflows, custom applications, or integrated third-party systems) to implement change management, but without policy and process definition, implementation is inconsistent.
+
+---
+
+## Integration Notes
+
+**SBS-ACS-010 and SBS-ACS-010 work together:**
+* **SBS-ACS-001** (Enforce Documented Permission Set Model) defines *what* the permission structure should be
+* **SBS-ACS-010** (Access Review) validates that the structure remains correct over time and catches exceptions
+* **SBS-ACS-011** (Access Controls) enforces *how* changes to that structure are governed
+
+**Typical governance sequence:**
+1. Define and document the permission set model (SBS-ACS-001)
+2. Implement change management for all access modifications (SBS-ACS-011)
+3. Conduct initial access review to validate current state (SBS-ACS-010)
+4. Remediate any noncompliant access identified
+5. Establish periodic access review cycle (SBS-ACS-010) to maintain governance
