@@ -1,10 +1,11 @@
 control_id: SBS-AUTH-004
 
 remediation:
-  scope: org
+  scope: entity
+  entity_type: User
 
 dependencies:
   - "Active use of one or more External User License types (Customer Community; Customer Community Plus; Partner Community; External Apps; External Identity)"
 
 task:
-  title_template: "Disable or restrict weak authentication paths for external users with substantial access to sensitive data"
+  title_template: "Enable 'Multi-Factor Authentication for User Interface Logins' for external users with substantial access to sensitive data"
