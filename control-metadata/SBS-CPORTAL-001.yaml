@@ -1,0 +1,9 @@
+control_id: SBS-CPORTAL-001
+risk_level: Critical
+
+remediation:
+  scope: entity
+  entity_type: AuraEnabled Method
+
+task:
+  title_template: "Refactor {{entity.name}} to enforce context-based access control"
