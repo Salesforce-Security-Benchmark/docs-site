@@ -280,3 +280,61 @@ Without compensating controls, privileged non-human identities rely solely on cr
 Salesforce does not require or enforce compensating controls for privileged non-human identities. IP restrictions, OAuth scopes, monitoring, and credential rotation must be configured manually by administrators.
 Salesforce does not require creating and assigning custom profiles.
 
+### SBS-ACS-010: Enforce Periodic Access Review and Recertification
+
+**Control Statement:** All user access and configuration influencing permissions and sharing must be formally reviewed and recertified at least annually by designated busines stakeholders, with documented approval and remediation of unauthorized or excessive access.
+
+**Description:** The organization must implement a periodic access review process that ensures all active user access (human and non-human) is intentional, necessary, and aligned with current job responsibilities. An access review encompasses all authorization constructs including user profiles, permission set assignments, permission set group memberships, and role hierarchies. A designated business stakeholder (typically a manager, department lead, or data owner) must certify that each user's access is appropriate, with documented evidence of review and approval. Any access identified as excessive, outdated, or no longer required must be documented and remediated within a defined timeframe. The review must include both individual user access and permission construct usage.
+
+The process must establish clear ownership, defined frequency (minimum annual but may be more frequent for sensitive roles or data), and tracked remediation of findings. Organizations may conduct reviews by individual, by business unit, by data classification, or by application—but all access must be reviewed at least annually in aggregate.
+
+**Example implementations:**
+* Annual access reviews conducted by department managers in Q1, with remediation required within 30 days; tracked in a centralized system of record with sign-off by a representative of Business and Security
+* Rolling quarterly reviews where each business unit certifies access for their users on a rotating schedule, with all users reviewed within the calendar year
+* Role-based reviews where each application owner certifies all users assigned to specific permission sets or profiles, ensuring full coverage across all users annually
+* Sensitive role reviews conducted semi-annually (e.g., System Administrator, Finance, HR users) while standard users are reviewed annually
+
+**Risk:** <Badge type="tip" text="Moderate" /> Access review is the foundational control for preventing privilege creep, detecting unauthorized access, and remediating execessive permissions. Without periodic review, users accumulate access over time -- permissions granted for past roles remain after job changes, access added for temporary projects becomes permanent, and no formal mechanism ensures access remains least-privilege. Periodic formal recertification by business stakeholders ensures that access governance remains aligned with organizational reality. Documentation of review creates an audit trail and ensures accountability. Regular remediation prevents drift and maintains the integrity of the permission set model defined in SBS-ACS-001.
+
+**Audit Procedure:**
+1. Understand the organization's dcoumented access review policy, including:
+   * Defined frequency and review cycle
+   * Designated reviewers and escalation path
+   * Intended coverage scope and access types included
+   * Expected remediation timeframe for findings
+   * System of record for tracking review activity and findings.
+2. Assess the recency and regularity of access review execution. Locate the most recent completed acccess review cycle and evaluate whether it aligns with the organization's stated review frequency.
+3. Examine a representative sample of access review documentation to asssess consistency of execution:
+   * Evidence of review and approval by the designated stakeholder
+   * Documentation of review date and scope
+   * Any findings, exceptions, or questions raised during the review
+   * Appropriateness of sample size relative to the organization's user population and complexity
+4. For any access identified as excessive, unauthorized, or not recertified:
+   * Assess whether the finding was documented
+   * Evaluate what remediation action was taken or whether exceptions were formally approved
+   * Compare remediation timing against the defined SLA
+5. Assess whether the organization maintains a traceable system of record that documents:
+   * Who reviewed what access
+   * When the review occurred
+   * What was approved or questioned
+   * What remediation was required and its completion status
+6. Evaluate whether the access review process adequately addresses the organization's primary access constructs, which may include the following types of assignment:
+   * User profiles
+   * Permission sets
+   * Permission set groups
+   * Role and role hierarchies
+   * Public group 
+   * Queues
+   * Sales Territories
+   * Delegated administration or elevated permissions
+
+**Remediation:**
+1. If no access review process exists, establish documented policy including frequency, reviewers, scope, and remediation SLAs.
+2. Conduct an initial comprehensive access review of all active users, with business unit or department ownership of sign-off.
+3. Identify and remediate all access determined excessive, unauthorized, or inappropriate during the initial review.
+4. Implement a system of record (spreadsheet, governance tool, or integrated platform) to track reviews, findings, and remediation.
+5. Schedule recurring access reviews at minimum annual frequency, with quarterly reviews for sensitive roles or high-risk data.
+6. Document the review process, including templates, stakeholder roles, and escalation procedures.
+7. Establish accountability for reviewers and tie review completion to performance management or audit requirements.
+
+**Default Value:** Salesforce does not automatically initiate user access reviews or require stakeholder recertification of access. Organizations must manually track and document access review processes. Without a defined process, access authorization decisions are not systematically validated, and no audit trail of business stakeholder approval exists.
