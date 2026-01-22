@@ -3,7 +3,7 @@ risk_level: Critical
 
 remediation:
   scope: entity
-  entity_type: AuraEnabled Method
+  entity_type: Apex Class
 
 task:
-  title_template: "Refactor {{entity.name}} to enforce context-based access control"
+  title_template: "Document without sharing justification for {{entity.name}}"
