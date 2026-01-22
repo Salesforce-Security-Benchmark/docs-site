@@ -99,11 +99,13 @@ All Salesforce interactive authentication flows for external human users with su
 **Description:**  
 Salesforce must be configured so that every interactive login method available to external human users with substantial access to sensitive data enforces multi-factor authentication using either a strong second factor in addition to a password, or a passwordless flow requiring two or more factors with at least one strong factor, regardless of whether authentication is performed directly by Salesforce or via a single sign-on identity provider.
 
-For organizations with active external users, "Substantial access to sensitive data", together with a list of all specific users or the combination(s) of Salesforce access controls which provide this level of access must be recorded in the organization's system of record.
+Organizations must document in their system of record:
+1. **Definition of "substantial access to sensitive data"** — The organization's interpretation of what data classifications or access levels constitute substantial access for purposes of this control.
+2. **Identification of in-scope users** — Either a list of specific users, or the combination of Salesforce access controls (profiles, permission sets, etc.) that result in substantial access.
 
-An example entry for an organization's system of record:
- - "Substantial access to sensitive data" is interpreted as access to Personally Identifiable Information (as defined under GDPR) relating to individuals other than the user themselves, or access to Special Category Data (as defined under GDPR) relating to any individual.
- - External users with substantial access to sensitive data are all users assigned the "Service Channel Partner" profile.
+**Example system-of-record entry:**
+- **Definition:** "Substantial access to sensitive data" means access to Personally Identifiable Information (as defined under GDPR) relating to individuals other than the user themselves, or access to Special Category Data (as defined under GDPR) relating to any individual.
+- **In-scope users:** All users assigned the "Service Channel Partner" profile.
 
 For the purposes of this control, a strong authentication factor is defined as an authentication factor that is resistant to phishing, replay, and credential stuffing attacks. Acceptable strong authentication factors include:
  - Push-notification based authenticator app such as Salesforce Authenticator or Okta Verify
@@ -111,10 +113,8 @@ For the purposes of this control, a strong authentication factor is defined as a
  - FIDO2 hardware key compliant with either WebAuthn or U2F standard
  - Biometric authentication such as Touch ID or Windows Hello
 
-**Risk:** <Badge type="warning" text="Critical" />  
-External users with elevated access present a heightened risk of credential compromise due to weaker identity proofing, and multi-factor authentication significantly reduces the likelihood of unauthorized access resulting from phishing, credential reuse, or account takeover attacks.
-
-Implementation of this control ensures that external users with elevated access are protected by phishing-resistant authentication mechanisms comparable to those applied to internal users.
+**Risk:** <Badge type="danger" text="Critical" />  
+Without enforced multi-factor authentication, external users with substantial access to sensitive data can authenticate using only a password—establishing a single point of failure for the authentication boundary. External users present elevated credential risk due to weaker identity proofing, less organizational oversight, and exposure to consumer-grade phishing attacks. Attackers who compromise a single password through phishing, credential stuffing, or account takeover gain direct access to sensitive data without requiring any other control to fail. This creates an unprotected authentication path to high-value data that bypasses the defense-in-depth protections applied to internal users.
 
 **Audit Procedure:**  
 1. Enumerate all active external human users with substantial access to sensitive data.
