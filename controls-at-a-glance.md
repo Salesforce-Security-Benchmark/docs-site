@@ -91,16 +91,10 @@ Organizations must implement an Apex-based logging framework that writes applica
 
 ## Customer Portals
 
-**SBS-CPORTAL-001: Enforce Sharing Model in Portal-Exposed Apex Classes**  
-All Apex classes containing AuraEnabled methods exposed to customer portal users must explicitly declare `with sharing` or `inherited sharing`, and any `without sharing` declaration must have documented justification.
-
-**SBS-CPORTAL-002: Prevent Parameter-Based Record Access in Portal Apex**  
+**SBS-CPORTAL-001: Prevent Parameter-Based Record Access in Portal Apex**  
 AuraEnabled methods exposed to customer portal users must not accept user-supplied record identifiers or parameters that directly determine query scope or record access.
 
-**SBS-CPORTAL-003: Enforce Programmatic CRUD and FLS in Portal Apex**  
-AuraEnabled methods that bypass platform-enforced security must implement programmatic CRUD and field-level security checks before performing any DML operations or record queries.
-
-**SBS-CPORTAL-004: Restrict Guest User Record Access**  
+**SBS-CPORTAL-002: Restrict Guest User Record Access**  
 Guest users in customer portals must not have Create, Read, Update, or Delete permissions on standard or custom objects except as strictly required for unauthenticated user flows.
 
 ## Data Security

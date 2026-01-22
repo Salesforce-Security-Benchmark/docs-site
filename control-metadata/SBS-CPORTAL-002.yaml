@@ -2,8 +2,7 @@ control_id: SBS-CPORTAL-002
 risk_level: Critical
 
 remediation:
-  scope: entity
-  entity_type: AuraEnabled Method
+  scope: org
 
 task:
-  title_template: "Refactor {{entity.name}} to use user context instead of parameters"
+  title_template: "Remove guest user object permissions and method access"

@@ -2,34 +2,7 @@
 
 This section defines controls related to secure configuration and development practices for Salesforce customer portals, including Experience Cloud sites, Communities, and other external-facing Salesforce platforms. These controls ensure that organizations implement proper access controls, data isolation, and secure coding practices when exposing Salesforce functionality to external users.
 
-### SBS-CPORTAL-001: Enforce Sharing Model in Portal-Exposed Apex Classes
-
-**Control Statement:** All Apex classes containing methods exposed to customer portal users must implement appropriate sharing keywords (`with sharing` or `inherited sharing`), and any use of `without sharing` in portal-exposed classes must be documented in the organization's system of record with explicit business justification.
-
-**Description:**  
-Organizations must ensure that Apex classes containing `@AuraEnabled` methods or other portal-accessible entry points operate within Salesforce's native sharing model by declaring `with sharing` or `inherited sharing` at the class level. This ensures that SOQL queries respect organization-wide defaults (OWDs), sharing rules, role hierarchy, and manual shares—leveraging the platform's built-in access controls as the primary enforcement mechanism.
-
-When architectural requirements necessitate `without sharing` execution (such as guaranteed service-level operations, cross-user aggregations, or platform event processing), organizations must document each exception in their system of record, including the business justification, compensating security controls implemented, and the date of approval.
-
-**Risk:** <Badge type="danger" text="Critical" />  
-Apex classes default to `without sharing` (system context) unless explicitly declared otherwise, bypassing all record-level security configured in the org. When portal-exposed methods execute without sharing enforcement, external users can query records beyond their intended access scope—effectively nullifying organization-wide defaults, sharing rules, and role hierarchy restrictions. This establishes an uncontrolled security boundary where a single undeclared class creates persistent access to any record in the system, independent of the user's assigned permissions or record ownership. Unlike internal users who operate under organizational trust, portal users are external parties with potential adversarial intent, making sharing model violations a Critical boundary failure.
-
-**Audit Procedure:**  
-1. Identify all Apex classes containing `@AuraEnabled` methods or other methods exposed to customer portal sites (Experience Cloud, Communities, Sites).  
-2. Review each class declaration to verify the presence of `with sharing` or `inherited sharing` keywords.  
-3. For classes declared with `without sharing`, verify that the usage is documented in the organization's system of record with explicit business justification and documented compensating controls.  
-4. Flag any portal-exposed class lacking a sharing declaration or documented `without sharing` justification as noncompliant.
-
-**Remediation:**  
-1. Add `with sharing` or `inherited sharing` declarations to all portal-exposed Apex classes that lack explicit sharing keywords.  
-2. For classes that must use `without sharing`, document the business justification, compensating controls, and approval in the system of record.  
-3. Review organization-wide defaults, sharing rules, and role hierarchy configuration to ensure they appropriately restrict portal user access when `with sharing` is enforced.  
-4. Establish a code review requirement that mandates verification of sharing keywords for all portal-accessible Apex code.
-
-**Default Value:**  
-Apex classes execute in system context (`without sharing`) by default unless sharing keywords are explicitly declared. Salesforce does not require or enforce sharing declarations for portal-exposed code.
-
-### SBS-CPORTAL-002: Prevent Parameter-Based Record Access in Portal Apex
+### SBS-CPORTAL-001: Prevent Parameter-Based Record Access in Portal Apex
 
 **Control Statement:** All Apex methods exposed to customer portal users must not accept user-provided parameters that determine which records are accessed, and must instead derive record access exclusively from the authenticated user's context.
 
@@ -80,57 +53,7 @@ When portal-exposed methods accept user-controlled parameters to determine recor
 **Default Value:**  
 Salesforce does not prevent or validate user-supplied parameters in custom Apex code. Developers bear full responsibility for implementing access controls.
 
-### SBS-CPORTAL-003: Enforce Programmatic CRUD and FLS in Portal Apex
-
-**Control Statement:** When Apex classes exposed to portal users bypass native Salesforce security enforcement, they must implement explicit programmatic checks for object-level CRUD permissions and field-level security (FLS) before accessing or returning data.
-
-**Description:**  
-Organizations must ensure that portal-exposed Apex code operating in elevated security contexts (such as `without sharing` or system mode) explicitly validates object-level Create, Read, Update, Delete (CRUD) permissions and field-level security (FLS) before performing data operations. This includes:
-
-- Object-level CRUD checks using `Schema.sObjectType.Object__c.isAccessible()`, `isCreateable()`, `isUpdateable()`, `isDeletable()`
-- Field-level security validation via `DescribeFieldResult.isAccessible()`, `isCreateable()`, `isUpdateable()` for all fields accessed
-- Application of `Security.stripInaccessible()` with `AccessType.READABLE` to query results before returning data to portal users
-- Record-level access verification via `UserRecordAccess` queries when required
-
-Methods must fail securely by throwing explicit exceptions when permission checks fail rather than silently returning partial data or allowing unauthorized operations.
-
-**Risk:** <Badge type="danger" text="Critical" />  
-When Apex bypasses native platform security without implementing compensating programmatic checks, portal users can access objects and fields beyond their profile and permission set grants. This is particularly severe for `without sharing` classes where record-level security is also bypassed, creating a complete access control failure. External portal users executing methods without CRUD/FLS enforcement can read sensitive fields (PII, financial data, confidential records), modify data they should not update, or delete critical records—all while the platform's audit trail shows their user performing the action, masking the underlying permission bypass. This establishes a Critical security boundary violation where a single method exposes unrestricted data access to thousands of external users.
-
-**Audit Procedure:**  
-1. Identify all portal-exposed Apex classes declared with `without sharing` or that execute in system mode.  
-2. Review each method's implementation to verify presence of explicit CRUD checks before SOQL queries and DML operations.  
-3. Confirm that field-level security checks are performed for all fields accessed in queries and returned to the frontend.  
-4. Verify that `Security.stripInaccessible()` is applied to query results before returning data.  
-5. Test methods by authenticating as a portal user with restricted permissions and attempting to access objects/fields that should be denied.  
-6. Flag any method lacking explicit CRUD/FLS checks as noncompliant.
-
-**Remediation:**  
-1. Add object-level CRUD checks to all portal-exposed methods operating without sharing:
-   ```apex
-   if (!Schema.sObjectType.Account.isAccessible()) {
-       throw new AuraHandledException('Insufficient permissions');
-   }
-   ```
-2. Implement field-level security validation:
-   ```apex
-   if (!Schema.sObjectType.Account.fields.Name.isAccessible() ||
-       !Schema.sObjectType.Account.fields.BillingCity.isAccessible()) {
-       throw new AuraHandledException('Insufficient field permissions');
-   }
-   ```
-3. Apply `Security.stripInaccessible()` to all query results:
-   ```apex
-   List<Account> accounts = [SELECT Id, Name, BillingCity FROM Account WHERE OwnerId = :UserInfo.getUserId()];
-   SObjectAccessDecision decision = Security.stripInaccessible(AccessType.READABLE, accounts);
-   return decision.getRecords();
-   ```
-4. Establish automated testing that validates permission enforcement for portal user personas with restricted access.
-
-**Default Value:**  
-Salesforce does not enforce CRUD or FLS checks in custom Apex code. Developers must explicitly implement these validations.
-
-### SBS-CPORTAL-004: Restrict Guest User Record Access
+### SBS-CPORTAL-002: Restrict Guest User Record Access
 
 **Control Statement:** Unauthenticated guest users in customer portals must be restricted to authentication and registration flows only, with no direct access to business objects or custom Apex methods that query organizational data.
 
