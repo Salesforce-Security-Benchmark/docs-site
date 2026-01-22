@@ -50,6 +50,7 @@ export default defineConfig({
           { text: 'Access Controls', link: '/benchmark/access-controls' },
           { text: 'Authentication', link: '/benchmark/authentication' },
           { text: 'Code Security', link: '/benchmark/code-security' },
+          { text: 'Customer Portals', link: '/benchmark/customer-portals' },
           { text: 'Data Security', link: '/benchmark/data-security' },
           { text: 'Deployments', link: '/benchmark/deployments' },
           { text: 'Security Configuration', link: '/benchmark/security-configuration' },

@@ -92,6 +92,14 @@ Static code analysis with security checks for Apex and Lightning Web Components 
 **SBS-CODE-003: Implement Persistent Apex Application Logging**  
 Organizations must implement an Apex-based logging framework that writes application log events to durable Salesforce storage and must not rely on transient Salesforce debug logs for operational or security investigations.
 
+## Customer Portals
+
+**SBS-CPORTAL-001: Prevent Parameter-Based Record Access in Portal Apex**  
+AuraEnabled methods exposed to customer portal users must not accept user-supplied record identifiers or parameters that directly determine query scope or record access.
+
+**SBS-CPORTAL-002: Restrict Guest User Record Access**  
+Guest users in customer portals must not have Create, Read, Update, or Delete permissions on standard or custom objects except as strictly required for unauthenticated user flows.
+
 ## Data Security
 
 **SBS-DATA-001: Implement Mechanisms to Detect Regulated Data in Long Text Area Fields**  
@@ -124,5 +132,5 @@ Salesforce production orgs must periodically review Health Check results against
 
 ---
 
-*Total Controls: 31*
+*Total Controls: 34*
 
