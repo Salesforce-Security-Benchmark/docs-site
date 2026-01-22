@@ -92,6 +92,9 @@ Static code analysis with security checks for Apex and Lightning Web Components 
 **SBS-CODE-003: Implement Persistent Apex Application Logging**  
 Organizations must implement an Apex-based logging framework that writes application log events to durable Salesforce storage and must not rely on transient Salesforce debug logs for operational or security investigations.
 
+**SBS-CODE-004: Prevent Sensitive Data in Application Logs**  
+Application logging frameworks must not capture, store, or transmit credentials, authentication tokens, personally identifiable information (PII), regulated data, or other sensitive values in log messages or structured log fields.
+
 ## Customer Portals
 
 **SBS-CPORTAL-001: Prevent Parameter-Based Record Access in Portal Apex**  
