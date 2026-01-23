@@ -88,37 +88,28 @@ Organizations must ensure that both custom Apex logging frameworks and Salesforc
 
 Logging implementations must prevent the capture of:
 
-- Authentication credentials (passwords, API keys, client secrets, OAuth tokens, session IDs, refresh tokens)
-- Personally identifiable information (SSNs, passport numbers, driver's license numbers, tax IDs, account numbers)
-- Regulated financial data (credit card numbers, bank account details, routing numbers, CVV codes)
-- Protected health information (medical record numbers, diagnosis codes, treatment details)
+- Authentication credentials including passwords, API keys, OAuth tokens, session identifiers, and client secrets
+- Personally identifiable information and regulated data such as SSNs, financial account numbers, credit card details, and protected health information
 - Full SOQL query results containing sensitive fields (log record IDs or counts instead)
 - Request/response payloads containing authentication headers or authorization tokens
 - Unmasked field values from high-sensitivity objects (mask or tokenize before logging)
 
-Logging frameworks must provide sanitization functions that developers can invoke to remove or mask sensitive data before log events are persisted. Organizations must establish code review requirements that specifically check for sensitive data exposure in logging calls.
+Organizations must implement mechanisms to prevent sensitive data from being written to logs, such as sanitization functions that developers invoke to remove or mask data before log events are persisted, or establishing code review requirements that check for sensitive data exposure in logging calls.
 
 **Risk:** <Badge type="danger" text="Critical" />  
-When application logs capture sensitive data, attackers who compromise low-privilege accounts with Read access to log storage objects can exfiltrate credentials, PII, or regulated data without triggering access controls on the original source objects. A single developer logging full request payloads "for debugging" creates a persistent secondary store of unprotected sensitive data accessible to anyone with object permissions—transforming a logging framework into a data leakage vector. This is especially severe in regulated industries: a compromised administrator querying log objects can extract thousands of customer records containing SSNs, account numbers, or health data in minutes. The organization's audit trail shows only "legitimate" queries against a custom logging object, making detection nearly impossible. During breach investigations, logs become evidence of regulatory violations (GDPR, GLBA, HIPAA) rather than forensic tools, triggering consent orders, third-party assessments, and multi-million fines.
+When application logs capture sensitive data, attackers who compromise low-privilege accounts with Read access to log storage can exfiltrate credentials, PII, or regulated data without triggering access controls on the original source objects—transforming a logging framework into a data leakage vector. In regulated industries, a compromised administrator querying log objects can extract thousands of customer records in minutes, with the audit trail showing only "legitimate" queries. During breach investigations, logs become evidence of regulatory violations rather than forensic tools, triggering consent orders and significant financial penalties.
 
 **Audit Procedure:**  
-1. Review all Apex classes to identify logging statements in both custom frameworks and `System.debug()` calls.  
-2. Examine log message construction to detect patterns that may capture sensitive data:
-   - Logging full SObject records or field values from high-sensitivity objects
-   - Logging request/response payloads without sanitization
-   - Logging query results or method parameters containing PII or credentials
-   - Concatenating user input directly into log messages without validation
-   - Using `System.debug()` with full object serialization or sensitive field values
+1. Sample representative Apex classes from high-risk areas (customer-facing functionality, payment processing, authentication flows) to identify logging statements in both custom frameworks and `System.debug()` calls.  
+2. Examine log message construction to detect patterns that may capture the types of sensitive data listed above.
 3. Query recent log records stored in custom objects and review Salesforce debug logs to inspect actual log content for sensitive data:
    - Search for patterns matching SSNs, credit card numbers, email addresses, phone numbers
    - Identify authentication tokens, session IDs, or API keys in log messages
    - Flag any log records containing regulated data or PII
-4. Review Event Monitoring logs (if enabled) for API request/response bodies containing sensitive data.
-5. Verify that the logging framework provides and enforces sanitization functions for sensitive data.  
-6. Confirm that code review processes include checks for sensitive data exposure in all logging mechanisms.
+4. Verify that mechanisms exist to prevent sensitive data from being logged (such as sanitization functions, code review checks, or automated validation).
 
 **Remediation:**  
-1. Implement sanitization utilities in custom logging frameworks and establish patterns for `System.debug()` calls:
+1. Implement mechanisms to prevent sensitive data from being written to logs:
    ```apex
    public class SecureLogger {
        public static void logInfo(String message, Map<String, Object> context) {
@@ -146,7 +137,7 @@ When application logs capture sensitive data, attackers who compromise low-privi
    }
    ```
 2. Audit existing log records in custom objects and purge Salesforce debug logs containing sensitive data.  
-3. Update all logging calls to use sanitization functions and avoid logging sensitive data:
+3. Update logging calls to avoid capturing sensitive data:
    ```apex
    // BAD - logs full account with SSN field
    System.debug('Processing: ' + acc);
@@ -159,9 +150,7 @@ When application logs capture sensitive data, attackers who compromise low-privi
        'recordCount' => 1
    });
    ```
-4. Establish automated testing that validates log outputs do not contain sensitive data patterns.  
-5. Add logging security checks to peer review and static analysis workflows.  
-6. Disable or restrict Event Monitoring features that capture full API request/response bodies in regulated environments.
+4. Consider implementing compensating controls such as automated testing that validates log outputs for sensitive data patterns, code review checks for logging security, or static analysis rules that detect common sensitive data exposure patterns.
 
 **Default Value:**  
 Salesforce does not prevent or sanitize sensitive data in custom application logs or system debug logs; developers bear full responsibility for ensuring log content complies with data protection requirements.
