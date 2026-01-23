@@ -79,11 +79,10 @@ Salesforce does not provide persistent application-level logging by default; deb
 **Control Statement:** Custom application logging frameworks and Salesforce system logging mechanisms must not capture, store, or transmit credentials, authentication tokens, personally identifiable information (PII), regulated data, or other sensitive values in log messages or structured log fields.
 
 **Description:**  
-Organizations must ensure that both custom Apex logging frameworks and Salesforce's built-in logging systems (debug logs, Event Monitoring, API usage logs) exclude sensitive data from all log outputs. This applies to:
+Organizations must ensure that custom Apex logging frameworks and Salesforce debug logs exclude sensitive data from all log outputs. This applies to:
 
 - Custom logging frameworks writing to custom objects or external systems
 - `System.debug()` statements that write to Salesforce debug logs
-- API callout logging captured in Event Monitoring
 - Error handling routines that log exception details
 
 Logging implementations must prevent the capture of:
