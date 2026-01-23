@@ -1,0 +1,9 @@
+control_id: SBS-ACS-012
+risk_level: Moderate
+
+remediation:
+  scope: entity
+  entity_type: Profile
+
+task:
+  title_template: "Configure login hours for {{entity.name}}"

@@ -376,3 +376,25 @@ Without enforced governance over access changes, organizations lose visibility a
 
 **Default Value:**  
 Salesforce does not enforce approval workflows or governance for access and authorization changes. Administrators can directly modify users, permissions, roles, and sharing settings without documented approval or justification. While certain changes may appear in audit logs, governance enforcement is dependent on organizational policy and external processes.
+
+### SBS-ACS-012: Restrict Login Hours for Privileged Permissions
+
+**Control Statement:** Users with administrative permissions or access to sensitive data must have login hours configured that restrict authentication to business hours.
+
+**Description:**  
+Organizations must configure login hours that limit when privileged users can authenticate to Salesforce, based on expected business activity patterns.
+
+**Risk:** <Badge type="tip" text="Moderate" />  
+Without login hours restrictions, privileged accounts can authenticate at any time—including off-hours when compromise is more likely to go undetected. Login hours provide defense-in-depth by limiting the window during which compromised credentials can be exploited. However, this control requires credential compromise for exploitation and does not establish a primary security boundary; authentication controls (SBS-AUTH-001) remain the primary protection.
+
+**Audit Procedure:**  
+1. Identify users with administrative permissions or access to sensitive data.  
+2. Verify each privileged user has login hours configured.  
+3. Flag users with unrestricted (24x7) login hours as noncompliant.
+
+**Remediation:**  
+1. Configure login hours for privileged users to match business hours.  
+2. Review login hours during periodic access reviews.
+
+**Default Value:**  
+Salesforce does not enforce login hours restrictions by default; users can authenticate 24x7 unless explicitly configured.
