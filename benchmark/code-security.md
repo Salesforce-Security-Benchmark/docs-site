@@ -15,11 +15,12 @@ Without mandatory peer review, a single developer—whether compromised, malicio
 **Audit Procedure:**  
 1. Inspect source control settings to confirm merge rules require peer review on production-bound branches.  
 2. Review merge history or representative pull requests to verify peer approvals were recorded.  
-3. Flag any repositories or branches that allow merging without peer approval.
+3. Confirm that peer review processes include security checks such as verifying logging statements do not expose sensitive data.
+4. Flag any repositories or branches that allow merging without peer approval.
 
 **Remediation:**  
 1. Update branch protection rules to require peer review before merge.  
-2. Train developers on the peer review workflow.  
+2. Train developers on the peer review workflow, including security checks such as identifying sensitive data in logging statements.  
 3. Block direct commits to production-bound branches.
 
 **Default Value:**  
