@@ -132,3 +132,26 @@ By default, Salesforce does not enforce strong multi-factor authentication for a
 - Salesforce Documentation: Multi-Factor Authentication  
 - NIST SP 800-63B Authentication and Lifecycle Management  
 - NIST SP 800-53 IA-2
+
+### SBS-AUTH-005: Enable Session IP Security Restrictions
+
+**Control Statement:** Production orgs must enable "Lock sessions to the IP address from which they originated" and must enable "Enforce login IP ranges on every request" for users with profile-level IP restrictions.
+
+**Description:**  
+Organizations must configure session security settings to lock sessions to originating IP addresses and enforce IP range restrictions on every API request, not just at login.
+
+**Risk:** <Badge type="tip" text="Moderate" />  
+Without session IP locking, stolen session IDs can be used from any IP address—enabling session hijacking attacks. Without enforcing IP ranges on every request, users can authenticate from allowed IPs but then make API calls from unauthorized locations, bypassing intended network restrictions. These settings provide defense-in-depth against credential theft and session hijacking but require session compromise for exploitation; authentication controls (SBS-AUTH-001) remain the primary protection.
+
+**Audit Procedure:**  
+1. Navigate to Setup → Session Settings.  
+2. Verify "Lock sessions to the IP address from which they originated" is enabled.  
+3. For profiles with configured login IP ranges, verify "Enforce login IP ranges on every request" is enabled.
+
+**Remediation:**  
+1. Enable "Lock sessions to the IP address from which they originated" in Session Settings.  
+2. Enable "Enforce login IP ranges on every request" in Session Settings.  
+3. Test with mobile devices and applications that may change IPs to ensure legitimate use cases function correctly.
+
+**Default Value:**  
+Salesforce does not enable these settings by default. Session IP locking and continuous IP range enforcement must be explicitly configured.

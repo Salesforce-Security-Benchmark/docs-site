@@ -81,6 +81,9 @@ Profiles in Salesforce production orgs must not contain login IP ranges that eff
 **SBS-AUTH-004: Enforce Strong Multi-Factor Authentication for External Users with Substantial Access to Sensitive Data**
 All Salesforce interactive authentication flows for external human users with substantial access to sensitive data must enforce multi-factor authentication that includes at least one strong authentication factor.
 
+**SBS-AUTH-005: Enable Session IP Security Restrictions**  
+Production orgs must enable "Lock sessions to the IP address from which they originated" and must enable "Enforce login IP ranges on every request" for users with profile-level IP restrictions.
+
 ## Code Security
 
 **SBS-CODE-001: Mandatory Peer Review for Salesforce Code Changes**  

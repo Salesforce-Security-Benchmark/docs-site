@@ -1,0 +1,8 @@
+control_id: SBS-AUTH-005
+risk_level: Moderate
+
+remediation:
+  scope: org
+
+task:
+  title_template: "Enable session IP security restrictions in Session Settings"
