@@ -376,3 +376,27 @@ Without enforced governance over access changes, organizations lose visibility a
 
 **Default Value:**  
 Salesforce does not enforce approval workflows or governance for access and authorization changes. Administrators can directly modify users, permissions, roles, and sharing settings without documented approval or justification. While certain changes may appear in audit logs, governance enforcement is dependent on organizational policy and external processes.
+
+### SBS-ACS-012: Classify Users for Login Hours Restrictions
+
+**Control Statement:** Organizations must maintain a documented classification of users requiring login hours restrictions or equivalent off-hours authentication monitoring.
+
+**Description:**  
+Organizations must perform risk-based classification to identify users for whom off-hours authentication poses elevated security risk. For each classified user, organizations must either configure login hours restrictions on their profile or implement monitoring and alerting for off-hours authentication. Organizations may classify zero users if documented and reviewed periodically.
+
+**Risk:** <Badge type="tip" text="Moderate" />  
+When privileged accounts authenticate without time restrictions or monitoring, compromised credentials can be exploited during off-hours when detection is less likely. Login hours or monitoring provides defense-in-depth by limiting attack windows or enabling investigation. However, this requires credential compromise and does not establish a primary boundary—authentication controls (SBS-AUTH-001) and IP restrictions (SBS-AUTH-003) remain primary protections.
+
+**Audit Procedure:**  
+1. Verify the organization maintains a documented classification identifying users requiring login hours restrictions or monitoring.  
+2. For classified users, verify login hours are configured or off-hours authentication monitoring is implemented.  
+3. If zero users are classified, verify this decision is documented with justification and reviewed periodically.
+
+**Remediation:**  
+1. Perform risk-based user classification based on privileges and data access.  
+2. For classified users, either configure login hours on profiles or implement off-hours authentication monitoring with alerting.  
+3. Document classification and implementation decisions in a system of record.  
+4. Review during periodic access reviews (SBS-ACS-010).
+
+**Default Value:**  
+Salesforce does not enforce login hours or monitor off-hours authentication by default; users can authenticate 24x7 unless explicitly configured.
