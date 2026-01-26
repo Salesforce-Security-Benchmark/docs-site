@@ -100,6 +100,9 @@ AuraEnabled methods exposed to customer portal users must not accept user-suppli
 **SBS-CPORTAL-002: Restrict Guest User Record Access**  
 Guest users in customer portals must not have Create, Read, Update, or Delete permissions on standard or custom objects except as strictly required for unauthenticated user flows.
 
+**SBS-CPORTAL-003: Enable Clickjack Protection**  
+All Experience Cloud sites must enable clickjack protection at "Allow framing by the same origin only" or "Don't allow framing" level.
+
 ## Data Security
 
 **SBS-DATA-001: Implement Mechanisms to Detect Regulated Data in Long Text Area Fields**  
@@ -132,5 +135,5 @@ Salesforce production orgs must periodically review Health Check results against
 
 ---
 
-*Total Controls: 34*
+*Total Controls: 39*
 

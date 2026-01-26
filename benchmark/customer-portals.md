@@ -99,3 +99,27 @@ Guest users represent the highest-risk trust boundary in Salesforce portals—th
 
 **Default Value:**  
 Salesforce has progressively restricted guest user default permissions in recent releases, but older orgs may retain permissive configurations. Guest user profiles do not prevent object access or Apex invocation by default—administrators must explicitly configure restrictions.
+
+### SBS-CPORTAL-003: Enable Clickjack Protection
+
+**Control Statement:** All Experience Cloud sites must enable clickjack protection at "Allow framing by the same origin only" or "Don't allow framing" level.
+
+**Description:**  
+Organizations must configure clickjack protection for all Experience Cloud sites (Communities, customer portals, partner portals) to prevent malicious sites from embedding site pages in hidden iframes. Clickjacking attacks trick authenticated users into performing unintended actions by overlaying transparent or opaque layers over legitimate site content. Protection must be set to "Allow framing by the same origin only" (recommended default) or "Don't allow framing" (most restrictive). If business requirements necessitate external framing, the "Allow framing by specific external domains" option must document a justified list of trusted domains with change control.
+
+**Risk:** <Badge type="warning" text="Moderate" />  
+Clickjacking requires both a misconfigured protection setting and user action (visiting an attacker-controlled site while authenticated), making it a defense-in-depth control rather than a direct vulnerability. However, when protection is disabled or external framing is enabled without proper domain governance, attackers can embed site pages in malicious contexts and trick users into submitting forms, clicking buttons, or modifying data through UI manipulation. This is particularly effective against high-value targets (administrators, privileged users) who may be targeted via phishing campaigns. While not a Critical boundary violation, it represents a measurable increase in attack surface when disabled.
+
+**Audit Procedure:**  
+1. Navigate to **Setup → All Sites** and review all Experience Cloud sites.  
+2. For each site, access **Builder → Settings → Security & Privacy** and verify the clickjack protection level.  
+3. Flag sites configured with "Allow framing by any page" as noncompliant.  
+4. For sites using "Allow framing by specific external domains," verify that trusted domains are documented, justified, and subject to change control.
+
+**Remediation:**  
+1. Navigate to **Setup → All Sites**, select the site, and access **Builder → Settings → Security & Privacy**.  
+2. Set clickjack protection to "Allow framing by the same origin only" (recommended) or "Don't allow framing" for maximum protection.  
+3. If external framing is required, select "Allow framing by specific external domains," document the business justification for each domain, and implement change control for modifications.
+
+**Default Value:**  
+Salesforce Experience Cloud sites default to "Allow framing by the same origin only" which provides appropriate protection.
