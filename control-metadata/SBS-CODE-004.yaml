@@ -1,0 +1,9 @@
+control_id: SBS-CODE-004
+risk_level: Critical
+
+remediation:
+  scope: entity
+  entity_type: Logging Statement
+
+task:
+  title_template: "Sanitize sensitive data in {{entity.name}} logging call"
