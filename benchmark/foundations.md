@@ -28,3 +28,27 @@ A formally maintained system of record is foundational for ensuring repeatable, 
 
 **Default Value:**  
 Salesforce does not provide or require a system of record for documenting security-relevant metadata, exceptions, or justifications.
+
+### SBS-FDNS-002: Document and Maintain a Salesforce Exit Plan
+
+**Control Statement:** The organization must maintain a documented Salesforce exit plan that defines how data, metadata, integrations, and business processes would be migrated or decommissioned.
+
+**Description:**  
+Organizations must maintain a current exit plan that includes data export and retention requirements, metadata migration approach, integration dependencies, ownership, and cutover/rollback strategy. The plan must be reviewed on a defined schedule and updated after material architectural or integration changes.
+
+**Risk:** <Badge type="tip" text="Moderate" />  
+Without a documented exit plan, organizations risk data loss, extended downtime, and uncontrolled exposure during platform transitions, contract termination, or major incidents requiring rapid migration.
+
+**Audit Procedure:**  
+1. Obtain the documented Salesforce exit plan.  
+2. Verify the plan includes data export/retention, metadata migration, integration dependencies, ownership, and cutover/rollback steps.  
+3. Confirm the review schedule and evidence of the most recent review.  
+4. Flag noncompliance if any required section is missing or the plan is outdated.
+
+**Remediation:**  
+1. Create and document the exit plan with required sections.  
+2. Assign ownership and define a review cadence.  
+3. Update the plan after major system or integration changes.
+
+**Default Value:**  
+Salesforce does not provide an organization-specific exit plan by default.
