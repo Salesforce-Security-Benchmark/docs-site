@@ -1,0 +1,9 @@
+control_id: SBS-DATA-004
+risk_level: High
+
+remediation:
+  scope: entity
+  entity_type: FieldDefinition
+
+task:
+  title_template: "Enable field history tracking for sensitive field: {{entity.name}}"
