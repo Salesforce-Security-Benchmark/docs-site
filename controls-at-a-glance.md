@@ -7,6 +7,9 @@ This page provides a quick reference to all SBS control statements. Each control
 **SBS-FDNS-001: Centralized Security System of Record**  
 The organization must maintain a centralized system of record documenting all Salesforce security configurations, exceptions, justifications, and SBS-required inventories.
 
+**SBS-FDNS-002: Document and Maintain a Salesforce Exit Plan**  
+The organization must maintain a documented Salesforce exit plan that defines how data, metadata, integrations, and business processes would be migrated or decommissioned.
+
 ## OAuth Security
 
 **SBS-OAUTH-001: Require Formal Installation and Access Governance for Connected Apps**  
@@ -132,5 +135,5 @@ Salesforce production orgs must periodically review Health Check results against
 
 ---
 
-*Total Controls: 34*
+*Total Controls: 35*
 

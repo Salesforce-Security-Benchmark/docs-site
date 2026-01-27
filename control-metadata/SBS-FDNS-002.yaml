@@ -1,0 +1,8 @@
+control_id: SBS-FDNS-002
+risk_level: Moderate
+
+remediation:
+  scope: inventory
+
+task:
+  title_template: "Establish and maintain Salesforce exit plan"
