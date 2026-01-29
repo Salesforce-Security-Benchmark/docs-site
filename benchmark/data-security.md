@@ -54,3 +54,27 @@ Without a current inventory of fields containing regulated data, organizations c
 
 **Default Value:**  
 Salesforce does not maintain or provide an inventory of Long Text Area fields containing regulated data.
+
+### SBS-DATA-004: Require Field History Tracking for Sensitive Fields
+
+**Control Statement:** The organization must maintain a documented list of sensitive fields and ensure Field History Tracking is enabled for each listed field on all in-scope objects.
+
+**Description:**  
+Organizations must define which fields are sensitive (e.g., regulated data, financial identifiers, or security-relevant attributes) and enable Field History Tracking for those fields so changes can be audited. Any sensitive field without tracking is noncompliant.
+
+**Risk:** <Badge type="warning" text="High" />  
+Without field history tracking on sensitive fields, unauthorized or accidental changes cannot be reliably detected or investigated. This reduces auditability, impairs incident response, and weakens accountability for changes to regulated or high-impact data.
+
+**Audit Procedure:**  
+1. Obtain the organization’s documented list of sensitive fields and in-scope objects.  
+2. Enumerate Field History Tracking settings for those objects.  
+3. Verify that each listed sensitive field has Field History Tracking enabled.  
+4. Flag any sensitive field without tracking.
+
+**Remediation:**  
+1. Enable Field History Tracking for all listed sensitive fields.  
+2. Update the sensitive-field list as schemas evolve.  
+3. Re-verify tracking coverage after changes.
+
+**Default Value:**  
+Salesforce does not enable Field History Tracking for sensitive fields by default.

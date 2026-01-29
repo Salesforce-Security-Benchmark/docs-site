@@ -114,6 +114,9 @@ The organization must implement a mechanism that continuously or periodically an
 **SBS-DATA-002: Maintain an Inventory of Long Text Area Fields Containing Regulated Data**  
 The organization must maintain an up-to-date inventory of all Long Text Area fields that are known or detected to contain regulated or personal data.
 
+**SBS-DATA-004: Require Field History Tracking for Sensitive Fields**  
+The organization must maintain a documented list of sensitive fields and ensure Field History Tracking is enabled for each listed field on all in-scope objects.
+
 ## File Security
 
 **SBS-FILE-001: Require Expiry Dates on Public Content Links**  
