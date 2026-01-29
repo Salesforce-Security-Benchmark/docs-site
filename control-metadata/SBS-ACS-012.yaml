@@ -1,0 +1,6 @@
+control_id: SBS-ACS-012
+risk_level: Moderate
+remediation:
+  scope: inventory
+task:
+  title_template: "Establish and maintain user classification for login hours restrictions"
