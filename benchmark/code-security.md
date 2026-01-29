@@ -75,3 +75,82 @@ Salesforce debug logs are transient, size-limited, and automatically purged—ma
 **Default Value:**  
 Salesforce does not provide persistent application-level logging by default; debug logs are transient, size-limited, and automatically purged.
 
+### SBS-CODE-004: Prevent Sensitive Data in Application Logs
+
+**Control Statement:** Custom application logging frameworks and Salesforce system logging mechanisms must not capture, store, or transmit credentials, authentication tokens, personally identifiable information (PII), regulated data, or other sensitive values in log messages or structured log fields.
+
+**Description:**  
+Organizations must ensure that custom Apex logging frameworks and Salesforce debug logs exclude sensitive data from all log outputs. This applies to:
+
+- Custom logging frameworks writing to custom objects or external systems
+- `System.debug()` statements that write to Salesforce debug logs
+- Error handling routines that log exception details
+
+Logging implementations must prevent the capture of:
+
+- Authentication credentials including passwords, API keys, OAuth tokens, session identifiers, and client secrets
+- Personally identifiable information and regulated data such as SSNs, financial account numbers, credit card details, and protected health information
+- Full SOQL query results containing sensitive fields (log record IDs or counts instead)
+- Request/response payloads containing authentication headers or authorization tokens
+- Unmasked field values from high-sensitivity objects (mask or tokenize before logging)
+
+Organizations must implement mechanisms to prevent sensitive data from being written to logs, such as sanitization functions that developers invoke to remove or mask data before log events are persisted, or establishing code review requirements that check for sensitive data exposure in logging calls.
+
+**Risk:** <Badge type="danger" text="Critical" />  
+When application logs capture sensitive data, attackers who compromise low-privilege accounts with Read access to log storage can exfiltrate credentials, PII, or regulated data without triggering access controls on the original source objects—transforming a logging framework into a data leakage vector. In regulated industries, a compromised administrator querying log objects can extract thousands of customer records in minutes, with the audit trail showing only "legitimate" queries. During breach investigations, logs become evidence of regulatory violations rather than forensic tools, triggering consent orders and significant financial penalties.
+
+**Audit Procedure:**  
+1. Sample representative Apex classes from high-risk areas (customer-facing functionality, payment processing, authentication flows) to identify logging statements in both custom frameworks and `System.debug()` calls.  
+2. Examine log message construction to detect patterns that may capture the types of sensitive data listed above.
+3. Query recent log records stored in custom objects and review Salesforce debug logs to inspect actual log content for sensitive data:
+   - Search for patterns matching SSNs, credit card numbers, email addresses, phone numbers
+   - Identify authentication tokens, session IDs, or API keys in log messages
+   - Flag any log records containing regulated data or PII
+4. Verify that mechanisms exist to prevent sensitive data from being logged (such as sanitization functions, code review checks, or automated validation).
+
+**Remediation:**  
+1. Implement mechanisms to prevent sensitive data from being written to logs:
+   ```apex
+   public class SecureLogger {
+       public static void logInfo(String message, Map<String, Object> context) {
+           // Sanitize context before logging
+           Map<String, Object> sanitized = sanitizeContext(context);
+           Logger.info(message, sanitized);
+       }
+       
+       private static Map<String, Object> sanitizeContext(Map<String, Object> ctx) {
+           Map<String, Object> result = new Map<String, Object>();
+           for (String key : ctx.keySet()) {
+               // Mask sensitive fields, log IDs instead of full records
+               if (key.containsIgnoreCase('password') || 
+                   key.containsIgnoreCase('token') || 
+                   key.containsIgnoreCase('ssn')) {
+                   result.put(key, '***REDACTED***');
+               } else if (ctx.get(key) instanceof SObject) {
+                   result.put(key, ((SObject)ctx.get(key)).Id);
+               } else {
+                   result.put(key, ctx.get(key));
+               }
+           }
+           return result;
+       }
+   }
+   ```
+2. Audit existing log records in custom objects and purge Salesforce debug logs containing sensitive data.  
+3. Update logging calls to avoid capturing sensitive data:
+   ```apex
+   // BAD - logs full account with SSN field
+   System.debug('Processing: ' + acc);
+   Logger.info('Processing account', new Map<String, Object>{'account' => acc});
+   
+   // GOOD - logs only record ID
+   System.debug('Processing account: ' + acc.Id);
+   SecureLogger.logInfo('Processing account', new Map<String, Object>{
+       'accountId' => acc.Id,
+       'recordCount' => 1
+   });
+   ```
+4. Consider implementing compensating controls such as automated testing that validates log outputs for sensitive data patterns, code review checks for logging security, or static analysis rules that detect common sensitive data exposure patterns.
+
+**Default Value:**  
+Salesforce does not prevent or sanitize sensitive data in custom application logs or system debug logs; developers bear full responsibility for ensuring log content complies with data protection requirements.
