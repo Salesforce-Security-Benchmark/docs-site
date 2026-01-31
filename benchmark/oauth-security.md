@@ -100,3 +100,27 @@ Without documented due diligence for high-risk vendors, organizations may onboar
 
 **Default Value:**  
 Salesforce does not manage or enforce vendor due diligence requirements for Connected App providers.
+
+### SBS-OAUTH-005: Maintain Inventory of JWT-Enabled Connected Apps With Certificate Rotation Procedures
+
+**Control Statement:** Organizations must keep an inventory of all connected apps and external client applications that enable OAuth authentication flow with JWT. For each inventorized app, the organization must have a documented process to rotate certificates.
+
+**Description:**
+JWT OAuth flows are typically used for headless authentication in CI context. The integrations that use these apps are business critical for data- and deployment integrations. The public certificate that is used to validate the private key (signing request) exipres after a certain period.
+
+**Risk:** <Badge type="danger" text="Critical" />  
+If the certificate expires, the authentication fails. The integration cannot access salesforce anymore. This has the potential to cause catastrophic disruption of service (unable to deploy or failing business critical integrations). If the rotation process is not documented (or, ideally, automated), it can take hours to recover.
+
+**Audit Procedure:**
+1. Retrieve a list of all connected apps that are owned by the org.
+2. For each connected app that enables JWT OAuth2,
+3. Check in the established system of record, if the app is documented with:
+  - Usage information (what system uses it & what purpose does this integration serve)
+  - Certificate rotation procedure (how to refresh the certificate while keeping private keys)
+  - Private key rotation procedure (how to update the private key in all consumers)
+
+**Remediation:**  
+1. Collect all Apps that enable JWT OAuth2 flow
+2. Document the manual process **or** automate the process to refresh certificates in these connected apps
+3. Document the manual process **or** automate the process to update private keys in all consumers
+4. Document the app with usage information and rotation procedures in a system of record
