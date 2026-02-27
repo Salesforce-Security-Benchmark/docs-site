@@ -172,3 +172,75 @@ Without regular penetration testing, organizations cannot verify that portal sec
 
 **Default Value:**
 Salesforce does not require or conduct penetration testing of customer implementations.
+
+### SBS-CPORTAL-006: Minimize Object and Field Permissions for Authenticated Portal User Profiles and Permission Sets
+
+**Control Statement:**
+Authenticated portal user profiles and permission sets must only provide object-level (CRUD) and field-level (FLS) permissions to those objects and fields required for portal functionality. Objects not used by any portal component must have all permissions removed from external user profiles and permission sets.
+
+**Description:**
+When an external user authenticates to an Experience Cloud site, their profile and permission sets determine which objects and fields they can access—not only through the portal UI, but also through Salesforce's standard Aura components that underpin Digital Experience sites. These built-in components (such as those powering record detail pages, list views, and related lists) respect object-level and field-level permissions but do not restrict access to only the objects explicitly placed on portal pages. Any object with Read access granted to a portal user profile or permission set can be queried through standard Aura component requests, even if no portal page or custom component references that object. This creates a hidden data exposure surface that is invisible to administrators reviewing portal pages alone.
+
+Organizations must:
+
+* Audit all object-level permissions granted to external user profiles and permission sets.
+* Remove Read, Create, Edit, and Delete permissions for any object not explicitly required by a portal component or business process.
+* Restrict field-level access to the minimum set of fields required for each permitted object.
+* Treat portal user profile and permission set permissions as defining the full attack surface, not just the visible UI surface.
+
+**Risk:** <Badge type="danger" text="Critical" />
+Authenticated portal users with excessive object permissions can use standard Salesforce Aura components to query any object their profile and permission sets permit, regardless of whether that object appears in the portal UI. Attackers with valid portal credentials—or who compromise a portal account—can script calls to enumerate and exfiltrate Leads, Contacts, Accounts, Opportunities, Cases, and custom objects containing sensitive organizational data. This is not a theoretical risk: automated tooling exists to discover and exploit these overly permissive configurations. The exposure is Critical because it enables bulk data exfiltration through a legitimate channel with no additional vulnerability required.
+
+**Audit Procedure:**
+1. Identify all profiles and permission sets assigned to authenticated external portal users.
+2. For each profile, enumerate all objects with Read or higher CRUD permissions.
+3. Cross-reference permitted objects against the inventory of portal components (SBS-CPORTAL-003) to identify objects that are not used by any portal page, Lightning component, or Flow.
+4. Review field-level security for permitted objects and identify fields not required by portal functionality.
+5. Test access by authenticating as a portal user and querying objects not displayed in the portal UI.
+6. Flag any object permission not justified by a portal component or documented business requirement as noncompliant.
+
+**Remediation:**
+1. Remove CRUD permissions from portal user profiles and permission sets for all objects not required by portal functionality.
+2. For objects that must remain accessible, restrict field-level access to the minimum required fields.
+3. Establish a review process so that new objects added to the org are not automatically accessible to portal users.
+4. Use dedicated portal-specific profiles or permission sets rather than cloning internal user profiles.
+5. Periodically re-audit portal user permissions against the component inventory from SBS-CPORTAL-003.
+
+**Default Value:**
+Salesforce does not restrict which objects are queryable via standard Aura components based on portal UI configuration. Any object with Read permission on a portal user's profile or permission set is accessible through standard Aura components regardless of portal page composition.
+
+### SBS-CPORTAL-007: Restrict External Organization-Wide Default Sharing Settings
+
+**Control Statement:**
+External Organization-Wide Default (OWD) sharing settings must be set to Private for all objects containing sensitive or internal data accessible by portal users. Objects must not use Public Read Only or Public Read/Write external sharing defaults unless a documented business justification exists and compensating controls are in place.
+
+**Description:**
+Salesforce maintains separate internal and external Organization-Wide Default sharing settings. The external OWD controls the baseline record visibility for external users such as portal and community members. When an object's external OWD is set to Public Read Only, all authenticated portal users can access every record of that object—not just records they own or that are shared with them through sharing rules, roles, or account relationships.
+
+Organizations must:
+
+* Set external OWDs to Private for all objects containing business, customer, or sensitive data.
+* Implement explicit sharing rules or programmatic sharing to grant portal users access only to their own records.
+* Document and justify any object where the external OWD is not set to Private.
+* Review external sharing settings when new objects are created or when sharing configuration changes.
+
+**Risk:** <Badge type="danger" text="Critical" />
+When external OWDs are set to Public Read Only, every authenticated portal user can read every record of that object across the entire org. A single portal user with legitimate credentials can access the complete dataset—including records belonging to other customers, partners, or internal teams. This cross-tenant data exposure is especially damaging in multi-customer portals where isolation between portal users is a business requirement. Combined with SBS-CPORTAL-006, an attacker can script bulk extraction of all records in any object with permissive external sharing. This constitutes a Critical data isolation failure.
+
+**Audit Procedure:**
+1. Navigate to Setup > Sharing Settings and review the Organization-Wide Defaults for all objects.
+2. Identify objects where the external access level is set to Public Read Only or Public Read/Write.
+3. For each object with a non-Private external OWD, determine whether external portal users have access to the object via profile or permission set.
+4. Verify whether a documented business justification and compensating controls exist for any non-Private external OWD.
+5. Test by authenticating as a portal user and querying records owned by other users or accounts.
+6. Flag any object with a non-Private external OWD and portal user access that lacks documented justification as noncompliant.
+
+**Remediation:**
+1. Set external OWDs to Private for all objects accessible to portal users.
+2. Use sharing rules scoped to portal user roles or groups to grant access only to appropriate records (e.g., records owned by the user's account).
+3. Where Apex-managed sharing is used, verify that sharing records are granted with the minimum necessary access level.
+4. After changing external OWDs to Private, test portal functionality to confirm that portal users can still access their own records through sharing rules.
+5. Establish a governance process to review external OWD settings whenever new custom objects are created.
+
+**Default Value:**
+Salesforce allows administrators to configure external OWDs independently from internal defaults. New custom objects do not enforce Private external access by default—administrators must explicitly set the external sharing model. Some standard objects may default to non-Private external access depending on org configuration.

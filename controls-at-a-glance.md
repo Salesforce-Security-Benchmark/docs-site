@@ -85,6 +85,12 @@ Autolaunched Flows exposed to customer portal users must not accept user-supplie
 **SBS-CPORTAL-005: Conduct Penetration Testing for Portal Security**
 Organizations with Experience Cloud sites must conduct penetration testing of portal security controls before initial go-live and subsequently after major releases or on a defined cadence.
 
+**SBS-CPORTAL-006: Minimize Object and Field Permissions for Authenticated Portal User Profiles and Permission Sets**
+Authenticated portal user profiles and permission sets must only provide object-level (CRUD) and field-level (FLS) permissions to those objects and fields required for portal functionality. Objects not used by any portal component must have all permissions removed from external user profiles and permission sets.
+
+**SBS-CPORTAL-007: Restrict External Organization-Wide Default Sharing Settings**
+External Organization-Wide Default (OWD) sharing settings must be set to Private for all objects containing sensitive or internal data accessible by portal users. Objects must not use Public Read Only or Public Read/Write external sharing defaults unless a documented business justification exists and compensating controls are in place.
+
 ## Data Security
 
 **SBS-DATA-001: Implement Mechanisms to Detect Regulated Data in Long Text Area Fields**
@@ -173,4 +179,4 @@ Salesforce production orgs must periodically review Health Check results against
 
 ---
 
-*Total Controls: 49*
+*Total Controls: 51*

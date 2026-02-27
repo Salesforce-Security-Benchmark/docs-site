@@ -1,0 +1,8 @@
+control_id: SBS-CPORTAL-006
+risk_level: Critical
+
+remediation:
+  scope: org
+
+task:
+  title_template: "Remove unnecessary object and field permissions from portal user profiles and permission sets"
