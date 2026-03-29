@@ -1,0 +1,8 @@
+control_id: SBS-SRCH-001
+risk_level: Critical
+
+remediation:
+  scope: org
+
+task:
+  title_template: "Audit and configure Search Manager FLS protection slots for objects with more than 100 searchable custom fields"

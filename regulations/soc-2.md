@@ -315,3 +315,47 @@ If the organization’s Salesforce does not provide at least 30 days of ApiTotal
 
 **Why tagged:** Documented IAM and integration governance routinely expect an authoritative inventory of connected applications.
 
+## Search Security
+
+5 control(s) in this benchmark section.
+
+### SBS-SRCH-001: Audit and Prioritize FLS Protection Slots in the Search Index for Objects with Sensitive Custom Fields
+
+Critical [Source page](/benchmark/search-security.html)
+
+**Control Statement:** For every object with more than 100 searchable custom fields, the organization must review and configure Search Manager to assign all 100 available FLS protection slots to the fields with the highest sensitivity classification.
+
+**Why tagged:** CC6.1 requires logical access controls to restrict access to information assets; the search index FLS limit is a platform constraint that must be actively managed to ensure logical access controls remain effective.
+
+### SBS-SRCH-002: Prohibit SOSL `IN ALL FIELDS` Scope in System-Mode Apex Where Results Are Exposed to Restricted Users
+
+High [Source page](/benchmark/search-security.html)
+
+**Control Statement:** Apex classes that execute SOSL queries using the `IN ALL FIELDS` search group must not expose matched records to users whose field-level security would restrict one or more of the indexed fields being searched.
+
+**Why tagged:** CC6.3 requires authorization policies to be implemented and enforced; system-mode SOSL that bypasses FLS in user-facing components violates the authorization model and must be governed.
+
+### SBS-SRCH-003: Validate FLS Prerequisites for All Search Manager Filtering Rules
+
+Moderate [Source page](/benchmark/search-security.html)
+
+**Control Statement:** Each Search Manager filtering rule must reference only fields for which all target user profiles have read access.
+
+**Why tagged:** CC6.1 logical access controls must operate as intended; silently ineffective Search Manager rules represent a gap between implemented and effective access controls that must be identified and remediated.
+
+### SBS-SRCH-004: Restrict Federated Search External Data Sources to Authorized Profiles
+
+High [Source page](/benchmark/search-security.html)
+
+**Control Statement:** Federated Search external data sources must not have the "Search results visible to all profiles" setting enabled unless the external content is classified as appropriate for every user in the organization.
+
+**Why tagged:** CC6.6 requires controls against threats from external sources; federated search integrations introduce an external content surface that must be governed through the same authorization model as internal data.
+
+### SBS-SRCH-005: Enforce Article-Level Access Controls for Knowledge Object Discoverability
+
+High [Source page](/benchmark/search-security.html)
+
+**Control Statement:** Organizations using Salesforce Knowledge must enforce article-level visibility through data category assignments and must not rely on field-level security as the primary mechanism for restricting Knowledge article discoverability via search.
+
+**Why tagged:** CC6.1 logical access controls must address all access paths to information; the Knowledge search FLS exception requires alternative controls (data categories) to maintain effective access restriction.
+

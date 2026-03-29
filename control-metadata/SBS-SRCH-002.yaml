@@ -1,0 +1,9 @@
+control_id: SBS-SRCH-002
+risk_level: High
+
+remediation:
+  scope: entity
+  entity_type: ApexClass
+
+task:
+  title_template: "Remediate SOSL IN ALL FIELDS scope in user-facing Apex class: {{entity.name}}"

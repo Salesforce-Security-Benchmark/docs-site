@@ -311,3 +311,39 @@ If the organization’s Salesforce does not provide at least 30 days of ApiTotal
 
 **Why tagged:** Due diligence for vendors handling personal data includes reviewing available privacy and security documentation for high-risk connected apps.
 
+## Search Security
+
+5 control(s) in this benchmark section.
+
+### SBS-SRCH-001: Audit and Prioritize FLS Protection Slots in the Search Index for Objects with Sensitive Custom Fields
+
+Critical [Source page](/benchmark/search-security.html)
+
+**Control Statement:** For every object with more than 100 searchable custom fields, the organization must review and configure Search Manager to assign all 100 available FLS protection slots to the fields with the highest sensitivity classification, and must either reassign lower-sensitivity fields to the unprotected list or remove the most sensitive excess fields from the search index entirely.
+
+**Why tagged:** Fields beyond the 100-slot FLS limit are searchable without restriction; inference attacks against those fields may expose special-category personal data in violation of Article 5(1)(f) and Article 9.
+
+### SBS-SRCH-002: Prohibit SOSL `IN ALL FIELDS` Scope in System-Mode Apex Where Results Are Exposed to Restricted Users
+
+High [Source page](/benchmark/search-security.html)
+
+**Control Statement:** Apex classes that execute SOSL queries using the `IN ALL FIELDS` search group, or that omit the search group entirely, must not expose matched records to users whose field-level security would restrict one or more of the indexed fields being searched.
+
+**Why tagged:** System-mode SOSL bypasses FLS and can surface personal data through search matching; appropriate technical measures under Article 32 require that code-level access controls respect the data minimisation and access restriction principles.
+
+### SBS-SRCH-003: Validate FLS Prerequisites for All Search Manager Filtering Rules
+
+Moderate [Source page](/benchmark/search-security.html)
+
+**Control Statement:** Each Search Manager filtering rule must reference only fields for which all target user profiles have read access; any rule referencing a field that is FLS-restricted for one or more target profiles must be corrected or supplemented with an alternative access control.
+
+**Why tagged:** Silently failing access-restriction rules undermine the ability to demonstrate appropriate and effective technical measures protecting personal data.
+
+### SBS-SRCH-004: Restrict Federated Search External Data Sources to Authorized Profiles
+
+High [Source page](/benchmark/search-security.html)
+
+**Control Statement:** Federated Search external data sources of type "Federated Search: OpenSearch" must not have the "Search results visible to all profiles" setting enabled unless the external content is explicitly classified as appropriate for every user in the organization.
+
+**Why tagged:** External content titles and summaries surfaced in Salesforce search results can constitute personal data disclosure; Article 32 requires technical measures preventing unauthorized access regardless of the data's origin.
+
