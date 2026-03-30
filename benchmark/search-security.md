@@ -40,8 +40,6 @@ An inference attack against unprotected search index fields enables users to det
 **Default Value:**  
 Salesforce applies FLS protection to the first 100 searchable custom fields per object, in creation order, by default. Before Summer '24, this allocation could not be administratively reconfigured. After Summer '24, admin control is available but must be explicitly configured. The 100-field limit cannot be increased.
 
----
-
 ### SBS-SRCH-002: Prohibit SOSL `IN ALL FIELDS` Scope in System-Mode Apex Where Results Are Exposed to Restricted Users {#sbs-srch-002}
 
 **Control Statement:** Apex classes that execute SOSL queries using the `IN ALL FIELDS` search group, or that omit the search group entirely, must not expose matched records to users whose field-level security would restrict one or more of the indexed fields being searched.
@@ -72,8 +70,6 @@ Custom search components built on `IN ALL FIELDS` SOSL in system mode create inf
 
 **Default Value:**  
 Salesforce Apex runs in system mode by default. SOSL queries in system-mode Apex ignore field-level security. `IN ALL FIELDS` is the default search scope when no `IN` clause is specified.
-
----
 
 ### SBS-SRCH-003: Validate FLS Prerequisites for All Search Manager Filtering Rules {#sbs-srch-003}
 
@@ -108,8 +104,6 @@ Silent rule failure means that access scoping enforced through Search Manager ca
 **Default Value:**  
 Salesforce silently skips Search Manager rules for users who cannot read the field referenced in the rule. No warning is displayed in Search Manager or in the audit log when a rule is not applied due to FLS restrictions.
 
----
-
 ### SBS-SRCH-004: Restrict Federated Search External Data Sources to Authorized Profiles {#sbs-srch-004}
 
 **Control Statement:** Federated Search external data sources of type "Federated Search: OpenSearch" must not have the "Search results visible to all profiles" setting enabled unless the external content is explicitly classified as appropriate for every user in the organization.
@@ -141,8 +135,6 @@ Federated Search result titles and summaries are surfaced in the Salesforce UI a
 
 **Default Value:**  
 Salesforce does not enforce a default restriction on Federated Search result visibility. The "Search results visible to all profiles" checkbox can be enabled at any time and applies immediately.
-
----
 
 ### SBS-SRCH-005: Enforce Article-Level Access Controls for Knowledge Object Discoverability {#sbs-srch-005}
 
