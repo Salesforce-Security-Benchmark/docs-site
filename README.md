@@ -4,7 +4,7 @@ This repository contains the source content for the Security Benchmark for Sales
 
 ## Documentation
 
-Full documentation is available at [securitybenchmark.dev](https://securitybenchmark.dev)
+Full documentation is available at [docs.securitybenchmark.org](https://docs.securitybenchmark.org/)
 
 ## Contributing
 
@@ -20,4 +20,4 @@ See [LICENSE.md](LICENSE.md) for full terms.
 
 ## Machine-Readable Format
 
-Each release includes an XML representation of all controls suitable for automated scanning tools. See [For Security Vendors](https://securitybenchmark.dev/for-vendors) for integration guidance.
+Each release includes an XML representation of all controls suitable for automated scanning tools. See [For Security Vendors](https://docs.securitybenchmark.org/for-vendors.html) for integration guidance.
