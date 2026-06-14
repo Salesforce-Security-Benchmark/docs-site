@@ -1,0 +1,9 @@
+control_id: SBS-AUTH-001
+risk_level: Critical
+
+remediation:
+  scope: org
+
+task:
+  title_template: "Implement pre-execution governance validation for AI agent runtime action selection"
+
