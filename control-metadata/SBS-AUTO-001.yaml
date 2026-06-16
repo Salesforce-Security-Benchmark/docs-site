@@ -1,0 +1,8 @@
+control_id: SBS-AUTO-001
+risk_level: Critical
+
+remediation:
+  scope: mechanism
+
+task:
+  title_template: "Implement pre-execution governance validation for autonomous agent actions"

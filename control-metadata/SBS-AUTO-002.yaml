@@ -1,0 +1,8 @@
+control_id: SBS-AUTO-002
+risk_level: High
+
+remediation:
+  scope: mechanism
+
+task:
+  title_template: "Implement durable audit record store for autonomous agent action decisions"

@@ -54,6 +54,12 @@ Profiles in Salesforce production orgs must not contain login IP ranges that eff
 **SBS-AUTH-004: Enforce Strong Multi-Factor Authentication for External Users with Substantial Access to Sensitive Data**
 All Salesforce interactive authentication flows for external human users with substantial access to sensitive data must enforce multi-factor authentication that includes at least one strong authentication factor.
 
+## Autonomous Agent and Intelligent Automation Security
+
+**SBS-AUTO-001: Enforce Pre-Execution Governance Validation for Autonomous Agent Actions** All autonomous agents and automated execution pipelines that initiate write-path operations must evaluate the executing context against a defined governance policy before any DML or external callout proceeds.
+
+**SBS-AUTO-002: Maintain Durable Audit Record of Autonomous Agent Action Decisions** Organisations must retain a durable, queryable record of each autonomous agent action decision, capturing the executing identity, the governance evaluation outcome, and the action type attempted.
+
 ## Code Security
 
 **SBS-CODE-001: Mandatory Peer Review for Salesforce Code Changes**
