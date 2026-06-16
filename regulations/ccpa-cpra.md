@@ -223,3 +223,31 @@ If the organization’s Salesforce does not provide at least 30 days of ApiTotal
 
 **Why tagged:** Reasonable security for personal information includes documented review of high-risk vendors that may access Salesforce data.
 
+## Search Security
+
+4 control(s) in this benchmark section.
+
+### SBS-SRCH-001: Audit and Prioritize FLS Protection Slots in the Search Index for Objects with Sensitive Custom Fields
+
+Critical [Source page](/benchmark/search-security.html)
+
+**Control Statement:** For every object with more than 100 searchable custom fields, the organization must review and configure Search Manager to assign all 100 available FLS protection slots to the fields with the highest sensitivity classification.
+
+**Why tagged:** Unprotected search index fields can expose sensitive personal information (including categories protected under CPRA 1798.121) to users without authorization; reasonable security requires closing this inference attack surface.
+
+### SBS-SRCH-002: Prohibit SOSL `IN ALL FIELDS` Scope in System-Mode Apex Where Results Are Exposed to Restricted Users
+
+High [Source page](/benchmark/search-security.html)
+
+**Control Statement:** Apex classes that execute SOSL queries using the `IN ALL FIELDS` search group must not expose matched records to users whose field-level security would restrict one or more of the indexed fields being searched.
+
+**Why tagged:** Reasonable security practices (1798.150) require that programmatic access controls enforce the same data minimisation principles as administrative controls; system-mode SOSL bypasses these controls in the search layer.
+
+### SBS-SRCH-004: Restrict Federated Search External Data Sources to Authorized Profiles
+
+High [Source page](/benchmark/search-security.html)
+
+**Control Statement:** Federated Search external data sources must not have the "Search results visible to all profiles" setting enabled unless the external content is classified as appropriate for every user in the organization.
+
+**Why tagged:** Personal information disclosed through federated search result titles and summaries may constitute a breach of reasonable security obligations and could trigger consumer notification requirements.
+

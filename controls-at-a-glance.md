@@ -180,6 +180,23 @@ All OAuth-enabled Connected Apps must be recorded in an authoritative system of 
 **SBS-OAUTH-004: Due Diligence Documentation for High-Risk Connected App Vendors**
 Organizations must review and retain available security documentation for all high-risk Connected App vendors and explicitly record any missing documentation as part of the vendor assessment.
 
+## Search Security
+
+**SBS-SRCH-001: Audit and Prioritize FLS Protection Slots in the Search Index for Objects with Sensitive Custom Fields**
+For every object with more than 100 searchable custom fields, the organization must review and configure Search Manager to assign all 100 available FLS protection slots to the fields with the highest sensitivity classification, and must either reassign lower-sensitivity fields to the unprotected list or remove the most sensitive excess fields from the search index entirely.
+
+**SBS-SRCH-002: Prohibit SOSL `IN ALL FIELDS` Scope in System-Mode Apex Where Results Are Exposed to Restricted Users**
+Apex classes that execute SOSL queries using the `IN ALL FIELDS` search group, or that omit the search group entirely, must not expose matched records to users whose field-level security would restrict one or more of the indexed fields being searched.
+
+**SBS-SRCH-003: Validate FLS Prerequisites for All Search Manager Filtering Rules**
+Each Search Manager filtering rule must reference only fields for which all target user profiles have read access; any rule referencing a field that is FLS-restricted for one or more target profiles must be corrected or supplemented with an alternative access control.
+
+**SBS-SRCH-004: Restrict Federated Search External Data Sources to Authorized Profiles**
+Federated Search external data sources of type "Federated Search: OpenSearch" must not have the "Search results visible to all profiles" setting enabled unless the external content is explicitly classified as appropriate for every user in the organization.
+
+**SBS-SRCH-005: Enforce Article-Level Access Controls for Knowledge Object Discoverability**
+Organizations using Salesforce Knowledge must enforce article-level visibility through data category assignments and must not rely on field-level security as the primary mechanism for restricting Knowledge article discoverability via search.
+
 ## Security Configuration
 
 **SBS-SECCONF-001: Establish a Salesforce Health Check Baseline**
@@ -190,4 +207,4 @@ Salesforce production orgs must periodically review Health Check results against
 
 ---
 
-*Total Controls: 54*
+*Total Controls: 59*

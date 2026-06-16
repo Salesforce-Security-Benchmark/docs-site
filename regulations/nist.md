@@ -275,3 +275,47 @@ If the organization’s Salesforce does not provide at least 30 days of ApiTotal
 
 **Why tagged:** Least privilege and access enforcement require connected apps to be limited to explicitly authorized users.
 
+## Search Security
+
+5 control(s) in this benchmark section.
+
+### SBS-SRCH-001: Audit and Prioritize FLS Protection Slots in the Search Index for Objects with Sensitive Custom Fields
+
+Critical [Source page](/benchmark/search-security.html)
+
+**Control Statement:** For every object with more than 100 searchable custom fields, the organization must review and configure Search Manager to assign all 100 available FLS protection slots to the fields with the highest sensitivity classification.
+
+**Why tagged:** PR.AC-4 requires access permissions to be managed to the minimum necessary; the search index FLS limit must be administered to enforce least-privilege access to sensitive data through the search layer.
+
+### SBS-SRCH-002: Prohibit SOSL `IN ALL FIELDS` Scope in System-Mode Apex Where Results Are Exposed to Restricted Users
+
+High [Source page](/benchmark/search-security.html)
+
+**Control Statement:** Apex classes that execute SOSL queries using the `IN ALL FIELDS` search group must not expose matched records to users whose field-level security would restrict one or more of the indexed fields being searched.
+
+**Why tagged:** PR.DS-5 requires protections against data leaks; system-mode SOSL bypassing FLS constitutes a leak path through the search interface that must be governed in code.
+
+### SBS-SRCH-003: Validate FLS Prerequisites for All Search Manager Filtering Rules
+
+Moderate [Source page](/benchmark/search-security.html)
+
+**Control Statement:** Each Search Manager filtering rule must reference only fields for which all target user profiles have read access.
+
+**Why tagged:** PR.PT-3 (least-functionality) requires that access controls are effective; silently inoperative Search Manager rules represent a gap between intended and actual access control implementation.
+
+### SBS-SRCH-004: Restrict Federated Search External Data Sources to Authorized Profiles
+
+High [Source page](/benchmark/search-security.html)
+
+**Control Statement:** Federated Search external data sources must not have the "Search results visible to all profiles" setting enabled unless the external content is classified as appropriate for every user in the organization.
+
+**Why tagged:** PR.AC-4 requires access to assets and associated facilities to be managed; external data surface in Salesforce search must be governed to the same standard as internal data.
+
+### SBS-SRCH-005: Enforce Article-Level Access Controls for Knowledge Object Discoverability
+
+High [Source page](/benchmark/search-security.html)
+
+**Control Statement:** Organizations using Salesforce Knowledge must enforce article-level visibility through data category assignments and must not rely on field-level security as the primary mechanism for restricting Knowledge article discoverability via search.
+
+**Why tagged:** PR.DS-5 protections against data leaks require that all access paths to sensitive data are governed; the Knowledge search FLS exception creates an uncontrolled disclosure path that must be mitigated.
+

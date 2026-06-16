@@ -1,0 +1,9 @@
+control_id: SBS-SRCH-004
+risk_level: High
+
+remediation:
+  scope: entity
+  entity_type: ExternalDataSource
+
+task:
+  title_template: "Restrict Federated Search data source to authorized profiles: {{entity.name}}"

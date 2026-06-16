@@ -175,3 +175,23 @@ If the organization’s Salesforce does not provide at least 30 days of ApiTotal
 
 **Why tagged:** Restricting who may use OAuth-enabled applications is a direct access control for systems processing ePHI.
 
+## Search Security
+
+3 control(s) in this benchmark section.
+
+### SBS-SRCH-001: Audit and Prioritize FLS Protection Slots in the Search Index for Objects with Sensitive Custom Fields
+
+Critical [Source page](/benchmark/search-security.html)
+
+**Control Statement:** For every object with more than 100 searchable custom fields, the organization must review and configure Search Manager to assign all 100 available FLS protection slots to the fields with the highest sensitivity classification.
+
+**Why tagged:** Inference attacks via unprotected search index fields can expose ePHI to unauthorized users; access controls over ePHI must extend to the search layer.
+
+### SBS-SRCH-002: Prohibit SOSL `IN ALL FIELDS` Scope in System-Mode Apex Where Results Are Exposed to Restricted Users
+
+High [Source page](/benchmark/search-security.html)
+
+**Control Statement:** Apex classes that execute SOSL queries using the `IN ALL FIELDS` search group must not expose matched records to users whose field-level security would restrict one or more of the indexed fields being searched.
+
+**Why tagged:** System-mode SOSL bypasses access controls and can enable unauthorized access to ePHI through search matching; technical safeguards must address all access paths, including programmatic search.
+
