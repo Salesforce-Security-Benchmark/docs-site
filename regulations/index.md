@@ -14,12 +14,12 @@ These mappings are indicative only. They help readers browse the benchmark throu
 
 | Regulation | Tagged Controls | Page |
 |------------|----------------:|------|
-| HIPAA | 16 | [View page](/regulations/hipaa) |
-| GDPR | 32 | [View page](/regulations/gdpr) |
-| NIST | 28 | [View page](/regulations/nist) |
-| CCPA/CPRA | 21 | [View page](/regulations/ccpa-cpra) |
-| SOC 2 | 33 | [View page](/regulations/soc-2) |
-| ISO 27001 | 50 | [View page](/regulations/iso-27001) |
+| HIPAA | 18 | [View page](/regulations/hipaa) |
+| GDPR | 38 | [View page](/regulations/gdpr) |
+| NIST | 32 | [View page](/regulations/nist) |
+| CCPA/CPRA | 22 | [View page](/regulations/ccpa-cpra) |
+| SOC 2 | 35 | [View page](/regulations/soc-2) |
+| ISO 27001 | 51 | [View page](/regulations/iso-27001) |
 
 ## How To Use These Pages
 

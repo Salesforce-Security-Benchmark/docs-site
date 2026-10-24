@@ -56,6 +56,7 @@ export default defineConfig({
           { text: 'Security Configuration', link: '/benchmark/security-configuration' },
           { text: 'File Security', link: '/benchmark/file-security' },
           { text: 'Event Monitoring', link: '/benchmark/event-monitoring' },
+          { text: 'Search Security', link: '/benchmark/search-security' },
         ]
       },
       {

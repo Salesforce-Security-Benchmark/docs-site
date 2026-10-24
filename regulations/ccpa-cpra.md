@@ -10,8 +10,8 @@ This page lists SBS controls tagged for this regulation or framework. The mappin
 
 These entries are an index into the benchmark. The canonical control content remains on the benchmark pages.
 
-- Total tagged controls: **21**
-- Benchmark sections represented: **9**
+- Total tagged controls: **22**
+- Benchmark sections represented: **10**
 
 ## Controls By Benchmark Section
 
@@ -222,4 +222,16 @@ If the organization’s Salesforce does not provide at least 30 days of ApiTotal
 **Control Statement:** Organizations must review and retain available security documentation for all high-risk Connected App vendors and explicitly record any missing documentation as part of the vendor assessment.
 
 **Why tagged:** Reasonable security for personal information includes documented review of high-risk vendors that may access Salesforce data.
+
+## Search Security
+
+1 control(s) in this benchmark section.
+
+### SBS-SRCH-007: Document the Einstein Customer Data Access Decision for Each Production Org
+
+<Badge type="tip" text="Moderate" /> [Source page](/benchmark/search-security)
+
+**Control Statement:** Each production org must have a documented decision on whether Salesforce may access its Customer Data, including to train Einstein global models, and the org's **Opt Out of Customer Data Access** consent setting must match that decision.
+
+**Why tagged:** Use of personal information beyond direct service delivery must be reflected in data inventories and disclosures.
 

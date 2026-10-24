@@ -1,0 +1,8 @@
+control_id: SBS-SRCH-007
+risk_level: Moderate
+
+remediation:
+  scope: org
+
+task:
+  title_template: "Document the Customer Data access decision and align the Opt Out of Customer Data Access setting"

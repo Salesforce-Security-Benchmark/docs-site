@@ -10,8 +10,8 @@ This page lists SBS controls tagged for this regulation or framework. The mappin
 
 These entries are an index into the benchmark. The canonical control content remains on the benchmark pages.
 
-- Total tagged controls: **16**
-- Benchmark sections represented: **7**
+- Total tagged controls: **18**
+- Benchmark sections represented: **8**
 
 ## Controls By Benchmark Section
 
@@ -174,4 +174,24 @@ If the organization’s Salesforce does not provide at least 30 days of ApiTotal
 **Control Statement:** Organizations must control access to each formally installed connected app exclusively through assigned profiles or permission sets.
 
 **Why tagged:** Restricting who may use OAuth-enabled applications is a direct access control for systems processing ePHI.
+
+## Search Security
+
+2 control(s) in this benchmark section.
+
+### SBS-SRCH-001: Protect Sensitive Custom Fields Within the Search Index FLS Limit
+
+<Badge type="danger" text="Critical" /> [Source page](/benchmark/search-security)
+
+**Control Statement:** For every object with more than 100 searchable, non-picklist custom fields, no field classified as sensitive may be both included in the search index and absent from the Search Manager Protected list.
+
+**Why tagged:** Access to ePHI must be limited to authorized users across every access path, including search matching.
+
+### SBS-SRCH-006: Include Einstein Search Query Storage in Data Processing Assessments
+
+<Badge type="tip" text="Moderate" /> [Source page](/benchmark/search-security)
+
+**Control Statement:** Organizations using Einstein Search must record the storage location and retention of search query and Search Analytics data in their data processing inventory and assess it against applicable regulatory obligations, including HIPAA.
+
+**Why tagged:** Search queries can contain PHI and are stored in a separate environment that Salesforce states may not be covered like the production environment.
 

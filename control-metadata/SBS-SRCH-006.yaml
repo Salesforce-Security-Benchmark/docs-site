@@ -1,0 +1,8 @@
+control_id: SBS-SRCH-006
+risk_level: Moderate
+
+remediation:
+  scope: inventory
+
+task:
+  title_template: "Include Einstein Search query storage in the data processing inventory and assessment"

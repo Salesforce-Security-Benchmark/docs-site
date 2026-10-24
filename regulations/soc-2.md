@@ -10,8 +10,8 @@ This page lists SBS controls tagged for this regulation or framework. The mappin
 
 These entries are an index into the benchmark. The canonical control content remains on the benchmark pages.
 
-- Total tagged controls: **33**
-- Benchmark sections represented: **8**
+- Total tagged controls: **35**
+- Benchmark sections represented: **9**
 
 ## Controls By Benchmark Section
 
@@ -314,4 +314,24 @@ If the organization’s Salesforce does not provide at least 30 days of ApiTotal
 **Control Statement:** All OAuth-enabled Connected Apps must be recorded in an authoritative system of record and assigned a documented vendor criticality rating reflecting integration importance and data sensitivity.
 
 **Why tagged:** Documented IAM and integration governance routinely expect an authoritative inventory of connected applications.
+
+## Search Security
+
+2 control(s) in this benchmark section.
+
+### SBS-SRCH-003: Validate FLS Prerequisites for All Search Manager Rules
+
+<Badge type="tip" text="Moderate" /> [Source page](/benchmark/search-security)
+
+**Control Statement:** Each Search Manager rule must reference only fields that all of its target users can read; any rule referencing a field that is FLS-restricted for one or more target profiles must be corrected or backed by an independent access control.
+
+**Why tagged:** Logical access controls must be implemented and operate effectively.
+
+### SBS-SRCH-004: Restrict Federated Search External Data Sources to Authorized Profiles
+
+<Badge type="danger" text="Critical" /> [Source page](/benchmark/search-security)
+
+**Control Statement:** Search results from external data sources of type "Federated Search: OpenSearch" must be visible only to profiles for which the external content is appropriate, and must not be made visible to all profiles unless the external content is explicitly classified as appropriate for every user in the organization.
+
+**Why tagged:** Logical access to information assets, including integrated external content, must be restricted to authorized users.
 

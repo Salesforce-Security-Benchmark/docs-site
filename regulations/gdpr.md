@@ -10,8 +10,8 @@ This page lists SBS controls tagged for this regulation or framework. The mappin
 
 These entries are an index into the benchmark. The canonical control content remains on the benchmark pages.
 
-- Total tagged controls: **32**
-- Benchmark sections represented: **9**
+- Total tagged controls: **38**
+- Benchmark sections represented: **10**
 
 ## Controls By Benchmark Section
 
@@ -310,4 +310,56 @@ If the organization’s Salesforce does not provide at least 30 days of ApiTotal
 **Control Statement:** Organizations must review and retain available security documentation for all high-risk Connected App vendors and explicitly record any missing documentation as part of the vendor assessment.
 
 **Why tagged:** Due diligence for vendors handling personal data includes reviewing available privacy and security documentation for high-risk connected apps.
+
+## Search Security
+
+6 control(s) in this benchmark section.
+
+### SBS-SRCH-001: Protect Sensitive Custom Fields Within the Search Index FLS Limit
+
+<Badge type="danger" text="Critical" /> [Source page](/benchmark/search-security)
+
+**Control Statement:** For every object with more than 100 searchable, non-picklist custom fields, no field classified as sensitive may be both included in the search index and absent from the Search Manager Protected list.
+
+**Why tagged:** Inference of special-category personal data through search undermines integrity and confidentiality (Art. 5(1)(f), Art. 9, Art. 32).
+
+### SBS-SRCH-002: Prohibit Unscoped SOSL in Apex Where Results Are Exposed to Restricted Users
+
+<Badge type="danger" text="Critical" /> [Source page](/benchmark/search-security)
+
+**Control Statement:** Apex that executes SOSL queries using the `IN ALL FIELDS` search group, or that omits the `IN` clause entirely, must not expose matched records to users whose field-level security restricts one or more of the searchable fields on the queried objects, unless the query runs in user mode and testing demonstrates that FLS-restricted fields do not influence which records are returned.
+
+**Why tagged:** Appropriate technical measures (Art. 32) must cover code-level access to personal data, including search matching.
+
+### SBS-SRCH-004: Restrict Federated Search External Data Sources to Authorized Profiles
+
+<Badge type="danger" text="Critical" /> [Source page](/benchmark/search-security)
+
+**Control Statement:** Search results from external data sources of type "Federated Search: OpenSearch" must be visible only to profiles for which the external content is appropriate, and must not be made visible to all profiles unless the external content is explicitly classified as appropriate for every user in the organization.
+
+**Why tagged:** External content containing personal data surfaced in Salesforce search requires technical measures against unauthorized access (Art. 32).
+
+### SBS-SRCH-005: Enforce Article-Level Access Controls for Knowledge Discoverability
+
+<Badge type="danger" text="Critical" /> [Source page](/benchmark/search-security)
+
+**Control Statement:** Organizations using Salesforce Knowledge must restrict the discoverability of articles containing sensitive custom field content through article-level controls such as data categories, and must not rely on field-level security to keep that content out of search.
+
+**Why tagged:** Restricted content in Knowledge custom fields can be inferred through search; technical measures must cover this path (Art. 32).
+
+### SBS-SRCH-006: Include Einstein Search Query Storage in Data Processing Assessments
+
+<Badge type="tip" text="Moderate" /> [Source page](/benchmark/search-security)
+
+**Control Statement:** Organizations using Einstein Search must record the storage location and retention of search query and Search Analytics data in their data processing inventory and assess it against applicable regulatory obligations, including HIPAA.
+
+**Why tagged:** Records of processing and risk assessment must include where search query text containing personal data is stored and retained.
+
+### SBS-SRCH-007: Document the Einstein Customer Data Access Decision for Each Production Org
+
+<Badge type="tip" text="Moderate" /> [Source page](/benchmark/search-security)
+
+**Control Statement:** Each production org must have a documented decision on whether Salesforce may access its Customer Data, including to train Einstein global models, and the org's **Opt Out of Customer Data Access** consent setting must match that decision.
+
+**Why tagged:** Use of customer personal data to train shared models must be assessed, documented, and where required disclosed.
 

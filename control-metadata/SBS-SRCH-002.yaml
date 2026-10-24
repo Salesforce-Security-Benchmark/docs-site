@@ -1,0 +1,9 @@
+control_id: SBS-SRCH-002
+risk_level: Critical
+
+remediation:
+  scope: entity
+  entity_type: ApexClass
+
+task:
+  title_template: "Remediate unscoped SOSL in user-facing Apex class: {{entity.name}}"

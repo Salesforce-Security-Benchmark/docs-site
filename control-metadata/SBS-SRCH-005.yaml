@@ -1,0 +1,8 @@
+control_id: SBS-SRCH-005
+risk_level: Critical
+
+remediation:
+  scope: org
+
+task:
+  title_template: "Restrict Knowledge article discoverability through article-level access controls"

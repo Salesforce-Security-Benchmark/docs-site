@@ -10,8 +10,8 @@ This page lists SBS controls tagged for this regulation or framework. The mappin
 
 These entries are an index into the benchmark. The canonical control content remains on the benchmark pages.
 
-- Total tagged controls: **28**
-- Benchmark sections represented: **8**
+- Total tagged controls: **32**
+- Benchmark sections represented: **9**
 
 ## Controls By Benchmark Section
 
@@ -274,4 +274,40 @@ If the organization’s Salesforce does not provide at least 30 days of ApiTotal
 **Control Statement:** Organizations must control access to each formally installed connected app exclusively through assigned profiles or permission sets.
 
 **Why tagged:** Least privilege and access enforcement require connected apps to be limited to explicitly authorized users.
+
+## Search Security
+
+4 control(s) in this benchmark section.
+
+### SBS-SRCH-001: Protect Sensitive Custom Fields Within the Search Index FLS Limit
+
+<Badge type="danger" text="Critical" /> [Source page](/benchmark/search-security)
+
+**Control Statement:** For every object with more than 100 searchable, non-picklist custom fields, no field classified as sensitive may be both included in the search index and absent from the Search Manager Protected list.
+
+**Why tagged:** Access enforcement and least privilege must apply to sensitive fields in the search index.
+
+### SBS-SRCH-002: Prohibit Unscoped SOSL in Apex Where Results Are Exposed to Restricted Users
+
+<Badge type="danger" text="Critical" /> [Source page](/benchmark/search-security)
+
+**Control Statement:** Apex that executes SOSL queries using the `IN ALL FIELDS` search group, or that omits the `IN` clause entirely, must not expose matched records to users whose field-level security restricts one or more of the searchable fields on the queried objects, unless the query runs in user mode and testing demonstrates that FLS-restricted fields do not influence which records are returned.
+
+**Why tagged:** Access enforcement must be implemented in application code; unscoped SOSL is a data leakage path.
+
+### SBS-SRCH-004: Restrict Federated Search External Data Sources to Authorized Profiles
+
+<Badge type="danger" text="Critical" /> [Source page](/benchmark/search-security)
+
+**Control Statement:** Search results from external data sources of type "Federated Search: OpenSearch" must be visible only to profiles for which the external content is appropriate, and must not be made visible to all profiles unless the external content is explicitly classified as appropriate for every user in the organization.
+
+**Why tagged:** Access enforcement must extend to external content surfaced through Salesforce.
+
+### SBS-SRCH-005: Enforce Article-Level Access Controls for Knowledge Discoverability
+
+<Badge type="danger" text="Critical" /> [Source page](/benchmark/search-security)
+
+**Control Statement:** Organizations using Salesforce Knowledge must restrict the discoverability of articles containing sensitive custom field content through article-level controls such as data categories, and must not rely on field-level security to keep that content out of search.
+
+**Why tagged:** Data leakage protections must cover search matching on Knowledge fields where FLS is not enforced.
 
