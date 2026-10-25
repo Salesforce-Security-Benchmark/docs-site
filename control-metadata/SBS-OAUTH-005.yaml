@@ -1,0 +1,9 @@
+control_id: SBS-OAUTH-005
+risk_level: Moderate
+
+remediation:
+  scope: entity
+  entity_type: ConnectedApp
+
+task:
+  title_template: "Require DPoP for OAuth app: {{entity.name}}"

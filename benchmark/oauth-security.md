@@ -108,3 +108,35 @@ Without documented due diligence for high-risk vendors, organizations may onboar
 
 **Default Value:**  
 Salesforce does not manage or enforce vendor due diligence requirements for Connected App providers.
+
+### SBS-OAUTH-005: Require DPoP Sender-Constrained Tokens for Organization-Owned OAuth Apps
+
+<span title="Identification and authentication controls call for replay-resistant authentication; DPoP prevents stolen OAuth tokens from being replayed by another client."><Badge type="info" text="NIST" /></span> <span title="Logical access controls include protecting authentication credentials such as OAuth tokens from reuse by unauthorized parties."><Badge type="info" text="SOC 2" /></span> <span title="Secure authentication (A.8.5) supports binding OAuth tokens to the client that requested them."><Badge type="info" text="ISO 27001" /></span>
+
+**Control Statement:** Every OAuth-enabled external client app and connected app whose OAuth settings are owned by the organization must have "Require DPoP (Demonstrating Proof-of-Possession)" enabled, unless an exception with documented justification is recorded in the system of record.
+
+**Description:**  
+OAuth 2.0 Demonstrating Proof-of-Possession (DPoP, RFC 9449) binds access tokens, refresh tokens, and authorization codes to a key pair held by the client. Every token and resource request must carry a DPoP proof signed by the private key, so a token that is leaked or stolen cannot be used without that key. Salesforce accepts DPoP proofs from any client, but continues to accept unbound (Bearer) tokens for the same app until "Require DPoP" is enabled in the app's OAuth settings.
+
+This control applies to external client apps and connected apps defined in the organization's own orgs, where the organization controls the OAuth settings. External client apps installed from a managed package, and connected apps installed from another organization, are governed by their publisher and are out of scope; assess their DPoP support as part of vendor due diligence (SBS-OAUTH-004).
+
+An app may be excepted only when its client cannot present DPoP proofs—for example, because it uses a flow that does not support DPoP (username-password, user-agent, or hybrid user-agent) or because the client software does not yet implement DPoP. Each exception must be recorded in the system of record maintained under SBS-OAUTH-003 with a justification and a review date.
+
+**Risk:** <Badge type="tip" text="Moderate" />  
+Without DPoP, OAuth access and refresh tokens are bearer credentials: anyone who obtains a token—through compromised client storage, logs, a malicious browser extension, or a breached integration platform—can replay it from their own infrastructure until it expires or is revoked. Refresh tokens make this access persistent. Exploitation requires a token to be exposed first, and other controls (connected app access policies, IP restrictions, refresh token policies, and token revocation) still limit the impact, so DPoP provides defense-in-depth rather than a primary access boundary.
+
+**Audit Procedure:**  
+1. Enumerate all external client apps and connected apps in the org, and exclude apps installed from a managed package or from another organization. For external client apps, query `ExternalClientApplication` and retain those whose `DistributionState` is `Local` or `Packaged`.  
+2. For each in-scope external client app, retrieve its `ExtlClntAppGlobalOauthSettings` metadata (for example, `sf project retrieve start --metadata ExtlClntAppGlobalOauthSettings --target-metadata-dir <dir>`) and record the value of `isDPopEnabled`. Retrieval requires the org setting "Allow Access to OAuth Consumer Secrets via Metadata API" and the "View External Client Apps Consumer Secrets in Metadata" user permission. The retrieved files contain consumer secrets and must not be added to source control.  
+3. For each in-scope connected app, open the app in Setup (App Manager → View) and record whether "Require DPoP (Demonstrating Proof-of-Possession)" is enabled in the OAuth settings. This setting is not exposed in the `ConnectedApp` metadata type as of API version 67.0.  
+4. For each app without DPoP required, verify that the system of record contains an exception with a justification and a review date that has not passed.  
+5. Flag any in-scope app that does not require DPoP and lacks a current documented exception as noncompliant.
+
+**Remediation:**  
+1. Confirm that each client using the app can present DPoP proofs. Salesforce Mobile SDK 14.0 and later requests DPoP-bound tokens by default; Apex clients can use `Auth.JWTUtil.generateDPoPProofForToken()`; other clients must implement RFC 9449, including the `dpop_jkt` parameter for authorization code flows and handling of the `use_dpop_nonce` error.  
+2. Migrate existing sessions to DPoP-bound tokens before enforcement. Requiring DPoP rejects unbound (Bearer) tokens and logs out any user still on a Bearer session.  
+3. Enable "Require DPoP (Demonstrating Proof-of-Possession)" in the app's OAuth settings.  
+4. Where a client cannot support DPoP, record an exception with justification and a review date in the system of record, and plan migration to a DPoP-capable client or flow.
+
+**Default Value:**  
+"Require DPoP" is disabled for new and existing external client apps and connected apps. Salesforce validates DPoP proofs when a client presents them, but continues to accept unbound (Bearer) tokens until the setting is enabled. DPoP is available on a rolling basis starting October 5, 2026 (Release 264).

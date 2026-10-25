@@ -10,7 +10,7 @@ This page lists SBS controls tagged for this regulation or framework. The mappin
 
 These entries are an index into the benchmark. The canonical control content remains on the benchmark pages.
 
-- Total tagged controls: **33**
+- Total tagged controls: **34**
 - Benchmark sections represented: **8**
 
 ## Controls By Benchmark Section
@@ -289,7 +289,7 @@ If the organization’s Salesforce does not provide at least 30 days of ApiTotal
 
 ## OAuth Security
 
-3 control(s) in this benchmark section.
+4 control(s) in this benchmark section.
 
 ### SBS-OAUTH-001: Require Formal Installation of Connected Apps
 
@@ -314,4 +314,12 @@ If the organization’s Salesforce does not provide at least 30 days of ApiTotal
 **Control Statement:** All OAuth-enabled Connected Apps must be recorded in an authoritative system of record and assigned a documented vendor criticality rating reflecting integration importance and data sensitivity.
 
 **Why tagged:** Documented IAM and integration governance routinely expect an authoritative inventory of connected applications.
+
+### SBS-OAUTH-005: Require DPoP Sender-Constrained Tokens for Organization-Owned OAuth Apps
+
+<Badge type="tip" text="Moderate" /> [Source page](/benchmark/oauth-security)
+
+**Control Statement:** Every OAuth-enabled external client app and connected app whose OAuth settings are owned by the organization must have "Require DPoP (Demonstrating Proof-of-Possession)" enabled, unless an exception with documented justification is recorded in the system of record.
+
+**Why tagged:** Logical access controls include protecting authentication credentials such as OAuth tokens from reuse by unauthorized parties.
 

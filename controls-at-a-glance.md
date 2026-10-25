@@ -180,6 +180,9 @@ All OAuth-enabled Connected Apps must be recorded in an authoritative system of 
 **SBS-OAUTH-004: Due Diligence Documentation for High-Risk Connected App Vendors**
 Organizations must review and retain available security documentation for all high-risk Connected App vendors and explicitly record any missing documentation as part of the vendor assessment.
 
+**SBS-OAUTH-005: Require DPoP Sender-Constrained Tokens for Organization-Owned OAuth Apps**
+Every OAuth-enabled external client app and connected app whose OAuth settings are owned by the organization must have "Require DPoP (Demonstrating Proof-of-Possession)" enabled, unless an exception with documented justification is recorded in the system of record.
+
 ## Security Configuration
 
 **SBS-SECCONF-001: Establish a Salesforce Health Check Baseline**
@@ -190,4 +193,4 @@ Salesforce production orgs must periodically review Health Check results against
 
 ---
 
-*Total Controls: 54*
+*Total Controls: 55*
